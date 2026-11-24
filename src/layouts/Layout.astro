@@ -29,16 +29,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <a class="brand" href={url()} aria-label="NeoRU home"><span class="brand-icon"><Image src={miniLogo} width={256} height={256} format="webp" alt="" /></span><span class="brand-copy"><span>Neo<span class="brand-weight">RU</span></span><small>Intelligence radio systems</small></span></a>
         <nav class="desktop-nav" aria-label="Main navigation">{nav.map(([label,path])=><a href={url(path)} aria-current={Astro.url.pathname===url(path)?'page':undefined}>{label}</a>)}</nav>
         <div class="header-actions">
-          <a class="github-link" href="https://github.com/natanzi/NeoRUwebsite" aria-label="Website repository on GitHub" title="NeoRU website repository">GitHub</a>
+          <a class="github-link" href="https://github.com/CLIS-WPI/NeoRUwebsite" aria-label="Website repository on GitHub" title="NeoRU website repository">GitHub</a>
           <button class="theme-toggle" aria-label="Switch to dark theme" title="Switch theme"><svg class="moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg><svg class="sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></button>
-          <details class="mobile-nav"><summary aria-label="Open navigation"><span></span><span></span></summary><nav aria-label="Mobile navigation">{nav.map(([label,path])=><a href={url(path)} aria-current={Astro.url.pathname===url(path)?'page':undefined}>{label}</a>)}<a href="https://github.com/natanzi/NeoRUwebsite" aria-label="Website repository on GitHub">GitHub</a></nav></details>
+          <details class="mobile-nav"><summary aria-label="Open navigation"><span></span><span></span></summary><nav aria-label="Mobile navigation">{nav.map(([label,path])=><a href={url(path)} aria-current={Astro.url.pathname===url(path)?'page':undefined}>{label}</a>)}<a href="https://github.com/CLIS-WPI/NeoRUwebsite" aria-label="Website repository on GitHub">GitHub</a></nav></details>
         </div>
       </div>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer"><div class="container">
       <div class="footer-top"><div><a class="footer-brand" href={url()}>NeoRU</a><p>Open radio.<br />Rigorous engineering.</p></div><div class="footer-links"><div><span>Project</span><a href={url('architecture')}>Architecture</a><a href={url('benchmarks')}>Benchmarks</a><a href={url('roadmap')}>Roadmap</a></div><div><span>Explore</span><a href={url('docs')}>Docs</a><a href={url('how-we-build')}>How we build</a><a href={url('publications')}>Publications</a><a href={url('team')}>Team & contact</a></div><div><span>Developed at</span><p>CLIS Lab<br />Electrical & Computer Engineering<br />Worcester Polytechnic Institute</p></div></div></div>
-      <div class="footer-bottom"><span>Apache 2.0 · Public code release pending</span><a class="repository-link" href="https://github.com/natanzi/NeoRUwebsite">Website repository on GitHub</a><span>Project status: 23 November 2026</span></div>
+      <div class="footer-bottom"><span>Apache 2.0 · Public code release pending</span><a class="repository-link" href="https://github.com/CLIS-WPI/NeoRUwebsite">Website repository on GitHub</a><span>Project status: 23 November 2026</span></div>
       <p class="trademark">O-RAN is a trademark of the O-RAN Alliance. Used descriptively; no affiliation or endorsement is implied.</p>
     </div></footer>
     <script>
