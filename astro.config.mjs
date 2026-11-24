@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://natanzi.github.io',
+  site: 'https://clis-wpi.github.io',
   base: '/NeoRUwebsite',
   output: 'static',
   trailingSlash: 'always',

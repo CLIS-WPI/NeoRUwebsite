@@ -41,7 +41,7 @@ Publication is manual. Committing or pushing this source does **not** deploy it.
 3. In **Actions**, choose **Publish to GitHub Pages**, then **Run workflow** on the reviewed branch.
 4. The workflow runs all verification before deploying the resulting static artifact. Use the deployment URL reported by GitHub to verify the live result.
 
-The configured destination is `https://natanzi.github.io/NeoRUwebsite/`. This is a deployment target, not a claim that publication has already happened. Pushes to `main` and pull requests run the separate check workflow without publication.
+The configured destination is `https://clis-wpi.github.io/NeoRUwebsite/`. This is a deployment target, not a claim that publication has already happened. Pushes to `main` and pull requests run the separate check workflow without publication.
 
 For a different repository or a custom domain, update `site` and `base` in `astro.config.mjs`, the sitemap address in `public/robots.txt`, and the deployment expectations in the integrity tests. All page links use the shared base-path helper. Configure the domain in GitHub Pages before publishing.
 
