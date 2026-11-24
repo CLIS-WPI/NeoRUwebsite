@@ -5,6 +5,7 @@ This is an editorial handoff register, not public site content. Entries below re
 | Input | Where it is used | What to supply |
 | --- | --- | --- |
 | Public project contact | Team → Contact | Approved public email address or other contact destination. |
+| Two advisor profiles | Team | Approved names and photos for both Advisor placeholders. Keep both anonymous until permission and assets are supplied. |
 | Approved profile links | Team → Contact | Public profile URLs for the named team members, if desired. |
 | Public NeoRU source repository | Home, Docs, Team | The implementation repository’s public URL when released. The supplied `NeoRUwebsite` repository contains the website and must not be presented as the implementation. |
 | Public documentation | Docs | Approved public links to the architecture RFC and seven interface specifications. No filenames or URLs have been guessed. |
