@@ -1,0 +1,75 @@
+<figure class="architecture-figure">
+  <div class="architecture-figure-top">
+    <span class="eyebrow">Conceptual architecture</span>
+    <span class="diagram-version">Status · 23 November 2026</span>
+  </div>
+  <svg class="architecture-svg" viewBox="0 0 1040 540" role="img" aria-labelledby="architecture-title architecture-desc">
+    <title id="architecture-title">NeoRU processes and component status</title>
+    <desc id="architecture-desc">A conceptual diagram: the Rust control process exchanges configuration with the real-time data plane through the configuration hand-off. These components are in progress. The BFP codec and deterministic virtual radio are done as components. The timing core and host platform profile are in progress. Fronthaul packet I/O and end-to-end integration are planned. This diagram does not assert working end-to-end integration.</desc>
+    <defs>
+      <marker id="architecture-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 1 1 L 8 5 L 1 9" fill="none" stroke="currentColor" stroke-width="1.4" />
+      </marker>
+    </defs>
+    <g class="diagram-connectors" fill="none" stroke="currentColor" stroke-width="1.5" marker-start="url(#architecture-arrow)" marker-end="url(#architecture-arrow)">
+      <path d="M 310 132 H 366" />
+      <path d="M 674 132 H 730" />
+    </g>
+    <g class="diagram-node">
+      <rect x="28" y="48" width="282" height="168" rx="14" />
+      <text x="52" y="84" class="diagram-kicker">CONTROL PROCESS</text>
+      <text x="52" y="125" class="diagram-name">Rust control</text>
+      <text x="52" y="151" class="diagram-detail">Process skeleton</text>
+      <text x="52" y="190" class="diagram-progress">In progress</text>
+    </g>
+    <g class="diagram-node diagram-node-accent">
+      <rect x="368" y="68" width="304" height="128" rx="14" />
+      <text x="520" y="105" text-anchor="middle" class="diagram-kicker">CONFIGURATION HAND-OFF</text>
+      <text x="520" y="138" text-anchor="middle" class="diagram-name diagram-name-small">Bounded concurrency</text>
+      <text x="520" y="172" text-anchor="middle" class="diagram-progress">In progress · GenMC checks</text>
+    </g>
+    <g class="diagram-node">
+      <rect x="730" y="48" width="282" height="168" rx="14" />
+      <text x="754" y="84" class="diagram-kicker">DATA PLANE</text>
+      <text x="754" y="125" class="diagram-name">Real-time core</text>
+      <text x="754" y="151" class="diagram-detail">Event ring &amp; executor</text>
+      <text x="754" y="190" class="diagram-progress">In progress</text>
+    </g>
+    <text x="28" y="275" class="diagram-kicker">COMPONENT STATUS · INTEGRATION IS SEPARATE</text>
+    <g class="diagram-component">
+      <rect x="28" y="296" width="231" height="104" rx="12" />
+      <text x="48" y="333" class="diagram-component-name">BFP codec</text>
+      <text x="48" y="373" class="diagram-done">Done</text>
+      <rect x="279" y="296" width="231" height="104" rx="12" />
+      <text x="299" y="333" class="diagram-component-name">Virtual radio</text>
+      <text x="299" y="373" class="diagram-done">Done · deterministic</text>
+      <rect x="530" y="296" width="231" height="104" rx="12" />
+      <text x="550" y="333" class="diagram-component-name">Timing core</text>
+      <text x="550" y="373" class="diagram-progress">In progress</text>
+      <rect x="781" y="296" width="231" height="104" rx="12" />
+      <text x="801" y="333" class="diagram-component-name">Host profile</text>
+      <text x="801" y="373" class="diagram-progress">In progress</text>
+    </g>
+    <g class="diagram-planned-band">
+      <rect x="28" y="437" width="984" height="68" rx="12" />
+      <text x="52" y="478" class="diagram-detail">Fronthaul packet I/O &amp; end-to-end integration</text>
+      <text x="988" y="478" text-anchor="end" class="diagram-detail">Planned</text>
+    </g>
+  </svg>
+  <div class="architecture-mobile">
+    <ol class="mobile-process-flow" aria-label="Conceptual configuration path">
+      <li><span class="eyebrow">Control process</span><strong>Rust control</strong><span>Process skeleton · In progress</span></li>
+      <li><span class="eyebrow">Configuration hand-off</span><strong>Bounded concurrency</strong><span>GenMC checks · In progress</span></li>
+      <li><span class="eyebrow">Data plane</span><strong>Real-time core</strong><span>Event ring &amp; executor · In progress</span></li>
+    </ol>
+    <p class="mobile-flow-caption">Configuration exchange between the control process and data plane.</p>
+    <dl class="mobile-component-status">
+      <div><dt>BFP codec</dt><dd>Done</dd></div>
+      <div><dt>Deterministic virtual radio</dt><dd>Done</dd></div>
+      <div><dt>Timing core</dt><dd>In progress</dd></div>
+      <div><dt>Host platform profile</dt><dd>In progress</dd></div>
+      <div><dt>Fronthaul I/O &amp; integration</dt><dd>Planned</dd></div>
+    </dl>
+  </div>
+  <figcaption>Component readiness is not end-to-end readiness. Exact interface names and detailed process boundaries are pending publication.</figcaption>
+</figure>

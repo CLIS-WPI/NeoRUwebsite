@@ -1,0 +1,173 @@
+{
+  "asOf": "2026-11-23",
+  "milestones": [
+    {
+      "id": "architecture-rfc",
+      "title": "Architecture RFC",
+      "group": "Foundation",
+      "status": "done",
+      "summary": "Core architecture, ISAC and virtual-radio extensions, and the development plan."
+    },
+    {
+      "id": "environment-ci",
+      "title": "Development environment and CI gates",
+      "group": "Foundation",
+      "status": "done",
+      "summary": "Isolated development environment, unit tests, ASan, UBSan, TSan and an AArch64 build under emulation."
+    },
+    {
+      "id": "interface-specifications",
+      "title": "Seven interface specifications",
+      "group": "Foundation",
+      "status": "done",
+      "summary": "Interface contracts established before implementation; public documents are pending release."
+    },
+    {
+      "id": "reference-baseline",
+      "title": "Reference measurement baseline",
+      "group": "Foundation",
+      "status": "done",
+      "summary": "Measurement method and first baseline for the existing reference O-RU."
+    },
+    {
+      "id": "bfp-codec",
+      "title": "BFP compression codec",
+      "group": "Foundation",
+      "status": "done",
+      "summary": "Checked against the O-RAN CUS-plane specification and real DU traffic."
+    },
+    {
+      "id": "deterministic-virtual-radio",
+      "title": "Deterministic virtual radio",
+      "group": "Foundation",
+      "status": "done",
+      "summary": "A foundation for bit-exact O-RU testing without radio hardware."
+    },
+    {
+      "id": "event-ring",
+      "title": "Event ring",
+      "group": "Phase 1",
+      "status": "in_progress",
+      "summary": "Core event-recording component."
+    },
+    {
+      "id": "executor",
+      "title": "Executor",
+      "group": "Phase 1",
+      "status": "in_progress",
+      "summary": "Execution component of the real-time core."
+    },
+    {
+      "id": "core-plan",
+      "title": "Core plan",
+      "group": "Phase 1",
+      "status": "in_progress",
+      "summary": "Core planning for the execution architecture."
+    },
+    {
+      "id": "host-platform-profile",
+      "title": "Host platform profile",
+      "group": "Phase 1",
+      "status": "in_progress",
+      "summary": "Pre-start checks for CPU isolation, NUMA locality, PCIe links and timers."
+    },
+    {
+      "id": "timing-core",
+      "title": "Timing core",
+      "group": "Phase 1",
+      "status": "in_progress",
+      "summary": "A precise slot clock with a record of every late wake-up."
+    },
+    {
+      "id": "rust-control-process",
+      "title": "Rust control-process skeleton",
+      "group": "Phase 1",
+      "status": "in_progress",
+      "summary": "The initial structure of the control process."
+    },
+    {
+      "id": "configuration-handoff",
+      "title": "Verified configuration hand-off",
+      "group": "Phase 1",
+      "status": "in_progress",
+      "summary": "GenMC checking of the lock-free control-to-data-plane hand-off under two memory models, including injected defects."
+    },
+    {
+      "id": "fronthaul-io",
+      "title": "Fronthaul packet I/O",
+      "group": "Phase 2",
+      "status": "planned",
+      "summary": "Packet input and output for the split 7.2x fronthaul."
+    },
+    {
+      "id": "slot-table",
+      "title": "Slot table",
+      "group": "Phase 2",
+      "status": "planned",
+      "summary": "The next stage of slot-oriented integration."
+    },
+    {
+      "id": "integration",
+      "title": "System integration",
+      "group": "Phase 2",
+      "status": "planned",
+      "summary": "Bring the core components together."
+    },
+    {
+      "id": "realtime-virtual-radio",
+      "title": "Real-time virtual radio",
+      "group": "Phase 2",
+      "status": "planned",
+      "summary": "Extend the virtual-radio work into integrated real-time operation."
+    },
+    {
+      "id": "real-du-validation",
+      "title": "Real DU, virtual radio",
+      "group": "Level 3",
+      "status": "planned",
+      "summary": "Validate NeoRU against a real DU using the virtual radio."
+    },
+    {
+      "id": "radio-bench-validation",
+      "title": "Real radio-bench comparison",
+      "group": "Level 4",
+      "status": "planned",
+      "summary": "Measure NeoRU on the real radio bench under the same conditions as the reference baseline."
+    },
+    {
+      "id": "gpu-acceleration",
+      "title": "GPU acceleration",
+      "group": "Later",
+      "status": "planned",
+      "summary": "A future acceleration path."
+    },
+    {
+      "id": "fpga-acceleration",
+      "title": "FPGA acceleration",
+      "group": "Later",
+      "status": "planned",
+      "summary": "A future acceleration path."
+    },
+    {
+      "id": "isac",
+      "title": "Integrated sensing and communication",
+      "group": "Later",
+      "status": "planned",
+      "summary": "ISAC development beyond the completed architecture extension."
+    },
+    {
+      "id": "massive-mimo",
+      "title": "Massive MIMO",
+      "group": "Later",
+      "status": "planned",
+      "summary": "A later expansion of the radio architecture."
+    },
+    {
+      "id": "hardware-board",
+      "title": "Dedicated hardware board",
+      "group": "Later",
+      "status": "planned",
+      "summary": "A future hardware direction, not a currently available product."
+    }
+  ]
+}

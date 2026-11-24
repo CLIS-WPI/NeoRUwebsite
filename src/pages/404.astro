@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeading from '../components/PageHeading.astro';
+import { url } from '../lib/site';
+---
+<Layout title="Page not found" description="This page is not part of the NeoRU website.">
+  <PageHeading eyebrow="404 · Page not found" title="A different path." description="This page could not be found. Return to the project overview or explore the documentation." />
+  <div class="container not-found-actions"><a class="button" href={url()}>Project overview</a><a class="button button-secondary" href={url('docs')}>Browse Docs</a></div>
+</Layout>

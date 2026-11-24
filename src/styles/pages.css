@@ -1,0 +1,173 @@
+.page-heading { padding-top: clamp(72px, 9vw, 124px); padding-bottom: 56px; }
+.page-heading .eyebrow { margin-bottom: 24px; }
+.page-heading h1 { max-width: 960px; margin: 0; font-size: clamp(2.7rem, 6.1vw, 5.15rem); line-height: 1.06; letter-spacing: -.055em; font-weight: 620; text-wrap: balance; }
+.page-description { max-width: 730px; margin: 28px 0 0; color: var(--muted); font-size: clamp(1.1rem, 1.7vw, 1.3rem); line-height: 1.6; text-wrap: pretty; }
+.architecture-section, .benchmark-content, .roadmap-content, .docs-content, .team-content, .publications-content { padding-bottom: 110px; }
+.architecture-figure { margin: 0; border: 1px solid var(--line); border-radius: 20px; background: var(--surface); overflow: hidden; }
+.architecture-figure-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 32px 0; }
+.diagram-version { color: var(--muted); font-size: .875rem; }
+.architecture-svg { display: block; width: 100%; height: auto; padding: 10px 10px 0; }
+.architecture-svg text { font-family: inherit; fill: var(--text); }
+.diagram-connectors { color: var(--muted); }
+.diagram-node rect { fill: var(--bg); stroke: var(--line); stroke-width: 1.3; }
+.diagram-node-accent rect { fill: var(--accent-soft); stroke: var(--accent); stroke-opacity: .35; }
+.architecture-svg .diagram-kicker { fill: var(--muted); font-size: 14px; font-weight: 550; letter-spacing: .8px; }
+.architecture-svg .diagram-name { font-size: 25px; font-weight: 580; letter-spacing: -.7px; }
+.architecture-svg .diagram-name-small { font-size: 22px; }
+.architecture-svg .diagram-detail { font-size: 17px; fill: var(--muted); }
+.architecture-svg .diagram-progress { fill: var(--amber); font-size: 16px; font-weight: 500; }
+.architecture-svg .diagram-done { fill: var(--green); font-size: 16px; font-weight: 500; }
+.diagram-component rect { fill: var(--bg); stroke: var(--line); }
+.architecture-svg .diagram-component-name { font-size: 20px; font-weight: 550; letter-spacing: -.3px; }
+.diagram-planned-band rect { fill: none; stroke: var(--muted); stroke-opacity: .5; stroke-dasharray: 5 5; }
+.architecture-figure figcaption { border-top: 1px solid var(--line); padding: 20px 32px; font-size: .875rem; color: var(--muted); line-height: 1.6; }
+.architecture-reading, .team-details { display: grid; grid-template-columns: 1fr 1.7fr; gap: 80px; padding-top: 84px; }
+.reading-aside > p:not(.eyebrow) { margin: 20px 0 24px; font-size: 1.6rem; line-height: 1.35; letter-spacing: -.035em; }
+.reading-aside .text-link { font-size: .95rem; }
+.architecture-reading .prose > :first-child, .team-details .prose > :first-child, .process-prose > :first-child { margin-top: 0; }
+.architecture-mobile { display: none; }
+.benchmark-panel { border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+.benchmark-panel-header { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 32px 36px; background: var(--surface); }
+.benchmark-panel-header h2 { font-size: 2rem; letter-spacing: -.04em; margin: 12px 0 0; }
+.baseline-badge { white-space: nowrap; border: 1px solid var(--line); border-radius: 100px; padding: 8px 14px; color: var(--muted); font-size: .875rem; }
+.benchmark-table-wrap { overflow-x: auto; }
+.benchmark-table { width: 100%; border-collapse: collapse; text-align: left; }
+.benchmark-table th, .benchmark-table td { padding: 26px 36px; }
+.benchmark-table thead { background: var(--surface); }
+.benchmark-table thead th { padding-top: 15px; padding-bottom: 15px; color: var(--muted); font-size: .875rem; font-weight: 500; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.benchmark-table tbody th { font-weight: 500; font-size: 1.05rem; }
+.benchmark-table tbody tr + tr { border-top: 1px solid var(--line); }
+.benchmark-table td:last-child { color: var(--muted); font-size: .95rem; }
+.benchmark-value { display: inline-block; font-size: clamp(2rem, 4.5vw, 3.8rem); line-height: 1; letter-spacing: -.06em; font-weight: 580; white-space: nowrap; }
+.benchmark-unit { display: block; margin-top: 9px; font-size: .875rem; color: var(--muted); }
+.benchmark-conditions { background: var(--surface); border-top: 1px solid var(--line); padding: 30px 36px; }
+.benchmark-conditions h3 { margin: 0 0 22px; font-size: 1.15rem; font-weight: 550; letter-spacing: -.025em; }
+.benchmark-conditions dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px 32px; margin: 0; }
+.benchmark-conditions dt { font-size: .8rem; color: var(--muted); margin-bottom: 5px; }
+.benchmark-conditions dd { margin: 0; font-size: .95rem; line-height: 1.5; }
+.evidence-note { margin: 22px 0 0; font-size: .875rem; color: var(--muted); line-height: 1.6; max-width: 850px; }
+.evidence-note span { display: block; color: var(--text); font-weight: 550; margin-bottom: 4px; }
+.benchmark-reading { max-width: 720px; margin: 64px auto 0; }
+.page-crosslink { margin-top: 72px; padding-top: 28px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 24px; font-size: .95rem; }
+.page-crosslink > span { color: var(--muted); }
+.roadmap-introduction { display: flex; align-items: flex-start; justify-content: space-between; gap: 48px; padding-bottom: 60px; }
+.roadmap-introduction .prose { max-width: 640px; }
+.roadmap-introduction .prose p:first-child { margin-top: 0; }
+.roadmap-datestamp { white-space: nowrap; font-size: .875rem; color: var(--muted); margin: 0; line-height: 1.7; }
+.roadmap-datestamp time { display: block; font-weight: 550; color: var(--text); }
+.roadmap-timeline { margin-left: 10px; }
+.roadmap-group { position: relative; border-left: 1px solid var(--line); padding: 0 0 64px 48px; }
+.roadmap-group:last-child { border-left-color: transparent; padding-bottom: 0; }
+.roadmap-group-heading { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+.roadmap-group-heading h2 { margin: 0; font-size: 1.8rem; line-height: 1.2; font-weight: 570; letter-spacing: -.04em; }
+.roadmap-node { position: absolute; top: 8px; left: -7px; width: 13px; height: 13px; border-radius: 50%; background: var(--bg); border: 2px solid var(--muted); box-shadow: 0 0 0 6px var(--bg); }
+.roadmap-group-done .roadmap-node { border-color: var(--green); background: var(--green); }
+.roadmap-group-in_progress .roadmap-node { border-color: var(--accent); background: var(--accent); }
+.milestone-list { padding: 0; margin: 0; list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 50px; }
+.milestone-list li { padding: 22px 0; border-top: 1px solid var(--line); }
+.milestone-list h3 { font-size: 1rem; font-weight: 570; margin: 0 0 9px; line-height: 1.4; }
+.milestone-list p { font-size: .95rem; color: var(--muted); margin: 0; line-height: 1.65; }
+.milestone-list .status { display: inline-block; margin-top: 12px; }
+.docs-intro { max-width: 720px; margin-bottom: 44px; }
+.docs-intro > :first-child { margin-top: 0; }
+.docs-links { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.docs-entry { display: flex; flex-direction: column; color: var(--text); text-decoration: none; padding: 38px 28px; transition: background .18s ease; }
+.docs-entry:first-child { padding-left: 0; }
+.docs-entry + .docs-entry { border-left: 1px solid var(--line); }
+.docs-entry:hover { background: var(--surface); }
+.docs-entry h2 { font-size: 1.6rem; font-weight: 570; letter-spacing: -.04em; margin: 20px 0 12px; }
+.docs-entry > p { margin: 0 0 32px; font-size: .95rem; line-height: 1.65; color: var(--muted); }
+.docs-entry-action { color: var(--accent); font-size: .9rem; margin-top: auto; }
+.docs-availability { margin-top: 30px; max-width: 750px; color: var(--muted); font-size: .875rem; line-height: 1.7; }
+.process-layout { display: grid; grid-template-columns: 1fr 1.65fr; gap: 90px; padding-bottom: 110px; align-items: start; }
+.process-aside { position: sticky; top: 110px; }
+.process-principle { border: 1px solid var(--line); border-radius: 18px; padding: 30px; background: var(--surface); margin-bottom: 25px; }
+.process-principle > p:not(.process-aside-small) { margin: 24px 0; font-size: 2rem; font-weight: 560; letter-spacing: -.045em; line-height: 1.18; }
+.process-rule { display: block; width: 32px; height: 2px; background: var(--accent); margin: 30px 0; }
+.process-principle .process-aside-small { margin: 0; font-size: .95rem; line-height: 1.65; color: var(--muted); }
+.process-aside > .text-link { font-size: .95rem; }
+.process-prose h2 { border-top: 1px solid var(--line); padding-top: 28px; }
+.process-prose > h2:first-child { padding-top: 0; border: none; }
+.team-people { display: grid; grid-template-columns: 1.25fr 1fr; gap: 50px; padding: 28px 0 65px; border-bottom: 1px solid var(--line); }
+.team-person { display: flex; align-items: flex-start; gap: 28px; }
+.person-monogram { width: 72px; height: 72px; flex: 0 0 72px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-strong); color: var(--muted); font-size: 1.15rem; font-weight: 500; letter-spacing: -.04em; }
+.team-person .eyebrow { margin: 0 0 16px; }
+.team-person h2 { margin: 0; font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 580; letter-spacing: -.045em; line-height: 1.2; }
+.team-person p:not(.eyebrow) { margin: 16px 0 0; color: var(--muted); font-size: .95rem; }
+.team-affiliation-label > p { font-size: 1rem; line-height: 1.7; margin-top: 20px; color: var(--muted); }
+.team-affiliation-label strong { font-weight: 550; color: var(--text); }
+.publication-sheet { display: grid; grid-template-columns: 90px 1fr; gap: 35px; padding: 50px; border: 1px solid var(--line); background: var(--surface); border-radius: 20px; max-width: 900px; }
+.publication-sheet > svg { color: var(--muted); }
+.publication-sheet .prose > :first-child { margin-top: 0; }
+.publication-sheet .prose > :last-child { margin-bottom: 0; }
+.publications-content > .text-link { display: inline-block; margin-top: 32px; }
+.not-found-actions { display: flex; gap: 16px; flex-wrap: wrap; padding-bottom: 140px; }
+@media (max-width: 900px) {
+  .architecture-reading, .team-details { gap: 40px; grid-template-columns: 1fr 1.6fr; }
+  .benchmark-panel-header, .benchmark-conditions { padding: 26px; }
+  .benchmark-table th, .benchmark-table td { padding: 25px; }
+  .process-layout { gap: 40px; grid-template-columns: 1fr 1.6fr; }
+  .process-principle { padding: 23px; }
+  .team-people { gap: 30px; grid-template-columns: 1.15fr 1fr; }
+  .team-person { flex-direction: column; gap: 24px; }
+  .roadmap-introduction { gap: 24px; }
+}
+@media (max-width: 680px) {
+  .page-heading { padding-top: 64px; padding-bottom: 40px; }
+  .page-heading h1 { font-size: clamp(2.55rem, 9.5vw, 3.8rem); letter-spacing: -.045em; }
+  .page-heading .eyebrow { margin-bottom: 18px; }
+  .page-description { margin-top: 22px; font-size: 1.1rem; }
+  .architecture-section, .benchmark-content, .roadmap-content, .docs-content, .team-content, .publications-content, .process-layout { padding-bottom: 76px; }
+  .architecture-svg { display: none; }
+  .architecture-mobile { display: block; padding: 26px 20px; }
+  .architecture-figure-top { padding: 24px 20px 0; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .mobile-process-flow { list-style: none; padding: 0; margin: 0; }
+  .mobile-process-flow li { position: relative; border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 24px; background: var(--bg); }
+  .mobile-process-flow li:nth-child(2) { background: var(--accent-soft); }
+  .mobile-process-flow li:not(:last-child)::after { content: ''; position: absolute; height: 24px; border-left: 1px solid var(--muted); top: 100%; left: 50%; }
+  .mobile-process-flow strong { display: block; margin-top: 12px; font-size: 1.2rem; letter-spacing: -.025em; }
+  .mobile-process-flow li > span:last-child { display: block; font-size: .875rem; margin-top: 8px; color: var(--muted); }
+  .mobile-flow-caption { font-size: .875rem; line-height: 1.6; color: var(--muted); }
+  .mobile-component-status { margin: 26px 0 0; }
+  .mobile-component-status > div { display: flex; justify-content: space-between; gap: 18px; border-top: 1px solid var(--line); padding: 14px 0; font-size: .875rem; }
+  .mobile-component-status dd { margin: 0; color: var(--muted); text-align: right; flex-shrink: 0; }
+  .architecture-figure figcaption { padding: 20px; }
+  .architecture-reading, .team-details { display: block; padding-top: 48px; }
+  .reading-aside, .team-affiliation-label { margin-bottom: 38px; }
+  .benchmark-panel-header { display: block; padding: 24px 20px; }
+  .baseline-badge { display: inline-block; margin-top: 20px; font-size: .8rem; }
+  .benchmark-table th, .benchmark-table td { padding: 22px 16px; }
+  .benchmark-table thead th { font-size: .8rem; }
+  .benchmark-table tbody th { font-size: .95rem; }
+  .benchmark-table td:last-child { font-size: .85rem; }
+  .benchmark-value { font-size: 2.15rem; }
+  .benchmark-unit { font-size: .8rem; }
+  .benchmark-conditions { padding: 24px 20px; }
+  .benchmark-conditions dl { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .benchmark-reading { margin-top: 46px; }
+  .page-crosslink { flex-direction: column; margin-top: 50px; gap: 12px; }
+  .roadmap-introduction { display: block; padding-bottom: 40px; }
+  .roadmap-datestamp { margin-top: 24px; }
+  .roadmap-datestamp time { display: inline; margin-left: 4px; }
+  .roadmap-group { padding-left: 28px; padding-bottom: 46px; }
+  .roadmap-group-heading { flex-wrap: wrap; gap: 12px; }
+  .roadmap-group-heading h2 { font-size: 1.5rem; }
+  .roadmap-node { top: 6px; }
+  .milestone-list { display: block; }
+  .milestone-list li { padding: 20px 0; }
+  .docs-links { display: block; }
+  .docs-entry, .docs-entry:first-child { padding: 30px 0; }
+  .docs-entry + .docs-entry { border-left: none; border-top: 1px solid var(--line); }
+  .docs-entry > p { margin-bottom: 22px; }
+  .docs-intro { margin-bottom: 30px; }
+  .process-layout { display: block; }
+  .process-aside { position: static; margin-bottom: 46px; }
+  .process-principle { padding: 28px; }
+  .team-people { grid-template-columns: 1fr; gap: 42px; padding: 10px 0 42px; }
+  .team-person { flex-direction: row; gap: 22px; }
+  .person-monogram { width: 54px; height: 54px; flex-basis: 54px; font-size: 1rem; }
+  .team-person h2 { font-size: 1.6rem; }
+  .publication-sheet { display: block; padding: 28px; }
+  .publication-sheet > svg { width: 48px; height: 48px; margin-bottom: 26px; }
+}
+@media (prefers-reduced-motion: reduce) { .docs-entry { transition: none; } }

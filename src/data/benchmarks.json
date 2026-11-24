@@ -1,0 +1,29 @@
+{
+  "label": "Baseline — reference implementation",
+  "implementation": "ProtO-RU",
+  "conditions": [
+    { "label": "Channel bandwidth", "value": "20 MHz" },
+    { "label": "MIMO", "value": "2×2" },
+    { "label": "Subcarrier spacing", "value": "30 kHz" },
+    { "label": "Traffic", "value": "Saturated test UE" },
+    { "label": "CPU", "value": "AMD EPYC 9354" },
+    { "label": "Core configuration", "value": "Isolated cores" }
+  ],
+  "metrics": [
+    {
+      "id": "cpu-use",
+      "label": "Median CPU use",
+      "value": "3.38",
+      "unit": "CPU cores",
+      "scope": "Reference O-RU"
+    },
+    {
+      "id": "package-power",
+      "label": "Package power above idle",
+      "value": "≈33.5",
+      "unit": "W above idle",
+      "scope": "O-RU and DU together"
+    }
+  ],
+  "evidenceNote": "Public run record and full measurement report pending publication. Run identifiers, measurement date, duration and further method details have not been supplied for this website."
+}

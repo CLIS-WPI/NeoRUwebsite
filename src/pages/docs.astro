@@ -1,0 +1,22 @@
+---
+import { getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import PageHeading from '../components/PageHeading.astro';
+import { url } from '../lib/site';
+const page = await getEntry('pages', 'docs');
+if (!page) throw new Error('Docs content is missing.');
+const { Content } = await render(page);
+const entries = [
+  { title: 'Architecture', path: 'architecture', tag: 'System overview', description: 'The control process, real-time data plane, and the boundary between them.' },
+  { title: 'Benchmarks', path: 'benchmarks', tag: 'Measurement', description: 'The reference baseline, its conditions, and what it does—and does not—establish.' },
+  { title: 'How we build', path: 'how-we-build', tag: 'Engineering process', description: 'Specifications, tests, verification, and human-approved changes.' },
+];
+---
+<Layout title={page.data.title} description={page.data.description}>
+  <PageHeading {...page.data} />
+  <section class="container docs-content" aria-label="Documentation entry points">
+    <div class="docs-intro prose"><Content /></div>
+    <div class="docs-links">{entries.map((entry) => (<a class="docs-entry" href={url(entry.path)}><span class="eyebrow">{entry.tag}</span><h2>{entry.title}</h2><p>{entry.description}</p><span class="docs-entry-action">Read overview</span></a>))}</div>
+    <p class="docs-availability">Public code and detailed documentation links will be added when provided. No download or setup instructions are published here yet.</p>
+  </section>
+</Layout>
