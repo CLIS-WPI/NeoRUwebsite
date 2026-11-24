@@ -115,7 +115,7 @@ test('the site loads no external page resources or tracking code', () => {
         const ref = attributes(tag).href;
         if (ref && /^(?:https?:)?\/\//i.test(ref)) {
           const target = new URL(ref, origin);
-          assert.ok(target.origin === origin || target.href.replace(/\/$/, '') === 'https://github.com/CLIS-WPI/NeoRUwebsite', `Unapproved public link in ${relative(dist, file)}: ${ref}`);
+          assert.ok(target.origin === origin || target.href.replace(/\/$/, '') === 'https://github.com/CLIS-WPI/NeoRU', `Unapproved public link in ${relative(dist, file)}: ${ref}`);
         }
       }
       for (const [tag] of body.matchAll(/<(?:script|img|source|video|audio|iframe|link)\b[^>]*>/gi)) {
