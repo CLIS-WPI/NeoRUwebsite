@@ -5,7 +5,7 @@ import { resolve, join, relative, sep } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
 const dist = join(root, 'dist');
-const origin = 'https://natanzi.github.io';
+const origin = 'https://clis-wpi.github.io';
 const base = '/NeoRUwebsite/';
 const pages = ['', 'architecture', 'benchmarks', 'roadmap', 'docs', 'how-we-build', 'team', 'publications'];
 const pageFile = (route) => join(dist, route, 'index.html');
@@ -115,7 +115,7 @@ test('the site loads no external page resources or tracking code', () => {
         const ref = attributes(tag).href;
         if (ref && /^(?:https?:)?\/\//i.test(ref)) {
           const target = new URL(ref, origin);
-          assert.ok(target.origin === origin || target.href.replace(/\/$/, '') === 'https://github.com/natanzi/NeoRUwebsite', `Unapproved public link in ${relative(dist, file)}: ${ref}`);
+          assert.ok(target.origin === origin || target.href.replace(/\/$/, '') === 'https://github.com/CLIS-WPI/NeoRUwebsite', `Unapproved public link in ${relative(dist, file)}: ${ref}`);
         }
       }
       for (const [tag] of body.matchAll(/<(?:script|img|source|video|audio|iframe|link)\b[^>]*>/gi)) {
@@ -134,5 +134,5 @@ test('the sitemap covers every public content page and excludes the 404', () => 
   const sitemap = read(join(dist, 'sitemap.xml'));
   const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
   assert.deepEqual(locations.sort(), pages.map((route) => `${origin}${base}${route ? `${route}/` : ''}`).sort());
-  assert.match(read(join(dist, 'robots.txt')), /Sitemap: https:\/\/natanzi\.github\.io\/NeoRUwebsite\/sitemap\.xml/);
+  assert.match(read(join(dist, 'robots.txt')), /Sitemap: https:\/\/clis-wpi\.github\.io\/NeoRUwebsite\/sitemap\.xml/);
 });
