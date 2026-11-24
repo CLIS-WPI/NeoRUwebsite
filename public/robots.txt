@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://natanzi.github.io/NeoRUwebsite/sitemap.xml
+Sitemap: https://clis-wpi.github.io/NeoRUwebsite/sitemap.xml
