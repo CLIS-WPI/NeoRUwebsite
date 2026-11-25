@@ -7,7 +7,7 @@ const root = resolve(import.meta.dirname, '..');
 const dist = join(root, 'dist');
 const origin = 'https://clis-wpi.github.io';
 const base = '/NeoRUwebsite/';
-const pages = ['', 'architecture', 'benchmarks', 'roadmap', 'docs', 'how-we-build', 'team', 'publications'];
+const pages = ['', 'benchmarks', 'roadmap', 'docs', 'how-we-build', 'team', 'publications'];
 const pageFile = (route) => join(dist, route, 'index.html');
 const read = (path) => readFileSync(path, 'utf8');
 const data = (name) => JSON.parse(read(join(root, 'src', 'data', `${name}.json`)));

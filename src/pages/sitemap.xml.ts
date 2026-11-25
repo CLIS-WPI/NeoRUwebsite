@@ -6,7 +6,7 @@ import roadmap from '../data/milestones.json';
 export const prerender = true;
 
 export const GET: APIRoute = ({ site }) => {
-  const corePages = ['', 'architecture', 'benchmarks', 'roadmap', 'docs', 'how-we-build', 'team', 'publications'];
+  const corePages = ['', 'benchmarks', 'roadmap', 'docs', 'how-we-build', 'team', 'publications'];
   const docSubpages = source
     .getPages()
     .filter((page) => page.slugs.length > 0)

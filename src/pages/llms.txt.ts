@@ -14,7 +14,6 @@ export const GET: APIRoute = async ({ site }) => {
 
   const coreLinks = [
     ['Home', '', pageMap.get('home')?.data.description ?? 'NeoRU project overview'],
-    ['Architecture', 'architecture', pageMap.get('architecture')?.data.description ?? 'System architecture'],
     ['Benchmarks', 'benchmarks', pageMap.get('benchmarks')?.data.description ?? 'Reference baseline and conditions'],
     ['Roadmap', 'roadmap', pageMap.get('roadmap')?.data.description ?? 'Development milestones'],
     ['How we build', 'how-we-build', pageMap.get('how-we-build')?.data.description ?? 'Engineering process'],
