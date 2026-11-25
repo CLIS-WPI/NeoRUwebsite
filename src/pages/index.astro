@@ -1,8 +1,7 @@
 ---
 import { getEntry, render } from 'astro:content';
-import { Image, getImage } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import neoRuOwlLogo from '../assets/neoru-owl-cropped.png';
-import wpiLogo from '../assets/wpi-logo.png';
 import ocuNodeImg from '../assets/ocu-node.png';
 import oduNodeImg from '../assets/odu-node.png';
 import oruNodeImg from '../assets/oru-node.png';
@@ -205,31 +204,6 @@ const docCards = [
             <h3>Bo Tang</h3>
           </div>
         </article>
-      </div>
-    </div>
-  </section>
-
-  {/* Partners & Collaborators Strip */}
-  <section class="partners-strip" aria-label="Partners and collaborators">
-    <div class="container partners-inner">
-      <p class="eyebrow">Partners &amp; Collaborators</p>
-      <div class="partners-row">
-        <a
-          class="partner-link"
-          href="https://users.wpi.edu/~btang1/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Worcester Polytechnic Institute — Bo Tang (CLIS Lab)"
-        >
-          <Image
-            src={wpiLogo}
-            height={240}
-            format="webp"
-            alt="Worcester Polytechnic Institute (WPI)"
-            loading="lazy"
-            class="partner-wpi-img"
-          />
-        </a>
       </div>
     </div>
   </section>
