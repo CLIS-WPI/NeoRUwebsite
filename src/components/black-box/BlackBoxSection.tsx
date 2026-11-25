@@ -260,16 +260,25 @@ export function BlackBoxSection() {
           </div>
         </div>
 
-        {/* Interactive State Toggle: Locked Black Box <-> Open NeoRU */}
+        {/* Apple-Style Segmented Control: Locked Black Box <-> Open NeoRU */}
         <div className="bb-controls">
-          <div className="bb-segmented-toggle" role="group" aria-label="O-RU enclosure state">
+          <div
+            className={`bb-segmented-toggle ${isOpen ? 'is-open' : 'is-locked'}`}
+            role="group"
+            aria-label="O-RU enclosure state"
+          >
+            <span className="bb-toggle-thumb" aria-hidden="true" />
             <button
               type="button"
               className={`bb-toggle-btn ${!isOpen ? 'is-selected' : ''}`}
               onClick={() => animateToState(false)}
               aria-pressed={!isOpen}
             >
-              Locked Black Box
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3.5" y="7.5" width="9" height="6.5" rx="1.8" />
+                <path d="M5.5 7.5V5.3a2.5 2.5 0 0 1 5 0v2.2" />
+              </svg>
+              <span>Locked Black Box</span>
             </button>
             <button
               type="button"
@@ -277,7 +286,11 @@ export function BlackBoxSection() {
               onClick={() => animateToState(true)}
               aria-pressed={isOpen}
             >
-              Open NeoRU
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3.5" y="7.5" width="9" height="6.5" rx="1.8" />
+                <path d="M5.5 7.5V5.2a2.5 2.5 0 0 1 4.7-1.2" />
+              </svg>
+              <span>Open NeoRU</span>
             </button>
           </div>
         </div>

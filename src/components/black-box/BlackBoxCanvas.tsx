@@ -64,20 +64,20 @@ export const BlackBoxCanvas = forwardRef<BlackBoxCanvasHandle, BlackBoxCanvasPro
       renderer.setSize(container.clientWidth, container.clientHeight);
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.12;
+      renderer.toneMappingExposure = 1.16;
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFShadowMap;
       container.appendChild(renderer.domElement);
 
-      // Studio PMREM RoomEnvironment so chamfered aluminum & steel catch crisp specular highlights
+      // High-contrast studio PMREM RoomEnvironment so chamfered fins, nickel cans & brass bulkheads catch crisp highlights
       const pmremGenerator = new THREE.PMREMGenerator(renderer);
       const roomEnv = new RoomEnvironment();
-      const envRT = pmremGenerator.fromScene(roomEnv, 0.04);
+      const envRT = pmremGenerator.fromScene(roomEnv, 0.035);
       scene.environment = envRT.texture;
-      scene.environmentIntensity = 0.72;
+      scene.environmentIntensity = 0.96;
 
       // Dramatic 3-point studio lighting (key, cool fill, crisp rim)
-      const keyLight = new THREE.DirectionalLight(0xffffff, 1.85);
+      const keyLight = new THREE.DirectionalLight(0xffffff, 1.95);
       keyLight.position.set(4.5, 7.5, 5.5);
       keyLight.castShadow = true;
       keyLight.shadow.mapSize.set(1024, 1024);
@@ -90,12 +90,12 @@ export const BlackBoxCanvas = forwardRef<BlackBoxCanvasHandle, BlackBoxCanvasPro
       keyLight.shadow.bias = -0.0005;
       scene.add(keyLight);
 
-      const fillLight = new THREE.DirectionalLight(0xdbeafe, 0.9);
-      fillLight.position.set(-5.5, 4.0, 4.0);
+      const fillLight = new THREE.DirectionalLight(0xdbeafe, 1.0);
+      fillLight.position.set(-5.5, 4.2, 4.2);
       scene.add(fillLight);
 
-      const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.35);
-      rimLight.position.set(0, 4.5, -6.5);
+      const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.55);
+      rimLight.position.set(0, 4.8, -6.5);
       scene.add(rimLight);
 
       // Soft contact shadow plane
@@ -237,7 +237,12 @@ export const BlackBoxCanvas = forwardRef<BlackBoxCanvasHandle, BlackBoxCanvasPro
           if (obj instanceof THREE.Mesh || obj instanceof THREE.LineSegments) {
             obj.geometry?.dispose();
             const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
-            mats.forEach((mat) => mat?.dispose());
+            mats.forEach((mat) => {
+              if (!mat) return;
+              if ('map' in mat && mat.map instanceof THREE.Texture) mat.map.dispose();
+              if ('emissiveMap' in mat && mat.emissiveMap instanceof THREE.Texture) mat.emissiveMap.dispose();
+              mat.dispose();
+            });
           }
         });
         envRT.dispose();

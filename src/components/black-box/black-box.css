@@ -242,41 +242,80 @@
   line-height: 1.35;
 }
 
-/* Segmented State Toggle */
+/* Apple-Style Frosted Segmented Control */
 .bb-controls {
-  margin-top: 22px;
+  margin-top: 24px;
   display: flex;
   justify-content: center;
 }
 
 .bb-segmented-toggle {
-  display: inline-flex;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
   padding: 4px;
   border-radius: 999px;
-  background: #eceff4;
-  border: 1px solid #cbd5e1;
-  gap: 4px;
+  background: rgba(232, 232, 237, 0.78);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.06),
+    0 1px 0 rgba(255, 255, 255, 0.85);
+  min-width: 316px;
+}
+
+.bb-toggle-thumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+  transition: transform 0.36s cubic-bezier(0.32, 0.72, 0, 1);
+  pointer-events: none;
+}
+
+.bb-segmented-toggle.is-open .bb-toggle-thumb {
+  transform: translateX(100%);
 }
 
 .bb-toggle-btn {
-  padding: 8px 18px;
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 18px;
   border-radius: 999px;
   border: 0;
   background: transparent;
-  color: #334155;
-  font-size: 13px;
-  font-weight: 650;
-  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  color: #6e6e73;
+  font-size: 13.5px;
+  font-weight: 560;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+  transition: color 0.22s ease;
 }
 
 .bb-toggle-btn:hover {
-  color: #0f172a;
+  color: #1d1d1f;
 }
 
 .bb-toggle-btn.is-selected {
-  background: #0f172a;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);
+  color: #1d1d1f;
+  font-weight: 620;
+}
+
+.bb-segmented-toggle.is-open .bb-toggle-btn.is-selected svg {
+  color: #0066cc;
 }
 
 /* Tablet & Mobile (<1024px): Centered 3D O-RU on top + Clean 2-col / 1-col Grid below */
