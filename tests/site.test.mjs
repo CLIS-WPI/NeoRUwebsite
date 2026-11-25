@@ -134,11 +134,12 @@ test('the site loads no external page resources or tracking code', () => {
     const body = read(file);
     assert.doesNotMatch(body, /google-analytics|googletagmanager|connect\.facebook\.net|plausible\.io|hotjar|clarity\.ms|sendBeacon\s*\(/i, relative(dist, file));
     if (file.endsWith('.html')) {
+      const approvedExternal = new Set(['https://github.com/CLIS-WPI/NeoRU', 'https://users.wpi.edu/~btang1']);
       for (const [tag] of body.matchAll(/<a\b[^>]*>/gi)) {
         const ref = attributes(tag).href;
         if (ref && /^(?:https?:)?\/\//i.test(ref)) {
           const target = new URL(ref, origin);
-          assert.ok(target.origin === origin || target.href.replace(/\/$/, '') === 'https://github.com/CLIS-WPI/NeoRU', `Unapproved public link in ${relative(dist, file)}: ${ref}`);
+          assert.ok(target.origin === origin || approvedExternal.has(target.href.replace(/\/$/, '')), `Unapproved public link in ${relative(dist, file)}: ${ref}`);
         }
       }
       for (const [tag] of body.matchAll(/<(?:script|img|source|video|audio|iframe|link)\b[^>]*>/gi)) {
