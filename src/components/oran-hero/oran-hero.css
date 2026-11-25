@@ -1,7 +1,7 @@
 .oran-hero-slide {
   position: relative;
   scroll-margin-top: 92px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafd 100%);
+  background: #ffffff;
   border-bottom: 1px solid var(--line);
   padding: 12px 0 26px;
   overflow: hidden;
@@ -311,8 +311,8 @@
 }
 
 .oran-hw-img-odu {
-  height: clamp(144px, 21vh, 184px);
-  margin-bottom: 4px;
+  height: clamp(166px, 24.5vh, 214px);
+  margin-bottom: 0;
 }
 
 .oran-oru-visual {
@@ -326,32 +326,34 @@
   height: clamp(188px, 28vh, 244px);
 }
 
-/* Minimalist Concentric SVG RF Signal Waves pulsing outward to the right of the 5G antenna */
+/* Crisp Concentric SVG RF Signal Waves pulsing outward to the right of the 5G antenna */
 .oran-rf-waves {
   position: absolute;
-  right: -34px;
+  right: -36px;
   top: 15%;
-  width: clamp(46px, 4.6vw, 62px);
+  width: clamp(50px, 5vw, 66px);
   height: auto;
   pointer-events: none;
   overflow: visible;
-  transition: transform 0.3s ease;
+  filter: drop-shadow(0 0 4px rgba(14, 165, 233, 0.32));
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .oran-rf-waves.is-boosted {
-  transform: translateX(3px) scale(1.06);
+  transform: translateX(3px) scale(1.07);
+  filter: drop-shadow(0 0 7px rgba(14, 165, 233, 0.52));
 }
 
 .oran-rf-arc {
-  opacity: 0.24;
+  opacity: 0.42;
 }
 
 .oran-rf-waves.is-live .oran-rf-arc {
-  animation: oran-rf-pulse 2.2s ease-out infinite;
+  animation: oran-rf-pulse 2s ease-out infinite;
 }
 
 .oran-rf-waves.is-boosted .oran-rf-arc {
-  animation-duration: 1.35s;
+  animation-duration: 1.25s;
 }
 
 .oran-rf-arc-1 {
@@ -359,27 +361,27 @@
 }
 
 .oran-rf-arc-2 {
-  animation-delay: 0.28s;
+  animation-delay: 0.25s;
 }
 
 .oran-rf-arc-3 {
-  animation-delay: 0.56s;
+  animation-delay: 0.5s;
 }
 
 .oran-rf-arc-4 {
-  animation-delay: 0.84s;
+  animation-delay: 0.75s;
 }
 
 @keyframes oran-rf-pulse {
   0% {
-    opacity: 0.14;
+    opacity: 0.28;
   }
   32% {
-    opacity: 0.92;
+    opacity: 1;
   }
   75%,
   100% {
-    opacity: 0.14;
+    opacity: 0.28;
   }
 }
 

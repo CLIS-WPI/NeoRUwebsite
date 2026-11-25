@@ -11,8 +11,8 @@ interface OranHeroSectionProps {
   oruImageSrc: string;
 }
 
-const F1_BEAM_LEN = 225;
-const OFH_BEAM_LEN = 215;
+const F1_BEAM_LEN = 340;
+const OFH_BEAM_LEN = 315;
 
 export function OranHeroSection({
   neoRuLogoSrc,
