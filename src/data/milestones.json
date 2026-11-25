@@ -1,5 +1,13 @@
 {
   "asOf": "2026-11-23",
+  "stages": [
+    { "group": "Foundation", "summary": "Specifications, tooling and the first verified building blocks. Each one is complete as a component." },
+    { "group": "Phase 1", "summary": "The real-time core: timing, execution and the checked hand-off between the control process and the data plane." },
+    { "group": "Phase 2", "summary": "Fronthaul packet I/O, and the integration of the core components into one running O-RU." },
+    { "group": "Level 3", "summary": "Validation against a real DU, with the virtual radio in place of radio hardware." },
+    { "group": "Level 4", "summary": "Measurement on the real radio bench, under the same conditions as the reference baseline." },
+    { "group": "Later", "summary": "Directions beyond the first measured end-to-end result. None of them is scheduled." }
+  ],
   "milestones": [
     {
       "id": "architecture-rfc",

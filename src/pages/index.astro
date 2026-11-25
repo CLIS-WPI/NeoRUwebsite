@@ -9,6 +9,7 @@ import oruClosedImg from '../assets/oru-closed.png';
 import oruOpenImg from '../assets/oru-open.png';
 import Layout from '../layouts/Layout.astro';
 import ArchitectureDiagram from '../components/ArchitectureDiagram.astro';
+import RoadmapStepper from '../components/RoadmapStepper.astro';
 import { OranHeroSection } from '../components/oran-hero/OranHeroSection';
 import { BlackBoxSection } from '../components/black-box/BlackBoxSection';
 import { url } from '../lib/site';
@@ -31,8 +32,6 @@ const oduNodeWebp = await getImage({ src: oduNodeImg, width: 760, format: 'webp'
 const oruNodeWebp = await getImage({ src: oruNodeImg, width: 760, format: 'webp' });
 const oruClosedWebp = await getImage({ src: oruClosedImg, width: 1000, format: 'webp' });
 const oruOpenWebp = await getImage({ src: oruOpenImg, width: 1000, format: 'webp' });
-const groups = [...new Set(roadmap.milestones.map((m) => m.group))];
-const statusLabels: Record<string, string> = { done: 'Done', in_progress: 'In progress', planned: 'Planned' };
 const asOf = new Date(`${roadmap.asOf}T12:00:00Z`).toLocaleDateString('en-GB', {
   day: 'numeric',
   month: 'long',
@@ -125,35 +124,7 @@ const docCards = [
         <div class="prose"><RoadContent /></div>
         <p class="roadmap-datestamp">Status as of <time datetime={roadmap.asOf}>{asOf}</time></p>
       </div>
-      <div class="roadmap-timeline">
-        {groups.map((group) => {
-          const milestones = roadmap.milestones.filter((m) => m.group === group);
-          const groupStatus = milestones.every((item) => item.status === milestones[0].status)
-            ? milestones[0].status
-            : 'in_progress';
-          const groupId = `home-group-${group.toLowerCase().replaceAll(' ', '-')}`;
-          return (
-            <section class={`roadmap-group roadmap-group-${groupStatus}`} aria-labelledby={groupId}>
-              <header class="roadmap-group-heading">
-                <span class="roadmap-node" aria-hidden="true"></span>
-                <h3 id={groupId}>{group}</h3>
-                <span class={`status status-${groupStatus}`}>{statusLabels[groupStatus]}</span>
-              </header>
-              <ul class="milestone-list">
-                {milestones.map((milestone) => (
-                  <li>
-                    <h4>{milestone.title}</h4>
-                    <p>{milestone.summary}</p>
-                    {milestone.status !== groupStatus && (
-                      <span class={`status status-${milestone.status}`}>{statusLabels[milestone.status]}</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          );
-        })}
-      </div>
+      <RoadmapStepper headingLevel={3} idPrefix="home-roadmap" />
     </div>
   </section>
 

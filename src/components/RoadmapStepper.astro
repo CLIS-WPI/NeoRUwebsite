@@ -1,0 +1,173 @@
+---
+import roadmap from '../data/milestones.json';
+
+interface Props {
+  /** Heading level for the stage title inside the panel. Milestones use the next level down. */
+  headingLevel?: 2 | 3;
+  /** Prefix that keeps element IDs unique when the stepper appears on more than one page. */
+  idPrefix?: string;
+  /** Give each milestone its own anchor ID (used on the Roadmap page). */
+  anchors?: boolean;
+}
+
+type Status = 'done' | 'in_progress' | 'planned';
+type Milestone = { id: string; title: string; group: string; status: string; summary: string };
+type StageNote = { group: string; summary: string };
+
+const { headingLevel = 2, idPrefix = 'roadmap', anchors = false } = Astro.props;
+const StageHeading = `h${headingLevel}` as 'h2' | 'h3';
+const MilestoneHeading = `h${headingLevel + 1}` as 'h3' | 'h4';
+
+const labels: Record<Status, string> = { done: 'Done', in_progress: 'In progress', planned: 'Planned' };
+const milestones = roadmap.milestones as Milestone[];
+const notes = ((roadmap as { stages?: StageNote[] }).stages ?? []) as StageNote[];
+const count = (items: Milestone[], status: Status) => items.filter((item) => item.status === status).length;
+const slug = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const stages = [...new Set(milestones.map((item) => item.group))].map((group) => {
+  const items = milestones.filter((item) => item.group === group);
+  const done = count(items, 'done');
+  const active = count(items, 'in_progress');
+  const status: Status = done === items.length ? 'done' : done > 0 || active > 0 ? 'in_progress' : 'planned';
+  const meta =
+    status === 'done' ? `${done} of ${items.length} done`
+    : status === 'planned' ? `${items.length} planned`
+    : done > 0 ? `${done} of ${items.length} done`
+    : `${active} in progress`;
+  return { group, items, status, meta, key: slug(group), summary: notes.find((note) => note.group === group)?.summary };
+});
+
+// The "current" stage is the first one that is not complete. The solid part of the track ends there.
+const firstOpen = stages.findIndex((stage) => stage.status !== 'done');
+const current = firstOpen === -1 ? stages.length - 1 : firstOpen;
+const totals = { done: count(milestones, 'done'), active: count(milestones, 'in_progress'), planned: count(milestones, 'planned') };
+---
+<div class="rs" data-roadmap-stepper style={`--rs-n:${stages.length};--rs-c:${current}`}>
+  <p class="rs-summary">
+    <strong>{totals.done} of {milestones.length}</strong> milestones done
+    <span aria-hidden="true">·</span> {totals.active} in progress
+    <span aria-hidden="true">·</span> {totals.planned} planned
+  </p>
+
+  <div class="rs-track" role="tablist" aria-label="Roadmap stages">
+    <span class="rs-line" aria-hidden="true"></span>
+    <span class="rs-fill" aria-hidden="true"></span>
+    {stages.map((stage, index) => (
+      <button
+        type="button"
+        role="tab"
+        class={`rs-tab rs-${stage.status}`}
+        id={`${idPrefix}-tab-${stage.key}`}
+        aria-controls={`${idPrefix}-panel-${stage.key}`}
+        aria-selected={index === current ? 'true' : 'false'}
+        tabindex={index === current ? 0 : -1}
+      >
+        <span class="rs-dot" aria-hidden="true">
+          {stage.status === 'done' && (
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7" /></svg>
+          )}
+          {stage.status === 'in_progress' && <span class="rs-pulse"></span>}
+        </span>
+        <span class="rs-text">
+          <span class="rs-name">{stage.group}</span>
+          <span class="rs-meta">{stage.meta}<span class="rs-sr">, {labels[stage.status]}</span></span>
+        </span>
+      </button>
+    ))}
+  </div>
+
+  <div class="rs-panels">
+    {stages.map((stage, index) => (
+      <section
+        class={`rs-panel rs-${stage.status}`}
+        role="tabpanel"
+        id={`${idPrefix}-panel-${stage.key}`}
+        aria-labelledby={`${idPrefix}-tab-${stage.key}`}
+        data-default={index === current ? '' : undefined}
+      >
+        <header class="rs-panel-head">
+          <StageHeading class="rs-panel-title">{stage.group}</StageHeading>
+          <span class={`status status-${stage.status}`}>{labels[stage.status]}</span>
+        </header>
+        {stage.summary && <p class="rs-panel-lead">{stage.summary}</p>}
+        <ul class="rs-items">
+          {stage.items.map((item) => (
+            <li class={`rs-item rs-item-${item.status}`} id={anchors ? item.id : undefined}>
+              <span class="rs-item-mark" aria-hidden="true"></span>
+              <div>
+                <MilestoneHeading class="rs-item-title">
+                  {item.title}
+                  {item.status !== stage.status && <span class="rs-item-status">{labels[item.status as Status]}</span>}
+                </MilestoneHeading>
+                <p>{item.summary}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</div>
+
+<script>
+  // Progressive enhancement: without JavaScript every stage panel stays visible, one below the other.
+  document.querySelectorAll<HTMLElement>('[data-roadmap-stepper]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+    if (!tabs.length || tabs.length !== panels.length) return;
+
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute('aria-selected', String(on));
+        tab.tabIndex = on ? 0 : -1;
+        panels[i].hidden = !on;
+      });
+      if (focus) tabs[index].focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => select(index));
+      tab.addEventListener('keydown', (event) => {
+        const last = tabs.length - 1;
+        const next =
+          event.key === 'ArrowRight' || event.key === 'ArrowDown' ? (index === last ? 0 : index + 1)
+          : event.key === 'ArrowLeft' || event.key === 'ArrowUp' ? (index === 0 ? last : index - 1)
+          : event.key === 'Home' ? 0
+          : event.key === 'End' ? last
+          : -1;
+        if (next === -1) return;
+        event.preventDefault();
+        select(next, true);
+      });
+    });
+
+    // A link to a milestone anchor opens the stage that contains it.
+    const openFromHash = () => {
+      const id = decodeURIComponent(location.hash.slice(1));
+      if (!id) return false;
+      const target = document.getElementById(id);
+      const index = target ? panels.findIndex((panel) => panel.contains(target)) : -1;
+      if (index === -1) return false;
+      select(index);
+      target?.scrollIntoView({ block: 'center' });
+      return true;
+    };
+
+    root.classList.add('is-enhanced');
+    if (!openFromHash()) select(Math.max(0, panels.findIndex((panel) => panel.hasAttribute('data-default'))));
+    window.addEventListener('hashchange', openFromHash);
+
+    // Draw the completed part of the track once, when it scrolls into view.
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!still && 'IntersectionObserver' in window) {
+      root.classList.add('is-armed');
+      const observer = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        root.classList.replace('is-armed', 'is-drawn');
+        observer.disconnect();
+      }, { threshold: 0.35 });
+      observer.observe(root.querySelector('.rs-track') ?? root);
+    }
+  });
+</script>

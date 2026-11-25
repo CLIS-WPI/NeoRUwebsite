@@ -28,6 +28,8 @@ Edit **only** `src/data/milestones.json` for milestone content. Home and Roadmap
 - Keep the current groups `Foundation`, `Phase 1`, `Phase 2`, `Level 3`, `Level 4` and `Later` unless the project structure itself changes.
 - Keep Phase 2 development separate from Level 3 and Level 4 validation.
 - Array order is the intended display order within each group.
+- `stages` holds one optional `summary` sentence per group. It appears at the top of that stage’s panel in the roadmap stepper (`src/components/RoadmapStepper.astro`).
+- The stepper derives everything else from the milestones: a stage is done when all of its milestones are done, the solid part of the track ends at the first stage that is not done, and that stage opens by default.
 
 Mark an individual milestone done only when it is complete. Do not use a component’s completion to imply end-to-end integration or validated performance. If the overall development stage changes, update the introductory copy and any affected architecture labels as well.
 
