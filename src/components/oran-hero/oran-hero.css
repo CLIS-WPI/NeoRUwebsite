@@ -61,71 +61,326 @@
 
 .oran-hero-title {
   margin: 0;
-  font-size: clamp(23px, 2.85vw, 36px);
-  font-weight: 750;
-  letter-spacing: -0.035em;
-  line-height: 1.1;
+  font-size: clamp(28px, 3.6vw, 44px);
+  font-weight: 760;
+  letter-spacing: -0.038em;
+  line-height: 1.08;
   color: #0f172a;
 }
 
 .oran-hero-subtitle {
-  margin: 4px 0 0;
-  font-size: clamp(13.5px, 1.2vw, 16.5px);
+  margin: 6px 0 0;
+  font-size: clamp(14px, 1.25vw, 17px);
   font-weight: 500;
-  color: #334155;
+  color: #475569;
   letter-spacing: -0.01em;
 }
 
-/* 3D Stage Shell (Desktop & Tablet >=768px) */
+/* 2.5D Layered Hardware Stage (Desktop & Tablet >=768px) */
 .oran-stage-shell {
   position: relative;
   width: 100%;
-  margin: 0 auto;
+  margin: 4px auto 0;
 }
 
-.oran-canvas-host {
+.oran-stage-25d {
   position: relative;
-  z-index: 2;
   width: 100%;
-  height: clamp(195px, 29vh, 265px);
-  touch-action: pan-y;
+  height: clamp(210px, 31vh, 272px);
+  transform-style: preserve-3d;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
-.oran-canvas-host canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
+/* Subtle light architectural perspective floor grid */
+.oran-floor-grid {
+  position: absolute;
+  left: 3%;
+  right: 3%;
+  bottom: 2px;
+  height: 92px;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.16) 1px, transparent 1px);
+  background-size: 46px 24px;
+  transform: perspective(520px) rotateX(64deg);
+  transform-origin: center bottom;
+  -webkit-mask-image: radial-gradient(ellipse 76% 85% at 50% 80%, #000 32%, transparent 90%);
+  mask-image: radial-gradient(ellipse 76% 85% at 50% 80%, #000 32%, transparent 90%);
 }
 
 /* Soft studio ambient halos behind each node */
 .oran-halo {
   position: absolute;
-  top: 48%;
-  width: 240px;
-  height: 240px;
+  top: 52%;
+  width: 230px;
+  height: 210px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  filter: blur(46px);
+  filter: blur(44px);
   pointer-events: none;
   z-index: 1;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .oran-halo-ocu {
-  background: radial-gradient(circle, rgba(39, 112, 75, 0.22) 0%, rgba(39, 112, 75, 0) 72%);
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 72%);
+}
+
+.oran-halo-ocu.is-boosted {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.28) 0%, rgba(16, 185, 129, 0) 72%);
+  transform: translate(-50%, -50%) scale(1.16);
 }
 
 .oran-halo-odu {
-  background: radial-gradient(circle, rgba(217, 155, 26, 0.24) 0%, rgba(217, 155, 26, 0) 72%);
+  background: radial-gradient(circle, rgba(217, 155, 26, 0.16) 0%, rgba(217, 155, 26, 0) 72%);
+}
+
+.oran-halo-odu.is-boosted {
+  background: radial-gradient(circle, rgba(217, 155, 26, 0.28) 0%, rgba(217, 155, 26, 0) 72%);
+  transform: translate(-50%, -50%) scale(1.16);
 }
 
 .oran-halo-oru {
-  background: radial-gradient(circle, rgba(0, 102, 204, 0.3) 0%, rgba(0, 102, 204, 0) 72%);
+  background: radial-gradient(circle, rgba(0, 102, 204, 0.2) 0%, rgba(56, 189, 248, 0) 72%);
 }
 
 .oran-halo-oru.is-boosted {
-  background: radial-gradient(circle, rgba(0, 102, 204, 0.42) 0%, rgba(56, 189, 248, 0) 72%);
-  transform: translate(-50%, -50%) scale(1.18);
+  background: radial-gradient(circle, rgba(0, 102, 204, 0.36) 0%, rgba(56, 189, 248, 0) 72%);
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Crisp SVG Optical Links Layer */
+.oran-links-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.oran-beam-glow {
+  fill: none;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity 0.35s ease, stroke-width 0.25s ease;
+}
+
+.oran-links-svg.is-live .oran-beam-glow {
+  opacity: 0.22;
+}
+
+.oran-link-group.is-boosted .oran-beam-glow {
+  opacity: 0.44;
+}
+
+.oran-beam-glow-f1 {
+  stroke: #10b981;
+  stroke-width: 7px;
+}
+
+.oran-beam-glow-ofh {
+  stroke: #0ea5e9;
+  stroke-width: 8px;
+}
+
+.oran-beam-core {
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-width 0.25s ease;
+}
+
+.oran-beam-core-f1 {
+  stroke: url(#oran-f1-grad);
+  stroke-width: 1.9px;
+}
+
+.oran-link-f1.is-boosted .oran-beam-core-f1 {
+  stroke-width: 2.6px;
+}
+
+.oran-beam-core-ofh {
+  stroke: url(#oran-ofh-grad);
+  stroke-width: 2.2px;
+}
+
+.oran-link-ofh.is-boosted .oran-beam-core-ofh {
+  stroke-width: 3px;
+}
+
+/* Animated Optical Data Pulses */
+.oran-beam-pulse {
+  fill: none;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.oran-links-svg.is-live .oran-beam-pulse {
+  opacity: 0.92;
+}
+
+.oran-beam-pulse-f1 {
+  stroke: #34d399;
+  stroke-width: 3.4px;
+  stroke-dasharray: 16 96;
+  animation: oran-pulse-flow 1.85s linear infinite;
+}
+
+.oran-link-f1.is-boosted .oran-beam-pulse-f1 {
+  stroke-width: 4.2px;
+  animation-duration: 1.1s;
+}
+
+.oran-beam-pulse-ofh-fwd {
+  stroke: #38bdf8;
+  stroke-width: 3.6px;
+  stroke-dasharray: 18 82;
+  animation: oran-pulse-flow 1.2s linear infinite;
+}
+
+.oran-beam-pulse-ofh-rev {
+  stroke: #2563eb;
+  stroke-width: 2.6px;
+  stroke-dasharray: 12 92;
+  animation: oran-pulse-flow 1.45s linear infinite;
+  animation-delay: -0.55s;
+}
+
+.oran-link-ofh.is-boosted .oran-beam-pulse-ofh-fwd {
+  stroke-width: 4.5px;
+  animation-duration: 0.72s;
+}
+
+.oran-link-ofh.is-boosted .oran-beam-pulse-ofh-rev {
+  stroke-width: 3.4px;
+  animation-duration: 0.9s;
+}
+
+@keyframes oran-pulse-flow {
+  from {
+    stroke-dashoffset: 112;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 3 Studio Hardware Nodes aligned horizontally over O-CU / O-DU / O-RU */
+.oran-nodes-row {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
+  padding-bottom: 10px;
+}
+
+.oran-hw-node {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  cursor: pointer;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), filter 0.28s ease;
+}
+
+.oran-hw-node.is-active {
+  transform: translateY(-6px);
+}
+
+.oran-hw-img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Balanced industrial proportions across the 3 nodes */
+.oran-hw-img-ocu {
+  height: clamp(164px, 24.5vh, 214px);
+}
+
+.oran-hw-img-odu {
+  height: clamp(144px, 21vh, 184px);
+  margin-bottom: 4px;
+}
+
+.oran-oru-visual {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.oran-hw-img-oru {
+  height: clamp(188px, 28vh, 244px);
+}
+
+/* Minimalist Concentric SVG RF Signal Waves pulsing outward to the right of the 5G antenna */
+.oran-rf-waves {
+  position: absolute;
+  right: -34px;
+  top: 15%;
+  width: clamp(46px, 4.6vw, 62px);
+  height: auto;
+  pointer-events: none;
+  overflow: visible;
+  transition: transform 0.3s ease;
+}
+
+.oran-rf-waves.is-boosted {
+  transform: translateX(3px) scale(1.06);
+}
+
+.oran-rf-arc {
+  opacity: 0.24;
+}
+
+.oran-rf-waves.is-live .oran-rf-arc {
+  animation: oran-rf-pulse 2.2s ease-out infinite;
+}
+
+.oran-rf-waves.is-boosted .oran-rf-arc {
+  animation-duration: 1.35s;
+}
+
+.oran-rf-arc-1 {
+  animation-delay: 0s;
+}
+
+.oran-rf-arc-2 {
+  animation-delay: 0.28s;
+}
+
+.oran-rf-arc-3 {
+  animation-delay: 0.56s;
+}
+
+.oran-rf-arc-4 {
+  animation-delay: 0.84s;
+}
+
+@keyframes oran-rf-pulse {
+  0% {
+    opacity: 0.14;
+  }
+  32% {
+    opacity: 0.92;
+  }
+  75%,
+  100% {
+    opacity: 0.14;
+  }
 }
 
 /* Crisp Pill Labels sitting cleanly on the midpoint of each optical line */
@@ -143,11 +398,18 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.96);
   border: 1.5px solid #94a3b8;
-  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.07);
   font-size: clamp(11.5px, 0.95vw, 13px);
   font-weight: 700;
   color: #0f172a;
   white-space: nowrap;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.oran-link-pill-f1.is-boosted {
+  border-color: #0d9488;
+  color: #0f766e;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.18);
 }
 
 .oran-link-pill-ofh {
@@ -156,13 +418,18 @@
   background: #f0f7ff;
 }
 
-/* Projected Node Badges Track — pixel-aligned directly beneath each 3D hardware model */
+.oran-link-pill-ofh.is-boosted {
+  border-color: #0284c7;
+  box-shadow: 0 4px 16px rgba(0, 102, 204, 0.22);
+}
+
+/* Projected Node Badges Track — aligned directly beneath each hardware node */
 .oran-badges-track {
   position: relative;
   z-index: 6;
   width: 100%;
   height: 34px;
-  margin-top: -12px;
+  margin-top: 2px;
 }
 
 .oran-node-badge {

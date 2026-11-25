@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import './black-box.css';
 
 export interface CapabilityItem {
@@ -8,8 +8,17 @@ export interface CapabilityItem {
   title: string;
   desc: string;
   accent: string;
-  path: string;
   icon: React.ReactNode;
+}
+
+interface ComputedTrace {
+  id: string;
+  d: string;
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  length: number;
 }
 
 const CAPABILITIES: CapabilityItem[] = [
@@ -20,7 +29,6 @@ const CAPABILITIES: CapabilityItem[] = [
     title: 'ISAC & RF Sensing',
     desc: 'Turn radios into real-time radar.',
     accent: '#0284c7',
-    path: 'M 474 295 L 418 295 Q 406 295 398 286 L 316 128 Q 308 118 295 118 L 245 118',
     icon: (
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
@@ -38,7 +46,6 @@ const CAPABILITIES: CapabilityItem[] = [
     title: 'Raw I/Q & PHY Security',
     desc: 'Instant jamming & spoof detection.',
     accent: '#0891b2',
-    path: 'M 468 308 L 368 308 Q 356 308 348 299 L 315 264 Q 307 255 295 255 L 245 255',
     icon: (
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z" />
@@ -53,7 +60,6 @@ const CAPABILITIES: CapabilityItem[] = [
     title: 'Sub-ms Edge AI (dApps)',
     desc: 'Run neural DSP directly on-chip.',
     accent: '#6366f1',
-    path: 'M 474 322 L 395 322 Q 383 322 375 331 L 325 383 Q 317 392 305 392 L 245 392',
     icon: (
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="6" y="6" width="12" height="12" rx="2" />
@@ -69,7 +75,6 @@ const CAPABILITIES: CapabilityItem[] = [
     title: 'Agile Beamforming',
     desc: 'Custom precoding & null-steering.',
     accent: '#2563eb',
-    path: 'M 526 295 L 582 295 Q 594 295 602 286 L 684 128 Q 692 118 705 118 L 755 118',
     icon: (
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M4 18L19 5" />
@@ -86,7 +91,6 @@ const CAPABILITIES: CapabilityItem[] = [
     title: 'Micro-Sleep & PA Control',
     desc: 'Symbol-level energy optimization.',
     accent: '#10b981',
-    path: 'M 532 308 L 632 308 Q 644 308 652 299 L 685 264 Q 693 255 705 255 L 755 255',
     icon: (
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" />
@@ -100,7 +104,6 @@ const CAPABILITIES: CapabilityItem[] = [
     title: '6G Waveforms & FR3',
     desc: 'Custom waveforms & flexible splits.',
     accent: '#0ea5e9',
-    path: 'M 526 322 L 605 322 Q 617 322 625 331 L 675 383 Q 683 392 695 392 L 755 392',
     icon: (
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M2 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0 2 3 2 3" />
@@ -108,6 +111,59 @@ const CAPABILITIES: CapabilityItem[] = [
     ),
   },
 ];
+
+function buildChamferedTrace(
+  startX: number,
+  startY: number,
+  endX: number,
+  endY: number,
+  side: 'left' | 'right',
+  slot: 0 | 1 | 2,
+): { d: string; length: number } {
+  const dir = side === 'left' ? -1 : 1;
+  const dy = endY - startY;
+  const absDy = Math.abs(dy);
+  const totalDx = Math.abs(endX - startX);
+
+  if (absDy < 4 || totalDx < 32) {
+    const d = `M ${startX.toFixed(1)} ${startY.toFixed(1)} L ${endX.toFixed(1)} ${endY.toFixed(1)}`;
+    return { d, length: Math.hypot(endX - startX, dy) };
+  }
+
+  // Slight slot-specific horizontal exit stub so the 3 traces fan out cleanly like real PCB routing
+  const stubFactor = slot === 1 ? 0.34 : 0.24;
+  const stubOut = Math.max(22, Math.min(totalDx * stubFactor, totalDx - 44));
+  const maxDiag = Math.max(16, totalDx - stubOut - 24);
+  const diagDx = Math.min(absDy * 0.72, maxDiag);
+
+  const x1 = startX + dir * stubOut;
+  const x2 = x1 + dir * diagDx;
+  const diagLen = Math.hypot(diagDx, dy);
+  const r = Math.min(10, stubOut * 0.4, diagLen * 0.35, Math.abs(endX - x2) * 0.4);
+
+  const ux = (dir * diagDx) / diagLen;
+  const uy = dy / diagLen;
+
+  const p1BeforeX = x1 - dir * r;
+  const p1AfterX = x1 + ux * r;
+  const p1AfterY = startY + uy * r;
+
+  const p2BeforeX = x2 - ux * r;
+  const p2BeforeY = endY - uy * r;
+  const p2AfterX = x2 + dir * r;
+
+  const d = [
+    `M ${startX.toFixed(1)} ${startY.toFixed(1)}`,
+    `L ${p1BeforeX.toFixed(1)} ${startY.toFixed(1)}`,
+    `Q ${x1.toFixed(1)} ${startY.toFixed(1)} ${p1AfterX.toFixed(1)} ${p1AfterY.toFixed(1)}`,
+    `L ${p2BeforeX.toFixed(1)} ${p2BeforeY.toFixed(1)}`,
+    `Q ${x2.toFixed(1)} ${endY.toFixed(1)} ${p2AfterX.toFixed(1)} ${endY.toFixed(1)}`,
+    `L ${endX.toFixed(1)} ${endY.toFixed(1)}`,
+  ].join(' ');
+
+  const length = stubOut + diagLen + Math.abs(endX - x2);
+  return { d, length };
+}
 
 export interface BlackBoxSectionProps {
   closedImageSrc: string;
@@ -119,11 +175,85 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
   openImageSrc,
 }) => {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const hwFrameRef = useRef<HTMLDivElement | null>(null);
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
   const [isOpen, setIsOpen] = useState(false);
   const [hasAutoPlayed, setHasAutoPlayed] = useState(false);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [stageSize, setStageSize] = useState({ w: 0, h: 0 });
+  const [traces, setTraces] = useState<ComputedTrace[]>([]);
+
+  // Dynamically compute pixel-exact SVG PCB traces from FPGA die to each card's vertical center
+  const computeTraces = useCallback(() => {
+    const stageEl = stageRef.current;
+    const hwEl = hwFrameRef.current;
+    if (!stageEl || !hwEl) return;
+
+    if (window.innerWidth < 1024) {
+      setStageSize({ w: 0, h: 0 });
+      setTraces([]);
+      return;
+    }
+
+    const stageRect = stageEl.getBoundingClientRect();
+    const hwRect = hwEl.getBoundingClientRect();
+    if (stageRect.width < 100 || stageRect.height < 100) return;
+
+    const hwCenterX = hwRect.left - stageRect.left + hwRect.width * 0.5;
+    // Glowing cyan FPGA die sits cleanly at ~56.5% height inside oru-open.png
+    const fpgaCenterY = hwRect.top - stageRect.top + hwRect.height * 0.565;
+    const fpgaHalfW = Math.max(16, hwRect.width * 0.044);
+
+    const nextTraces: ComputedTrace[] = [];
+
+    for (const cap of CAPABILITIES) {
+      const cardEl = cardRefs.current[cap.id];
+      if (!cardEl) continue;
+
+      const cardRect = cardEl.getBoundingClientRect();
+      const pinOffsetY = cap.slot === 0 ? -9 : cap.slot === 2 ? 9 : 0;
+      const startX = cap.side === 'left' ? hwCenterX - fpgaHalfW : hwCenterX + fpgaHalfW;
+      const startY = fpgaCenterY + pinOffsetY;
+
+      const endX =
+        cap.side === 'left'
+          ? cardRect.right - stageRect.left
+          : cardRect.left - stageRect.left;
+      const endY = cardRect.top + cardRect.height / 2 - stageRect.top;
+
+      const { d, length } = buildChamferedTrace(startX, startY, endX, endY, cap.side, cap.slot);
+      nextTraces.push({ id: cap.id, d, startX, startY, endX, endY, length });
+    }
+
+    setStageSize({ w: Math.round(stageRect.width), h: Math.round(stageRect.height) });
+    setTraces(nextTraces);
+  }, []);
+
+  useLayoutEffect(() => {
+    computeTraces();
+
+    const ro = new ResizeObserver(() => {
+      computeTraces();
+    });
+    if (stageRef.current) ro.observe(stageRef.current);
+    if (hwFrameRef.current) ro.observe(hwFrameRef.current);
+
+    window.addEventListener('resize', computeTraces);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', computeTraces);
+    };
+  }, [computeTraces]);
+
+  // Recompute after cards settle into open position (accounts for initial transform)
+  useEffect(() => {
+    const t = window.setTimeout(computeTraces, 520);
+    return () => window.clearTimeout(t);
+  }, [isOpen, computeTraces]);
 
   // Auto-open smoothly shortly after entering viewport (respecting reduced motion)
   useEffect(() => {
@@ -145,11 +275,11 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
           timer = window.setTimeout(() => {
             setIsOpen(true);
             setHasAutoPlayed(true);
-          }, 850);
+          }, 750);
           observer.disconnect();
         }
       },
-      { threshold: 0.3 },
+      { threshold: 0.28 },
     );
 
     observer.observe(el);
@@ -164,7 +294,7 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
     const rect = e.currentTarget.getBoundingClientRect();
     const nx = (e.clientX - rect.left) / rect.width - 0.5;
     const ny = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({ x: nx * 6, y: ny * -5 });
+    setTilt({ x: nx * 5.5, y: ny * -4.5 });
   };
 
   const handleMouseLeave = () => {
@@ -199,7 +329,7 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
           </p>
         </header>
 
-        {/* Apple-Style Frosted Segmented Toggle */}
+        {/* Apple-Style Frosted Segmented Toggle with High-Contrast Active Open NeoRU State */}
         <div className="bb-controls">
           <div
             role="tablist"
@@ -212,9 +342,9 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
               role="tab"
               aria-selected={!isOpen}
               onClick={() => setIsOpen(false)}
-              className={`bb-toggle-btn ${!isOpen ? 'is-selected' : ''}`}
+              className={`bb-toggle-btn bb-toggle-locked ${!isOpen ? 'is-selected' : ''}`}
             >
-              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <rect x="3.5" y="7.5" width="9" height="6.5" rx="1.8" />
                 <path d="M5.5 7.5V5.3a2.5 2.5 0 0 1 5 0v2.2" />
               </svg>
@@ -225,109 +355,129 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
               role="tab"
               aria-selected={isOpen}
               onClick={() => setIsOpen(true)}
-              className={`bb-toggle-btn ${isOpen ? 'is-selected' : ''}`}
+              className={`bb-toggle-btn bb-toggle-open ${isOpen ? 'is-selected' : ''}`}
             >
-              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <span className={`bb-toggle-pulse-dot ${isOpen ? 'is-active' : ''}`} aria-hidden="true" />
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <rect x="3.5" y="7.5" width="9" height="6.5" rx="1.8" />
-                <path d="M5.5 7.5V5.2a2.5 2.5 0 0 1 4.7-1.2" />
+                <path d="M5.5 7.5V4.8a2.5 2.5 0 0 1 4.8-0.9" />
               </svg>
               <span>Open NeoRU</span>
             </button>
           </div>
         </div>
 
-        {/* STAGE: Layered 2.5D Hardware + Crisp SVG PCB Traces + 6 Cards */}
+        {/* STAGE: Layered 2.5D Hardware (z-10) + Crisp SVG PCB Traces (z-20) + 6 Cards (z-30) */}
         <div
+          ref={stageRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           className="bb-stage-wrapper"
         >
-          {/* SVG Circuit Trace Layer (Desktop Only) */}
-          <svg
-            viewBox="0 0 1000 500"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            className="bb-trace-svg"
-          >
-            <defs>
-              <filter id="neoruGlow" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="2.5" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
+          {/* SVG Circuit Trace Layer (Desktop Only, z-20 — sits cleanly OVER hardware rim, UNDER cards) */}
+          {stageSize.w > 0 && stageSize.h > 0 && (
+            <svg
+              viewBox={`0 0 ${stageSize.w} ${stageSize.h}`}
+              aria-hidden="true"
+              className="bb-trace-svg"
+            >
+              <defs>
+                <filter id="neoruGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="2.4" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
 
-            {CAPABILITIES.map((cap, idx) => {
-              const isActive = hoveredId === cap.id;
-              const isDimmed = hoveredId !== null && !isActive;
+              {CAPABILITIES.map((cap, idx) => {
+                const trace = traces.find((t) => t.id === cap.id);
+                if (!trace) return null;
 
-              return (
-                <g
-                  key={cap.id}
-                  style={{
-                    opacity: isOpen ? (isDimmed ? 0.16 : 1) : 0,
-                    transition: `opacity 500ms ease ${isOpen ? idx * 65 : 0}ms`,
-                  }}
-                >
-                  {/* Base hairline PCB trace */}
-                  <path
-                    d={cap.path}
-                    fill="none"
-                    stroke={isActive ? cap.accent : '#cbd5e1'}
-                    strokeWidth={isActive ? 2.2 : 1.4}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                const isActive = hoveredId === cap.id;
+                const isDimmed = hoveredId !== null && !isActive;
+                const dashLen = Math.ceil(trace.length + 12);
+
+                return (
+                  <g
+                    key={cap.id}
                     style={{
-                      strokeDasharray: 600,
-                      strokeDashoffset: isOpen ? 0 : 600,
-                      transition: `stroke-dashoffset 850ms cubic-bezier(0.22, 1, 0.36, 1) ${
-                        isOpen ? 180 + idx * 70 : 0
-                      }ms, stroke 250ms ease, stroke-width 250ms ease`,
+                      opacity: isOpen ? (isDimmed ? 0.16 : 1) : 0,
+                      transition: `opacity 460ms ease ${isOpen ? idx * 55 : 0}ms`,
                     }}
-                  />
-
-                  {/* Flowing data pulse along trace */}
-                  {isOpen && !reducedMotion && (
+                  >
+                    {/* Base hairline PCB trace */}
                     <path
-                      d={cap.path}
+                      d={trace.d}
                       fill="none"
-                      stroke={cap.accent}
-                      strokeWidth={isActive ? 2.8 : 2}
+                      stroke={isActive ? cap.accent : '#94a3b8'}
+                      strokeOpacity={isActive ? 1 : 0.72}
+                      strokeWidth={isActive ? 2.2 : 1.5}
                       strokeLinecap="round"
-                      strokeDasharray="10 38"
-                      filter={isActive ? 'url(#neoruGlow)' : undefined}
-                      className={isActive ? 'neoru-trace-pulse-fast' : 'neoru-trace-pulse'}
-                      style={{ opacity: isActive ? 1 : 0.65 }}
+                      strokeLinejoin="round"
+                      style={{
+                        strokeDasharray: dashLen,
+                        strokeDashoffset: isOpen ? 0 : dashLen,
+                        transition: `stroke-dashoffset 820ms cubic-bezier(0.22, 1, 0.36, 1) ${
+                          isOpen ? 160 + idx * 65 : 0
+                        }ms, stroke 240ms ease, stroke-width 240ms ease`,
+                      }}
                     />
-                  )}
 
-                  {/* Terminal solder-pad node at card edge */}
-                  <circle
-                    cx={cap.side === 'left' ? 245 : 755}
-                    cy={cap.slot === 0 ? 118 : cap.slot === 1 ? 255 : 392}
-                    r={isActive ? 4.5 : 3.2}
-                    fill={isActive ? cap.accent : '#ffffff'}
-                    stroke={cap.accent}
-                    strokeWidth="2"
-                    style={{ transition: 'all 250ms ease' }}
-                  />
-                </g>
-              );
-            })}
-          </svg>
+                    {/* Flowing luminous data pulse along trace */}
+                    {isOpen && !reducedMotion && (
+                      <path
+                        d={trace.d}
+                        fill="none"
+                        stroke={cap.accent}
+                        strokeWidth={isActive ? 2.9 : 2.1}
+                        strokeLinecap="round"
+                        strokeDasharray="10 38"
+                        filter={isActive ? 'url(#neoruGlow)' : undefined}
+                        className={isActive ? 'neoru-trace-pulse-fast' : 'neoru-trace-pulse'}
+                        style={{ opacity: isActive ? 1 : 0.72 }}
+                      />
+                    )}
+
+                    {/* Origin solder pin at cyan FPGA die */}
+                    <circle
+                      cx={trace.startX}
+                      cy={trace.startY}
+                      r={isActive ? 3.2 : 2.2}
+                      fill={cap.accent}
+                      style={{ transition: 'r 220ms ease' }}
+                    />
+
+                    {/* Terminal solder-pad node dead-center on card edge */}
+                    <circle
+                      cx={trace.endX}
+                      cy={trace.endY}
+                      r={isActive ? 4.6 : 3.5}
+                      fill={isActive ? cap.accent : '#ffffff'}
+                      stroke={cap.accent}
+                      strokeWidth="2"
+                      style={{ transition: 'all 220ms ease' }}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          )}
 
           {/* 3-Column Desktop Grid / Stacked Mobile Layout */}
           <div className="bb-stage-grid">
-            {/* LEFT 3 CAPABILITIES */}
+            {/* LEFT 3 CAPABILITIES (z-30) */}
             <div className="bb-cards-col bb-cards-left">
               {leftCards.map((cap, idx) => (
                 <CapabilityCard
                   key={cap.id}
+                  cardRef={(el) => {
+                    cardRefs.current[cap.id] = el;
+                  }}
                   item={cap}
                   isOpen={isOpen}
-                  delayMs={260 + idx * 90}
+                  delayMs={220 + idx * 80}
                   isHovered={hoveredId === cap.id}
                   isDimmed={hoveredId !== null && hoveredId !== cap.id}
                   onEnter={() => setHoveredId(cap.id)}
@@ -336,12 +486,15 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
               ))}
             </div>
 
-            {/* CENTER 2.5D HARDWARE STAGE */}
+            {/* CENTER 2.5D HARDWARE STAGE (z-10) */}
             <div className="bb-center-stage">
               <div
+                ref={hwFrameRef}
                 className="bb-hardware-frame"
                 style={{
-                  transform: `perspective(1200px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
+                  transform: reducedMotion
+                    ? 'none'
+                    : `perspective(1200px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
                 }}
               >
                 {/* Ambient cyan aura behind FPGA when open */}
@@ -358,6 +511,7 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
                   draggable={false}
                   loading="lazy"
                   decoding="async"
+                  onLoad={computeTraces}
                   className="bb-hw-img"
                   style={{
                     opacity: isOpen ? 0 : 1,
@@ -372,35 +526,39 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
                   draggable={false}
                   loading="lazy"
                   decoding="async"
+                  onLoad={computeTraces}
                   className="bb-hw-img"
                   style={{
                     opacity: isOpen ? 1 : 0,
                     transform: isOpen ? 'translateY(0px) scale(1)' : 'translateY(10px) scale(0.985)',
                   }}
                 />
+              </div>
 
-                {/* Status Micro-Badge Below Hardware */}
-                <div className="bb-status-wrap">
-                  <div className={`bb-status-badge ${isOpen ? 'is-open' : 'is-locked'}`}>
-                    <span className={`bb-status-dot ${isOpen ? 'is-open' : 'is-locked'}`} aria-hidden="true" />
-                    <span>
-                      {isOpen
-                        ? 'NeoRU Core — Open & Programmable Radio Edge'
-                        : 'Proprietary O-RU — Sealed & Fixed-Function'}
-                    </span>
-                  </div>
+              {/* Status Micro-Badge in normal flow below hardware */}
+              <div className="bb-status-wrap">
+                <div className={`bb-status-badge ${isOpen ? 'is-open' : 'is-locked'}`}>
+                  <span className={`bb-status-dot ${isOpen ? 'is-open' : 'is-locked'}`} aria-hidden="true" />
+                  <span>
+                    {isOpen
+                      ? 'NeoRU Core — Open & Programmable Radio Edge'
+                      : 'Proprietary O-RU — Sealed & Fixed-Function'}
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT 3 CAPABILITIES */}
+            {/* RIGHT 3 CAPABILITIES (z-30) */}
             <div className="bb-cards-col bb-cards-right">
               {rightCards.map((cap, idx) => (
                 <CapabilityCard
                   key={cap.id}
+                  cardRef={(el) => {
+                    cardRefs.current[cap.id] = el;
+                  }}
                   item={cap}
                   isOpen={isOpen}
-                  delayMs={320 + idx * 90}
+                  delayMs={280 + idx * 80}
                   isHovered={hoveredId === cap.id}
                   isDimmed={hoveredId !== null && hoveredId !== cap.id}
                   onEnter={() => setHoveredId(cap.id)}
@@ -416,6 +574,7 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
 };
 
 interface CapabilityCardProps {
+  cardRef: (el: HTMLDivElement | null) => void;
   item: CapabilityItem;
   isOpen: boolean;
   delayMs: number;
@@ -426,6 +585,7 @@ interface CapabilityCardProps {
 }
 
 const CapabilityCard: React.FC<CapabilityCardProps> = ({
+  cardRef,
   item,
   isOpen,
   delayMs,
@@ -436,6 +596,7 @@ const CapabilityCard: React.FC<CapabilityCardProps> = ({
 }) => {
   return (
     <div
+      ref={cardRef}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       onFocus={onEnter}

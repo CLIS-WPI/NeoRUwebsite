@@ -30,7 +30,7 @@
   background: #ffffff;
   color: var(--text);
   border-bottom: 1px solid var(--line);
-  padding: 68px 0 76px;
+  padding: 52px 0 60px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -40,7 +40,7 @@
 @media (min-width: 1024px) {
   .bb-section {
     min-height: calc(100vh - 92px);
-    padding: 44px 0 56px;
+    padding: 26px 0 36px;
   }
 }
 
@@ -48,7 +48,7 @@
   pointer-events: none;
   position: absolute;
   inset: 0;
-  opacity: 0.38;
+  opacity: 0.36;
   background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
   background-size: 28px 28px;
   mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, black 25%, transparent 100%);
@@ -58,22 +58,22 @@
 .bb-inner {
   position: relative;
   z-index: 10;
-  max-width: 1280px;
+  max-width: 1160px;
   width: 100%;
 }
 
 /* Header */
 .bb-header {
   text-align: center;
-  max-width: 680px;
-  margin: 0 auto 24px;
+  max-width: 660px;
+  margin: 0 auto 16px;
 }
 
 .bb-eyebrow-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 5px 13px;
+  padding: 4px 12px;
   border-radius: 999px;
   font-size: 11px;
   font-weight: 700;
@@ -82,7 +82,7 @@
   background: #f0f9ff;
   color: #0369a1;
   border: 1px solid rgba(186, 230, 253, 0.9);
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 
 .bb-eyebrow-dot {
@@ -94,7 +94,7 @@
 
 .bb-title {
   margin: 0;
-  font-size: clamp(28px, 3.4vw, 44px);
+  font-size: clamp(27px, 3.2vw, 40px);
   font-weight: 750;
   letter-spacing: -0.035em;
   line-height: 1.12;
@@ -102,17 +102,19 @@
 }
 
 .bb-subtitle {
-  margin: 10px 0 0;
-  font-size: clamp(15px, 1.3vw, 18px);
+  margin: 8px auto 0;
+  max-width: 560px;
+  font-size: clamp(14.5px, 1.2vw, 17px);
   color: #475569;
-  line-height: 1.55;
+  line-height: 1.5;
+  text-wrap: balance;
 }
 
-/* Apple-Style Frosted Segmented Control */
+/* Apple-Style Frosted Segmented Control with Distinct Open NeoRU Accent */
 .bb-controls {
   display: flex;
   justify-content: center;
-  margin-bottom: 22px;
+  margin-bottom: 12px;
 }
 
 .bb-segmented-toggle {
@@ -122,14 +124,14 @@
   align-items: center;
   padding: 4px;
   border-radius: 999px;
-  background: rgba(232, 232, 237, 0.78);
+  background: rgba(232, 232, 237, 0.82);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   box-shadow:
     inset 0 1px 2px rgba(0, 0, 0, 0.06),
-    0 1px 0 rgba(255, 255, 255, 0.85);
-  min-width: 316px;
+    0 1px 0 rgba(255, 255, 255, 0.9);
+  min-width: 326px;
 }
 
 .bb-toggle-thumb {
@@ -144,12 +146,19 @@
     0 3px 10px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.08),
     inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
-  transition: transform 0.36s cubic-bezier(0.32, 0.72, 0, 1);
+  transition:
+    transform 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+    background 0.28s ease,
+    box-shadow 0.28s ease;
   pointer-events: none;
 }
 
 .bb-segmented-toggle.is-open .bb-toggle-thumb {
   transform: translateX(100%);
+  background: linear-gradient(135deg, #0284c7 0%, #0066cc 100%);
+  box-shadow:
+    0 4px 14px rgba(2, 132, 199, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .bb-toggle-btn {
@@ -159,11 +168,11 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 9px 18px;
+  padding: 8px 18px;
   border-radius: 999px;
   border: 0;
   background: transparent;
-  color: #6e6e73;
+  color: #64748b;
   font-size: 13.5px;
   font-weight: 560;
   letter-spacing: -0.012em;
@@ -172,16 +181,36 @@
 }
 
 .bb-toggle-btn:hover {
-  color: #1d1d1f;
+  color: #0f172a;
 }
 
-.bb-toggle-btn.is-selected {
-  color: #1d1d1f;
-  font-weight: 620;
+.bb-toggle-locked.is-selected {
+  color: #0f172a;
+  font-weight: 640;
 }
 
-.bb-segmented-toggle.is-open .bb-toggle-btn.is-selected svg {
-  color: #0066cc;
+.bb-toggle-open.is-selected {
+  color: #ffffff;
+  font-weight: 640;
+}
+
+.bb-toggle-open.is-selected:hover {
+  color: #ffffff;
+}
+
+.bb-toggle-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0ea5e9;
+  opacity: 0.45;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+}
+
+.bb-toggle-pulse-dot.is-active {
+  background: #67e8f9;
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(103, 232, 249, 0.95);
 }
 
 /* Stage Wrapper + Desktop SVG PCB Traces */
@@ -190,6 +219,7 @@
   width: 100%;
 }
 
+/* z-20: sits cleanly ABOVE center hardware (z-10) so traces emerge from FPGA without clipping, and BELOW cards (z-30) */
 .bb-trace-svg {
   display: none;
   pointer-events: none;
@@ -197,7 +227,8 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 10;
+  z-index: 20;
+  overflow: visible;
 }
 
 @media (min-width: 1024px) {
@@ -206,28 +237,34 @@
   }
 }
 
-/* 3-Column Desktop Grid / Stacked Mobile Layout */
+/* 3-Column Desktop Grid / Stacked Mobile Layout (NO z-index here so children share bb-stage-wrapper's stacking context) */
 .bb-stage-grid {
   position: relative;
-  z-index: 20;
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
-  gap: 24px;
+  gap: 22px;
 }
 
 @media (min-width: 1024px) {
   .bb-stage-grid {
-    grid-template-columns: 24.5% 51% 24.5%;
+    grid-template-columns: 26% 48% 26%;
     gap: 0;
-    min-height: 500px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .bb-stage-grid {
+    grid-template-columns: 276px 1fr 276px;
   }
 }
 
 .bb-cards-col {
+  position: relative;
+  z-index: 30;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 14px;
+  gap: 12px;
 }
 
 @media (min-width: 640px) and (max-width: 1023px) {
@@ -239,7 +276,7 @@
 @media (min-width: 1024px) {
   .bb-cards-col {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 20px;
   }
 }
 
@@ -247,13 +284,16 @@
   order: 2;
 }
 
+/* z-10: Hardware stays below the SVG PCB trace overlay (z-20) */
 .bb-center-stage {
+  position: relative;
+  z-index: 10;
   order: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 8px;
+  padding: 0 6px;
 }
 
 .bb-cards-right {
@@ -272,19 +312,26 @@
   }
 }
 
-/* 2.5D Hardware Frame */
+/* 2.5D Hardware Frame — commanding presence with transparent background for mix-blend-multiply */
 .bb-hardware-frame {
   position: relative;
   width: 100%;
   max-width: 460px;
   aspect-ratio: 4 / 3;
+  background: transparent;
   user-select: none;
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (min-width: 1024px) {
   .bb-hardware-frame {
-    max-width: 500px;
+    max-width: 510px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .bb-hardware-frame {
+    max-width: 540px;
   }
 }
 
@@ -292,8 +339,8 @@
   pointer-events: none;
   position: absolute;
   left: 50%;
-  top: 62%;
-  width: 192px;
+  top: 56.5%;
+  width: 196px;
   height: 112px;
   border-radius: 50%;
   filter: blur(40px);
@@ -321,13 +368,11 @@
   transition: opacity 700ms ease-out, transform 700ms ease-out;
 }
 
-/* Status Micro-Badge */
+/* Status Micro-Badge in normal flow below hardware so it never clips */
 .bb-status-wrap {
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 .bb-status-badge {
@@ -337,9 +382,9 @@
   padding: 5px 14px;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 550;
+  font-weight: 560;
   border: 1px solid transparent;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
   transition: background-color 450ms ease, color 450ms ease, border-color 450ms ease;
 }
 
@@ -376,18 +421,18 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 15px 16px;
+  padding: 14px 15px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(12px);
   border: 1.5px solid rgba(226, 232, 240, 0.95);
   box-shadow: 0 4px 20px -6px rgba(15, 23, 42, 0.08);
   cursor: default;
   transition:
-    opacity 480ms ease,
-    transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 250ms ease,
-    box-shadow 250ms ease;
+    opacity 460ms ease,
+    transform 460ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 240ms ease,
+    box-shadow 240ms ease;
 }
 
 .bb-cap-card.is-open {
@@ -401,15 +446,15 @@
 }
 
 .bb-cap-card.is-closed.bb-side-left {
-  transform: translateX(20px) scale(0.95);
+  transform: translateX(18px) scale(0.96);
 }
 
 .bb-cap-card.is-closed.bb-side-right {
-  transform: translateX(-20px) scale(0.95);
+  transform: translateX(-18px) scale(0.96);
 }
 
 .bb-cap-card.is-hovered {
-  box-shadow: 0 12px 30px -8px rgba(2, 132, 199, 0.22);
+  box-shadow: 0 12px 28px -8px rgba(2, 132, 199, 0.22);
   transform: translateY(-2px);
 }
 
@@ -425,7 +470,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 250ms ease, color 250ms ease;
+  transition: background-color 240ms ease, color 240ms ease;
 }
 
 .bb-cap-copy {
@@ -450,17 +495,17 @@
 
 @media (max-width: 639px) {
   .bb-section {
-    padding: 48px 0 56px;
+    padding: 44px 0 52px;
   }
   .bb-segmented-toggle {
-    min-width: 288px;
+    min-width: 294px;
   }
   .bb-toggle-btn {
     font-size: 12.5px;
     padding: 8px 12px;
   }
   .bb-status-badge {
-    font-size: 11px;
-    padding: 4px 11px;
+    font-size: 11.5px;
+    padding: 5px 12px;
   }
 }
