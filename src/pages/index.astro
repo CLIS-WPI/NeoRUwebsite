@@ -3,6 +3,8 @@ import { getEntry, render } from 'astro:content';
 import { Image, getImage } from 'astro:assets';
 import neoRuOwlLogo from '../assets/neoru-owl-cropped.png';
 import wpiLogo from '../assets/wpi-logo.png';
+import oruClosedImg from '../assets/oru-closed.png';
+import oruOpenImg from '../assets/oru-open.png';
 import Layout from '../layouts/Layout.astro';
 import ArchitectureDiagram from '../components/ArchitectureDiagram.astro';
 import { OranHeroSection } from '../components/oran-hero/OranHeroSection';
@@ -24,6 +26,8 @@ const { Content: RoadContent } = await render(roadPage);
 const { Content: TeamContent } = await render(teamPage);
 
 const neoRuMark = await getImage({ src: neoRuOwlLogo, width: 320, format: 'webp' });
+const oruClosedWebp = await getImage({ src: oruClosedImg, width: 1000, format: 'webp' });
+const oruOpenWebp = await getImage({ src: oruOpenImg, width: 1000, format: 'webp' });
 const groups = [...new Set(roadmap.milestones.map((m) => m.group))];
 const statusLabels: Record<string, string> = { done: 'Done', in_progress: 'In progress', planned: 'Planned' };
 const asOf = new Date(`${roadmap.asOf}T12:00:00Z`).toLocaleDateString('en-GB', {
@@ -59,8 +63,12 @@ const docCards = [
   {/* Slide 1: Interactive 3D O-RAN 7.2x Split Hero */}
   <OranHeroSection client:load neoRuLogoSrc={neoRuMark.src} />
 
-  {/* Slide 2: Interactive 3D "Opening the O-RU Black Box" */}
-  <BlackBoxSection client:visible />
+  {/* Slide 2: High-Craft 2.5D "Opening the O-RU Black Box" */}
+  <BlackBoxSection
+    client:visible
+    closedImageSrc={oruClosedWebp.src}
+    openImageSrc={oruOpenWebp.src}
+  />
 
   <section class="section container">
     <div class="section-intro">

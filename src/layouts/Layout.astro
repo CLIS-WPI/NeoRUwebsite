@@ -84,10 +84,27 @@ const jsonLd = {
       </div>
     </header>
     <main id="main"><slot /></main>
-    <footer class="site-footer"><div class="container">
-      <div class="footer-top"><div><a class="footer-brand" href={homeUrl}>NeoRU</a><p>Open radio.<br />Rigorous engineering.</p></div><div class="footer-links"><div><span>Project</span><a href={sectionHref('architecture')}>Architecture</a><a href={sectionHref('benchmarks')}>Benchmarks</a><a href={sectionHref('roadmap')}>Roadmap</a></div><div><span>Explore</span><a href={url('docs')}>Docs</a><a href={url('how-we-build')}>How we build</a><a href={url('publications')}>Publications</a><a href={sectionHref('about')}>About & contact</a></div><div><span>Developed at</span><p>CLIS Lab<br />Electrical & Computer Engineering<br />Worcester Polytechnic Institute</p></div></div></div>
-      <div class="footer-bottom"><span>Apache 2.0 · Public code release pending</span><a class="repository-link" href="https://github.com/CLIS-WPI/NeoRU/">Project repository on GitHub</a><span>Project status: 23 November 2026</span></div>
-      <p class="trademark">O-RAN is a trademark of the O-RAN Alliance. Used descriptively; no affiliation or endorsement is implied.</p>
+    <footer class="site-footer"><div class="container footer-inner">
+      <div class="footer-row">
+        <div class="footer-identity">
+          <a class="footer-brand" href={homeUrl}>Neo<span>RU</span></a>
+          <span class="footer-sep" aria-hidden="true">·</span>
+          <span class="footer-org">CLIS Lab, Worcester Polytechnic Institute</span>
+        </div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          <a href={sectionHref('architecture')}>Architecture</a>
+          <a href={sectionHref('benchmarks')}>Benchmarks</a>
+          <a href={sectionHref('roadmap')}>Roadmap</a>
+          <a href={url('docs')}>Docs</a>
+          <a href={sectionHref('about')}>About</a>
+          <a href="https://github.com/CLIS-WPI/NeoRU/">GitHub</a>
+        </nav>
+      </div>
+      <div class="footer-meta">
+        <span>Apache 2.0</span>
+        <span class="footer-dot" aria-hidden="true">·</span>
+        <span>O-RAN is a trademark of the O-RAN Alliance. Used descriptively; no affiliation or endorsement is implied.</span>
+      </div>
     </div></footer>
     <script>
       const mobileMenu = document.querySelector<HTMLDetailsElement>('.mobile-nav');
