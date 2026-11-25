@@ -18,15 +18,13 @@ import roadmap from '../data/milestones.json';
 const homePage = await getEntry('pages', 'home');
 const archPage = await getEntry('pages', 'architecture');
 const roadPage = await getEntry('pages', 'roadmap');
-const teamPage = await getEntry('pages', 'team');
-if (!homePage || !archPage || !roadPage || !teamPage) {
+if (!homePage || !archPage || !roadPage) {
   throw new Error('Required home page content is missing.');
 }
 
 const { Content: HomeContent } = await render(homePage);
 const { Content: ArchContent } = await render(archPage);
 const { Content: RoadContent } = await render(roadPage);
-const { Content: TeamContent } = await render(teamPage);
 
 const neoRuMark = await getImage({ src: neoRuOwlLogo, width: 320, format: 'webp' });
 const ocuNodeWebp = await getImage({ src: ocuNodeImg, width: 720, format: 'webp' });
