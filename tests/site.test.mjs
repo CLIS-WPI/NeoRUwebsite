@@ -66,6 +66,12 @@ test('Fumadocs documentation pages and static search index are built with site n
     'docs/architecture/virtual-radio',
     'docs/engineering',
     'docs/engineering/benchmarks',
+    'docs/oran-split',
+    'docs/design-principles',
+    'docs/architecture/configuration-handoff',
+    'docs/roadmap',
+    'docs/faq',
+    'docs/glossary',
   ];
   for (const route of docRoutes) {
     assert.ok(existsSync(pageFile(route)), `Missing Fumadocs page: ${route}`);
@@ -165,6 +171,12 @@ test('the sitemap covers every public content and docs page and excludes the 404
     'docs/architecture/virtual-radio',
     'docs/engineering',
     'docs/engineering/benchmarks',
+    'docs/oran-split',
+    'docs/design-principles',
+    'docs/architecture/configuration-handoff',
+    'docs/roadmap',
+    'docs/faq',
+    'docs/glossary',
   ];
   assert.deepEqual(locations.sort(), expectedRoutes.map((route) => `${origin}${base}${route ? `${route}/` : ''}`).sort());
   assert.match(read(join(dist, 'robots.txt')), /Sitemap: https:\/\/clis-wpi\.github\.io\/NeoRUwebsite\/sitemap\.xml/);

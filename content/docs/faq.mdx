@@ -1,0 +1,58 @@
+---
+title: FAQ
+description: Short answers about availability, hardware, performance and scope.
+---
+
+## Availability
+
+### Can I download and run NeoRU today?
+
+Not yet. The repository is not public. Foundation components are complete and the real-time core is in progress. Code, build guides and interface specifications will be published as components are released.
+
+### What licence will NeoRU use?
+
+Apache 2.0.
+
+## Hardware
+
+### What hardware does NeoRU need?
+
+NeoRU is designed to run on general-purpose servers. GPU and FPGA acceleration are planned as optional paths, not requirements. A dedicated hardware board is a later direction, not a product that exists today.
+
+### Can it be tested without a radio?
+
+Yes. The deterministic virtual radio replaces the RF hardware with a bit-exact software model. See [virtual radio and BFP codec](/NeoRUwebsite/docs/architecture/virtual-radio/).
+
+## Performance
+
+### How fast is NeoRU?
+
+It has not been measured end to end yet. The goal is one 20 MHz, 2×2 carrier on about one CPU core. The reference implementation used a median of 3.38 cores under the conditions on the [benchmarks page](/NeoRUwebsite/docs/engineering/benchmarks/). No comparison is claimed until NeoRU is measured under the same conditions.
+
+### What is ProtO-RU?
+
+An existing open-source software O-RU. NeoRU uses it as the reference baseline for measurement.
+
+## Scope
+
+### Which DUs will NeoRU work with?
+
+Validation against a real DU is planned for Level 3. Interoperability will be stated only for DUs that have actually been tested.
+
+### Does NeoRU support ISAC?
+
+The architecture RFC includes an integrated sensing and communication (ISAC) extension. ISAC development itself is later work.
+
+### How is AI used in development?
+
+AI tools assist with implementation under human-approved gates, and a provenance record accompanies every change. See [engineering process](/NeoRUwebsite/docs/engineering/).
+
+## The project
+
+### Who develops NeoRU?
+
+NeoRU is developed in the CLIS Lab, Department of Electrical and Computer Engineering, Worcester Polytechnic Institute. The team is listed in the [About section](/NeoRUwebsite/#about) of the website.
+
+### How do I cite NeoRU?
+
+Publications will be listed on the [publications page](/NeoRUwebsite/publications/) as they appear.

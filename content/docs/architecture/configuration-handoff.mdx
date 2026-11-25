@@ -1,0 +1,24 @@
+---
+title: Configuration hand-off
+description: The single lock-free component in NeoRU, and how it is checked.
+---
+
+<MilestoneList ids="configuration-handoff,rust-control-process" />
+
+## Why a hand-off is needed
+
+The control process changes configuration while the data plane keeps running. The data plane must never wait for the control process, so the two cannot share a lock. The configuration hand-off passes new settings across without blocking the real-time side.
+
+## Why it is checked so carefully
+
+Lock-free code can be correct on one processor and wrong on another, because processors reorder memory operations in different ways. Ordinary tests rarely catch these faults, since they depend on rare interleavings.
+
+NeoRU therefore checks the hand-off with **GenMC**, a model checker that explores the possible executions of concurrent code under a chosen memory model. The checks run under two memory models.
+
+## Checking the checks
+
+A check that never fails proves little. Defects are deliberately injected into the hand-off, and the checks must detect each one. If an injected defect passes, the check is not good enough.
+
+<Callout type="warn" title="A bounded claim">
+  This work covers the configuration hand-off only. It is not a proof that all of NeoRU's concurrency, or the whole O-RU, is formally verified. The memory-model names and the public verification report are pending release.
+</Callout>

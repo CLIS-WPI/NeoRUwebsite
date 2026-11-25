@@ -84,3 +84,15 @@ Review the affected pages in light and dark themes, on a narrow screen and with 
 Use O-RAN descriptively and retain the trademark notice. Do not add the O-RAN logo. Do not add the WPI logo without a supplied asset and guidelines. Refer to other projects factually and respectfully.
 
 Targets, planned work, completed components and measured system behaviour are different states. Keep those differences explicit. Never add invented figures, publications, dates, partners, funding or functionality.
+
+## Update the documentation
+
+Documentation pages are MDX files under `content/docs/`. The root `meta.json` sets the sidebar order and its section separators (`---Introduction---`); `...architecture` and `...engineering` place those folders’ pages directly under their sections.
+
+Status, milestone and benchmark figures in the docs are not typed by hand. They come from `src/data/` through the components in `src/components/docs-blocks.tsx`:
+
+- `<StatusSummary />`, `<MilestoneList group="Phase 1" />` or `<MilestoneList ids="timing-core,event-ring" />`, `<StageSummary group="..." />` and `<AsOf />` read `milestones.json`.
+- `<BaselineMetrics />`, `<BaselineConditions />` and `<EvidenceNote />` read `benchmarks.json`.
+- `<Status s="done" />`, `<Lead>`, `<SplitDiagram />`, `<ArchStack />`, `<Glossary>` and `<Term>` are presentational.
+
+When you add a docs page, also add its route to the two route lists in `tests/site.test.mjs`. Only the approved external links listed in that test may appear on any page.

@@ -1,4 +1,5 @@
 {
   "title": "Architecture",
-  "pages": ["index", "timing-and-core", "virtual-radio"]
+  "defaultOpen": true,
+  "pages": ["index", "timing-and-core", "configuration-handoff", "virtual-radio"]
 }

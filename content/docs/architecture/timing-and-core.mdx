@@ -1,22 +1,31 @@
 ---
-title: Timing & Real-Time Core
-description: Slot clock, event ring, executor, core plan, and host platform profile.
+title: Timing and real-time core
+description: Slot clock, event ring, executor, core plan and host platform profile.
 ---
 
-## Real-Time Core Components
+<Lead>An O-RU works to a fixed rhythm. At 30 kHz subcarrier spacing a slot lasts 0.5 ms and holds 14 OFDM symbols, and every symbol has a deadline. The real-time core exists to meet those deadlines, and to show when it does not.</Lead>
 
-Phase 1 development focuses on keeping the real-time core small, observable, and predictable:
+## Components
 
-| Component | Status | Role |
-| --- | --- | --- |
-| **Timing core** | In progress | Precise slot clock designed to record every late wake-up |
-| **Event ring** | In progress | Core event-recording component for inspecting runtime behaviour |
-| **Executor** | In progress | Execution engine for the real-time data plane |
-| **Core plan** | In progress | Execution planning and scheduling layout |
-| **Host platform profile** | In progress | Pre-start checks for CPU isolation, NUMA locality, PCIe links, and timers |
+<MilestoneList ids="timing-core,event-ring,executor,core-plan,host-platform-profile" />
 
-## Bounded Concurrency Verification
+## The slot clock
 
-The configuration hand-off between the Rust control process and the real-time data plane is the single lock-free component in the architecture. Verification uses **GenMC** under two memory models, including injected defects that must be detected.
+The timing core drives a precise slot clock. Work is scheduled against it, and each time a thread wakes later than planned, the event is recorded. A late wake-up is the earliest sign that a deadline is at risk, so it is treated as data rather than noise.
 
-This verification scope is explicitly limited to the configuration hand-off and is not a formal proof of the entire O-RU.
+## Recording and execution
+
+The **event ring** records what happened and when, without slowing the path it observes. The **executor** runs the scheduled work, and the **core plan** describes how that work is laid out across CPU cores.
+
+## Checking the host before starting
+
+Real-time behaviour depends on the machine as much as on the code. The host platform profile checks, before startup:
+
+- that the cores reserved for real-time work are isolated;
+- that memory and devices are local to the right NUMA node;
+- that PCIe links run at the expected width and speed;
+- that timers behave as required.
+
+<Callout title="A goal, not yet a result">
+  Deterministic real-time behaviour is a measurement goal. These components are in progress, and no end-to-end timing result is published yet.
+</Callout>

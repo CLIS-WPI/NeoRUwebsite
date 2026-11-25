@@ -1,4 +1,5 @@
 {
-  "title": "Engineering & Verification",
+  "title": "Engineering",
+  "defaultOpen": true,
   "pages": ["index", "benchmarks"]
 }

@@ -1,0 +1,40 @@
+---
+title: O-RAN split 7.2x
+description: Where the radio unit sits in an open RAN, and what NeoRU is responsible for.
+---
+
+<SplitDiagram />
+
+## Three units, two interfaces
+
+O-RAN divides a base station into three units. The **O-CU** runs the upper protocol layers. The **O-DU** runs RLC, MAC and the upper part of the physical layer, such as channel coding and modulation. The **O-RU** runs the lower part of the physical layer and the radio itself.
+
+The O-CU and O-DU are connected by the **F1** interface. The O-DU and O-RU are connected by the **Open Fronthaul**, an Ethernet link that carries frequency-domain I/Q samples. Split 7.2x is the point where the physical layer is cut in two.
+
+## What the radio unit does
+
+In split 7.2x the O-RU takes frequency-domain samples from the DU and turns them into a radio signal, and does the reverse for the uplink. Its typical work includes:
+
+- decompressing and compressing I/Q data, often with block floating point (BFP);
+- the inverse and forward FFT, and adding or removing the cyclic prefix;
+- extracting the random-access (PRACH) signal for the DU;
+- doing all of it on a strict slot clock, so that every symbol is ready before its deadline.
+
+## The four fronthaul planes
+
+| Plane | Carries |
+| --- | --- |
+| **C-plane** | Control messages: which resource blocks and symbols the next U-plane data covers |
+| **U-plane** | The I/Q samples themselves, usually compressed |
+| **S-plane** | Synchronisation, so that DU and RU share time and frequency |
+| **M-plane** | Management: configuration, status and fault reporting |
+
+The C-, U- and S-planes are often grouped together as the CUS-plane. The [BFP codec](/NeoRUwebsite/docs/architecture/virtual-radio/) has been checked against the O-RAN CUS-plane specification.
+
+## Where NeoRU fits
+
+NeoRU is the O-RU in this picture, implemented in software on a commodity server. It is built to connect to existing open CU and DU software rather than to replace it.
+
+<Callout type="warn" title="Interfaces still in progress">
+  Fronthaul packet I/O is planned for Phase 2, and validation against a real DU is a later step. The exact interfaces NeoRU implements are defined in its interface specifications, which are pending public release. No interoperability claim is made yet.
+</Callout>

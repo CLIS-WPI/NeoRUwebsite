@@ -1,24 +1,65 @@
 ---
-title: Engineering Process
-description: Specifications before implementation, automated CI sanitizers, and human-approved review gates.
+title: Engineering process
+description: Specifications before implementation, tests before confidence, and a human-approved gate on every change.
 ---
 
-## Spec-First & Test-First Workflow
+<Lead>The process is part of the product. Each change to NeoRU passes the same sequence, from contract to measurement.</Lead>
 
-NeoRU is developed with explicit contracts and automated verification gates:
+<Steps>
+<Step>
 
-1. **Specify the contract:** The architecture RFC and seven interface specifications were completed before implementation.
-2. **Write tests first:** Unit tests and the deterministic virtual radio verify behaviour without relying on ad-hoc demonstrations.
-3. **Human-approved gates:** AI-assisted development operates under strict human-approved gates with a provenance record for every change.
+### Specify the contract
 
-## Automated CI Gates
+The architecture RFC and seven interface specifications were completed before implementation. The RFC also covers virtual-radio and ISAC extensions and the development plan. An extension in the design is not a finished feature.
 
-The isolated development environment and CI pipeline are complete and run:
+</Step>
+<Step>
 
-- Unit tests
-- **AddressSanitizer (ASan)**
-- **UndefinedBehaviorSanitizer (UBSan)**
-- **ThreadSanitizer (TSan)**
-- **AArch64 build under emulation**
+### Write the tests
 
-Passing CI checks establishes what those checks cover; it does not establish real-time timing or hardware performance.
+Development is test-first. Unit tests and the deterministic virtual radio check behaviour, so a successful demonstration is never treated as sufficient evidence.
+
+</Step>
+<Step>
+
+### Implement within the gates
+
+AI-assisted development works under strict, human-approved gates, and a provenance record accompanies every change. Automation helps with the work; human approval decides what moves forward.
+
+</Step>
+<Step>
+
+### Run the automated checks
+
+Every change runs through the CI gates described below.
+
+</Step>
+<Step>
+
+### Check the concurrency boundary
+
+The configuration hand-off is checked with GenMC under two memory models, with injected defects that must be caught. See [configuration hand-off](/NeoRUwebsite/docs/architecture/configuration-handoff/).
+
+</Step>
+<Step>
+
+### Measure before comparing
+
+The reference baseline was measured first. NeoRU will be compared with it only under the same conditions. See [benchmarks and methodology](/NeoRUwebsite/docs/engineering/benchmarks/).
+
+</Step>
+</Steps>
+
+## CI gates
+
+The isolated development environment and CI pipeline are complete. They run:
+
+| Check | Catches |
+| --- | --- |
+| Unit tests | Functional regressions |
+| AddressSanitizer (ASan) | Out-of-bounds access and use-after-free |
+| UndefinedBehaviorSanitizer (UBSan) | Undefined behaviour in C and C++ |
+| ThreadSanitizer (TSan) | Data races |
+| AArch64 build under emulation | Code that only works on one architecture |
+
+Passing a CI check establishes what that check covers. It does not establish real-time behaviour or hardware performance.

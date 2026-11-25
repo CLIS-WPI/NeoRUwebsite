@@ -1,0 +1,40 @@
+---
+title: Getting started
+description: What NeoRU is, what exists today, and how these docs are organised.
+---
+
+<Lead>NeoRU is an open, software-defined O-RU: the radio-unit end of an O-RAN split 7.2x fronthaul. It is developed in the CLIS Lab at Worcester Polytechnic Institute and licensed under Apache 2.0.</Lead>
+
+## Why NeoRU exists
+
+Open software for the central and distributed units is mature. Projects such as srsRAN Project, OpenAirInterface and OCUDU give researchers a CU and DU they can read, change and measure. The radio unit is different. Most O-RUs are proprietary, fixed-function boxes, so their timing, their raw I/Q samples and their internal behaviour stay out of view.
+
+NeoRU is an attempt to open that last box: a radio unit whose every stage can be inspected, tested without hardware and measured under stated conditions. The [O-RAN split 7.2x](/NeoRUwebsite/docs/oran-split/) page explains where it sits.
+
+## What exists today
+
+The foundation stage is complete. Each item below is finished as a component:
+
+<MilestoneList group="Foundation" />
+
+Phase 1, the real-time core, is in progress. Integration, real-DU validation and radio-bench measurement come after it. The [roadmap](/NeoRUwebsite/docs/roadmap/) shows every milestone.
+
+<Callout title="The code is not public yet">
+  The NeoRU repository will open as components are released. Build guides, configuration references and the seven interface specifications will be published in these docs at the same time.
+</Callout>
+
+## Reading status labels
+
+Every component in these docs carries one of three labels.
+
+- <Status s="done" /> The milestone is complete on its own terms. It does not mean NeoRU is integrated or measured end to end.
+- <Status s="in_progress" /> Under active development. Behaviour and interfaces may still change.
+- <Status s="planned" /> Designed or scheduled, but not started. No completion date is announced.
+
+## How these docs are organised
+
+**Introduction** covers what NeoRU is, the split it implements and the principles behind it. **System** describes the architecture and each component. **Engineering** explains how NeoRU is built, checked and measured. **Project** holds the roadmap, frequently asked questions and a glossary.
+
+## Repository and licence
+
+The project lives at [CLIS-WPI/NeoRU](https://github.com/CLIS-WPI/NeoRU/) and is licensed under Apache 2.0. O-RAN is a trademark of the O-RAN Alliance, used here descriptively.

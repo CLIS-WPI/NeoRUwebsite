@@ -1,0 +1,27 @@
+---
+title: Glossary
+description: Terms used across the NeoRU documentation.
+---
+
+<Glossary>
+  <Term name="AArch64">The 64-bit Arm architecture. NeoRU's CI builds for it under emulation to catch code that only works on x86.</Term>
+  <Term name="BFP (block floating point)">A compression scheme for I/Q samples. A block of samples shares one exponent and each sample keeps a shorter mantissa.</Term>
+  <Term name="C-plane">The fronthaul control plane. It tells the radio unit which resource blocks and symbols the next user-plane data covers.</Term>
+  <Term name="CUS-plane">The control, user and synchronisation planes of the O-RAN fronthaul, taken together.</Term>
+  <Term name="Deterministic virtual radio">NeoRU's software stand-in for RF hardware. The same input always gives the same output, bit for bit.</Term>
+  <Term name="F1">The interface between the O-CU and the O-DU.</Term>
+  <Term name="GenMC">A model checker for concurrent C and C++ code under weak memory models. NeoRU uses it to check the configuration hand-off.</Term>
+  <Term name="Host platform profile">NeoRU's pre-start check of CPU isolation, NUMA locality, PCIe links and timers.</Term>
+  <Term name="ISAC">Integrated sensing and communication: using the radio signal for sensing as well as data.</Term>
+  <Term name="Late wake-up">A thread waking later than scheduled. The timing core records each one.</Term>
+  <Term name="M-plane">The fronthaul management plane, for configuration, status and faults.</Term>
+  <Term name="NUMA">Non-uniform memory access. On multi-socket or chiplet servers, memory and devices are faster to reach from some cores than others.</Term>
+  <Term name="O-CU, O-DU, O-RU">The central, distributed and radio units of an O-RAN base station. NeoRU is an O-RU.</Term>
+  <Term name="Open Fronthaul">The Ethernet interface between the O-DU and the O-RU, defined by the O-RAN Alliance.</Term>
+  <Term name="PRACH">The physical random-access channel, which a device uses to make first contact with the network.</Term>
+  <Term name="S-plane">The fronthaul synchronisation plane, which keeps DU and RU aligned in time and frequency.</Term>
+  <Term name="Sanitizers">Compiler tools that detect faults at run time: ASan for memory errors, UBSan for undefined behaviour, TSan for data races.</Term>
+  <Term name="Slot">The basic scheduling interval of the 5G air interface. At 30 kHz subcarrier spacing it lasts 0.5 ms and holds 14 OFDM symbols.</Term>
+  <Term name="Split 7.2x">The O-RAN functional split that cuts the physical layer between the DU (high-PHY) and the RU (low-PHY).</Term>
+  <Term name="U-plane">The fronthaul user plane, which carries the I/Q samples.</Term>
+</Glossary>

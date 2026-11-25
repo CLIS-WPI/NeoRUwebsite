@@ -1,24 +1,30 @@
 ---
-title: Architecture Overview
-description: "High-level structure of NeoRU: control process, real-time data plane, and the verified configuration hand-off."
+title: Architecture overview
+description: A control process, a real-time data plane, and one explicitly checked boundary between them.
 ---
 
-## System Structure
+<ArchStack />
 
-NeoRU separates control-plane management from a deliberately small real-time data plane:
+## Two processes, one boundary
 
-- **Control Process (Rust, in progress):** Handles configuration and lifecycle management outside the real-time path.
-- **Configuration Hand-off (in progress):** The single lock-free concurrency boundary between the control process and the data plane, checked using **GenMC** under two memory models with deliberately injected defects that the checks must catch.
-- **Real-Time Data Plane (in progress):** Centres on a precise slot clock, an event ring, an executor, and a core plan.
-- **Radio & Compression Foundations (complete):** Includes the O-RAN CUS-plane BFP compression codec and the deterministic virtual radio.
+NeoRU separates work that must meet a deadline from work that need not. The **control process**, written in Rust, handles configuration and lifecycle. The **real-time data plane** does the slot-timed processing. The two meet at exactly one point, the **configuration hand-off**, which is the only lock-free component in the design.
+
+Keeping that boundary single and small is what makes it possible to check it carefully.
+
+## Components
+
+| Component | Page |
+| --- | --- |
+| Timing core, event ring, executor, core plan, host platform profile | [Timing and real-time core](/NeoRUwebsite/docs/architecture/timing-and-core/) |
+| Configuration hand-off | [Configuration hand-off](/NeoRUwebsite/docs/architecture/configuration-handoff/) |
+| Deterministic virtual radio, BFP compression codec | [Virtual radio and BFP codec](/NeoRUwebsite/docs/architecture/virtual-radio/) |
+
+## From components to a radio unit
+
+The components above are being built and checked one by one. Bringing them together is separate work:
+
+<MilestoneList ids="fronthaul-io,slot-table,integration,realtime-virtual-radio,real-du-validation,radio-bench-validation" />
 
 <Callout type="warn" title="Scope of current claims">
-  Completed components do not imply an integrated or end-to-end measured radio unit. Exact process boundaries, interface names, and plane ownership will be added once the public interface specifications are released.
+  Component readiness is not end-to-end readiness. Exact process boundaries, interface names and plane ownership will be added from the approved public specification. This page is a high-level explanation, not an interface contract.
 </Callout>
-
-## Integration & Validation Roadmap
-
-- **Phase 2 (planned):** Fronthaul packet I/O, slot table, system integration, and real-time virtual radio.
-- **Level 3 (planned):** Validation against a real DU using the virtual radio.
-- **Level 4 (planned):** End-to-end measurement on a real radio bench under the same conditions as the reference baseline.
-- **Later work (planned):** GPU/FPGA acceleration, integrated sensing and communication (ISAC), massive MIMO, and a dedicated hardware board.

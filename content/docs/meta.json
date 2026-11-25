@@ -2,9 +2,17 @@
   "title": "Documentation",
   "pages": [
     "index",
-    "---Project---",
+    "---Introduction---",
     "getting-started",
-    "architecture",
-    "engineering"
+    "oran-split",
+    "design-principles",
+    "---System---",
+    "...architecture",
+    "---Engineering---",
+    "...engineering",
+    "---Project---",
+    "roadmap",
+    "faq",
+    "glossary"
   ]
 }

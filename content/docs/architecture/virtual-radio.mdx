@@ -1,21 +1,25 @@
 ---
-title: Virtual Radio & BFP Codec
-description: Bit-exact testing without radio hardware and O-RAN CUS-plane BFP compression.
+title: Virtual radio and BFP codec
+description: Bit-exact testing without radio hardware, and O-RAN fronthaul compression.
 ---
 
-## Deterministic Virtual Radio
+<MilestoneList ids="deterministic-virtual-radio,bfp-codec" />
 
-The deterministic virtual radio is **complete** as a foundation component. It enables bit-exact O-RU testing without physical radio hardware, allowing unit and integration tests to verify signal-processing and protocol behaviour reproducibly.
+## The deterministic virtual radio
 
-Integrated real-time virtual-radio operation (Phase 2) and validation with a real DU (Level 3) remain planned.
+The virtual radio stands in for the RF hardware. For the same input it produces the same output, bit for bit, every time. That turns radio behaviour into something a regression test can check, on any machine and in CI, with no radio attached.
 
-## BFP Compression Codec
+It is the basis for the next validation steps. In Phase 2 it becomes a real-time virtual radio, and at Level 3 it lets NeoRU be tested against a real DU before any radio hardware is involved.
 
-The Block Floating Point (BFP) compression codec is **complete** and has been checked against:
+## The BFP compression codec
 
-- The **O-RAN CUS-plane specification**
-- **Real DU traffic**
+Uncompressed I/Q samples would need far more fronthaul bandwidth than a typical link provides. Block floating point (BFP) reduces it. Samples are grouped by resource block, the group shares one exponent, and each sample keeps a shorter mantissa.
 
-<Callout title="Component readiness vs. system readiness">
-  Completion of the BFP codec and deterministic virtual radio establishes component-level readiness only; full fronthaul packet I/O and end-to-end system integration are part of Phase 2.
+NeoRU's codec has been checked against:
+
+- the O-RAN CUS-plane specification;
+- real DU traffic.
+
+<Callout title="Component readiness, not system readiness">
+  Both components are complete on their own. Fronthaul packet I/O and end-to-end integration are part of Phase 2.
 </Callout>

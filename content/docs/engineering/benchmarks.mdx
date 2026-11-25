@@ -1,25 +1,29 @@
 ---
-title: Benchmarks & Methodology
-description: Reference ProtO-RU baseline conditions, metric scope, and comparability rules.
+title: Benchmarks and methodology
+description: The reference baseline, the conditions behind it, and the rules for any future comparison.
 ---
 
 <Callout type="warn" title="Reference baseline only">
-  NeoRU has not yet been measured end to end. The figures below are the baseline for the reference implementation (**ProtO-RU**), not NeoRU performance results.
+  NeoRU has not yet been measured end to end. The figures below belong to the reference implementation, ProtO-RU. They are not NeoRU results.
 </Callout>
 
-## Reference Baseline (ProtO-RU)
+<BaselineMetrics />
 
-| Metric | Value | Scope |
-| --- | --- | --- |
-| **CPU use** | 3.38 cores (median) | Reference O-RU |
-| **Package power above idle** | 33.5 W | O-RU and DU together (not isolated O-RU power) |
+## Conditions
 
-### Measurement Conditions
+<BaselineConditions />
 
-- **Carrier configuration:** 20 MHz, 2×2 MIMO, 30 kHz subcarrier spacing
-- **Traffic load:** Saturated test UE
-- **Host configuration:** Isolated cores on AMD EPYC 9354
+## Reading the baseline
 
-## Comparability Rules
+CPU use is the median number of CPU cores used by the reference O-RU. Package power is measured above idle and covers the **O-RU and DU together**. It is not an isolated radio-unit power figure, and it should not be compared with NeoRU's one-core goal.
 
-NeoRU's target of running one 20 MHz, 2×2 carrier on approximately one CPU core is an engineering goal, not a measured result. A NeoRU comparison will be published only after NeoRU is measured under the exact same conditions as the reference baseline, with full test configuration and measurement scope attached.
+## Rules for comparison
+
+1. NeoRU is measured under the same conditions as the reference: carrier, MIMO, subcarrier spacing, traffic, CPU and core configuration.
+2. Every result is published with its test configuration, measurement method and scope.
+3. Each figure is labelled as a reference baseline, a preliminary run or a NeoRU result.
+4. No speedup or efficiency ratio is stated until both sides have been measured this way.
+
+## Evidence
+
+<EvidenceNote />

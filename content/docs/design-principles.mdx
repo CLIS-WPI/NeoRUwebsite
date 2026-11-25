@@ -1,0 +1,42 @@
+---
+title: Design principles
+description: The rules every NeoRU component is held to, from specification to measurement.
+---
+
+<Lead>Precision is more than a performance figure. It is how a system is specified, tested and understood. These principles decide what NeoRU builds, and what it is allowed to claim.</Lead>
+
+## Measured, not claimed
+
+A performance figure belongs with the conditions that produced it. NeoRU is compared with the reference only after both have been measured under the same conditions, and every published number carries its scope. See [benchmarks and methodology](/NeoRUwebsite/docs/engineering/benchmarks/).
+
+## Timing, made visible
+
+A precise slot clock sits at the centre of the timing core. Every late wake-up is to be recorded, so real-time behaviour becomes something to inspect rather than something to hope for.
+
+## A deliberately small real-time core
+
+Only what must meet a deadline lives in the data plane. Configuration and lifecycle work stay in a separate control process, outside the real-time path.
+
+## Concurrency, checked carefully
+
+The configuration hand-off between the two processes is the one lock-free component in the design. It is checked with GenMC under two memory models, with injected defects that the checks must catch. See [configuration hand-off](/NeoRUwebsite/docs/architecture/configuration-handoff/).
+
+## A radio without the hardware
+
+The deterministic virtual radio produces the same output, bit for bit, for the same input. That makes regression testing possible on any machine, with no radio attached.
+
+## Know the platform first
+
+Before it starts, NeoRU checks the host: CPU isolation, NUMA locality, PCIe links and timers. Predictable execution begins with an understood environment.
+
+## Commodity first, acceleration optional
+
+NeoRU is designed to run on general-purpose servers and must work well without a GPU or FPGA. Acceleration paths are planned, but none of them is required, so the same software can follow its users across different hardware.
+
+## Observable by design
+
+Every component should expose its state and its timing, so that an engineer, or an automated tool, can trace what happened in a given slot and why.
+
+## Engineering in the open
+
+Specifications and tests come first. CI checks, human-approved gates and a provenance record govern AI-assisted development. The project is licensed under Apache 2.0.
