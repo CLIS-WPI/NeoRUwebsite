@@ -1,0 +1,41 @@
+---
+/**
+ * NeoRU progress dial. By default it shows the roadmap from src/data/milestones.json:
+ * coloured segments are done milestones, faint segments are in progress, grey ones are planned.
+ * Pass `done` / `total` / `inProgress` to show anything else.
+ */
+import roadmap from '../data/milestones.json';
+import { renderDial, DIAL_CSS } from '../lib/progress-dial.mjs';
+
+interface Props {
+  done?: number;
+  total?: number;
+  inProgress?: number;
+  /** Accessible description; defaults to "<done> of <total> milestones done (<pct>%)". */
+  label?: string;
+  /** Rendered width, any CSS length. */
+  size?: string;
+  class?: string;
+}
+
+const items = roadmap.milestones;
+const {
+  done = items.filter((m) => m.status === 'done').length,
+  total = items.length,
+  inProgress = items.filter((m) => m.status === 'in_progress').length,
+  size = '320px',
+  class: className,
+} = Astro.props;
+const pct = Math.round((done / total) * 100);
+const label = Astro.props.label ?? `${done} of ${total} milestones done (${pct}%)`;
+const uid = `dial-${Math.random().toString(36).slice(2, 8)}`;
+const svg = renderDial({ done, total, inProgress, uid, label });
+---
+<div class:list={['neoru-dial-wrap', className]} style={`width:min(100%, ${size})`} set:html={svg} />
+
+<style is:global set:html={DIAL_CSS}></style>
+
+<script>
+  import { animateDials } from '../lib/progress-dial.mjs';
+  animateDials();
+</script>

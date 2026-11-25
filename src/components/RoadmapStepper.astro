@@ -1,5 +1,6 @@
 ---
 import roadmap from '../data/milestones.json';
+import ProgressDial from './ProgressDial.astro';
 
 interface Props {
   /** Heading level for the stage title inside the panel. Milestones use the next level down. */
@@ -24,45 +25,18 @@ const notes = ((roadmap as { stages?: StageNote[] }).stages ?? []) as StageNote[
 const count = (items: Milestone[], status: Status) => items.filter((item) => item.status === status).length;
 const slug = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-const SEGMENTS = 24;
-const SEG_RADIUS = 46;
-const SEG_COLORS = [
-  '#ef5350', '#f15e45', '#f36b3b', '#f57831', '#f78527', '#f8921f',
-  '#fa9f19', '#fbad16', '#fabb16', '#f6c719', '#eed11d', '#e2d822',
-  '#d2dc26', '#bfde2b', '#aadf31', '#95de37', '#81dc3d', '#6ed844',
-  '#5cd34b', '#4bcd53', '#3cc65b', '#2fbf62', '#26b768', '#22ae6d',
-];
-
-function segmentPath(index: number): string {
-  const step = 360 / SEGMENTS;
-  const gap = 3.2;
-  const a1 = (-90 + index * step + gap / 2) * (Math.PI / 180);
-  const a2 = (-90 + (index + 1) * step - gap / 2) * (Math.PI / 180);
-  const x1 = (60 + SEG_RADIUS * Math.cos(a1)).toFixed(2);
-  const y1 = (60 + SEG_RADIUS * Math.sin(a1)).toFixed(2);
-  const x2 = (60 + SEG_RADIUS * Math.cos(a2)).toFixed(2);
-  const y2 = (60 + SEG_RADIUS * Math.sin(a2)).toFixed(2);
-  return `M ${x1} ${y1} A ${SEG_RADIUS} ${SEG_RADIUS} 0 0 1 ${x2} ${y2}`;
-}
-
-const segmentPaths = Array.from({ length: SEGMENTS }, (_, i) => ({
-  d: segmentPath(i),
-  color: SEG_COLORS[i],
-}));
-
 const stages = [...new Set(milestones.map((item) => item.group))].map((group) => {
   const items = milestones.filter((item) => item.group === group);
   const done = count(items, 'done');
   const active = count(items, 'in_progress');
   const status: Status = done === items.length ? 'done' : done > 0 || active > 0 ? 'in_progress' : 'planned';
   const pct = Math.round((done / items.length) * 100);
-  const lit = Math.round((pct / 100) * SEGMENTS);
   const meta =
     status === 'done' ? `${done} of ${items.length} done`
     : status === 'planned' ? `${items.length} planned`
     : done > 0 ? `${done} of ${items.length} done`
     : `${active} in progress`;
-  return { group, items, done, status, pct, lit, meta, key: slug(group), summary: notes.find((note) => note.group === group)?.summary };
+  return { group, items, done, active, status, pct, meta, key: slug(group), summary: notes.find((note) => note.group === group)?.summary };
 });
 
 // The "current" stage is the first one that is not complete. The solid part of the track ends there.
@@ -84,51 +58,13 @@ const current = firstOpen === -1 ? stages.length - 1 : firstOpen;
         tabindex={index === current ? 0 : -1}
       >
         <span class="rs-dot" aria-hidden="true">
-          <svg class="rs-gauge" viewBox="0 0 120 120" width="96" height="96" fill="none">
-            {/* Outer elevated bezel disc */}
-            <circle cx="60" cy="60" r="57.5" fill="#ffffff" stroke="rgba(15, 23, 42, 0.08)" stroke-width="1.2" />
-
-            {/* 24 radial progress segments */}
-            {segmentPaths.map((seg, segIdx) => {
-              const isLit = segIdx < stage.lit;
-              return (
-                <path
-                  d={seg.d}
-                  stroke={isLit ? seg.color : '#e6e8ec'}
-                  stroke-width="7.8"
-                  class={isLit ? 'rs-seg-lit' : 'rs-seg-dim'}
-                  style={isLit ? `--seg-d:${segIdx * 24}ms` : undefined}
-                />
-              );
-            })}
-
-            {/* Top percentage readout */}
-            <text
-              x="60"
-              y="36"
-              text-anchor="middle"
-              class={`rs-gauge-pct ${stage.pct > 0 ? 'is-active' : ''}`}
-            >
-              {stage.pct}%
-            </text>
-
-            {/* Center recessed medallion + checkmark */}
-            <circle cx="60" cy="60" r="17.5" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.4" />
-            <circle cx="60" cy="60" r="14" fill="#ffffff" stroke="rgba(15, 23, 42, 0.06)" stroke-width="1" />
-            <path
-              d="M 54.5 60.2 L 58.3 64 L 66 56"
-              stroke={stage.status === 'done' ? '#16a34a' : stage.status === 'in_progress' ? '#64748b' : '#cbd5e1'}
-              stroke-width="2.6"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-
-            {/* Bottom done/total fraction */}
-            <text x="60" y="92" text-anchor="middle" class="rs-gauge-frac">
-              <tspan class={stage.done > 0 ? 'rs-frac-done' : 'rs-frac-zero'}>{stage.done}</tspan>
-              <tspan class="rs-frac-total">/{stage.items.length}</tspan>
-            </text>
-          </svg>
+          <ProgressDial
+            done={stage.done}
+            total={stage.items.length}
+            inProgress={stage.active}
+            size="100%"
+            class="rs-dial"
+          />
         </span>
         <span class="rs-text">
           <span class="rs-name">{stage.group}</span>
