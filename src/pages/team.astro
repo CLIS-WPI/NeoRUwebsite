@@ -5,11 +5,31 @@ const page = await getEntry('pages', 'team');
 if (!page) throw new Error('Team content is missing.');
 ---
 <Layout title="About" description={page.data.description}>
-  <header class="page-heading container"><h1>About</h1></header>
-  <section class="container team-content" aria-label="NeoRU team">
-    <div class="team-people">
-      <article class="team-person team-person-founder"><div class="person-monogram" aria-hidden="true">MN</div><div><p class="eyebrow">Founder</p><h2>Milad Natanzi</h2></div></article>
-      <article class="team-person"><div class="person-monogram" aria-hidden="true">BT</div><div><p class="eyebrow">Advisor</p><h2>Bo Tang</h2></div></article>
+  <section class="about-flagship about-page-standalone" aria-labelledby="team-page-title">
+    <div class="container about-shell">
+      <header class="about-header">
+        <p class="eyebrow">People</p>
+        <h1 id="team-page-title">About</h1>
+        <p class="about-lead">Open-source radio systems research at CLIS Lab, Worcester Polytechnic Institute.</p>
+      </header>
+      <div class="about-cards">
+        <article class="about-card about-card-founder">
+          <div class="about-monogram" aria-hidden="true">MN</div>
+          <div class="about-card-body">
+            <span class="about-role">Founder</span>
+            <h2>Milad Natanzi</h2>
+            <p class="about-affil">CLIS Lab · ECE, WPI</p>
+          </div>
+        </article>
+        <article class="about-card">
+          <div class="about-monogram" aria-hidden="true">BT</div>
+          <div class="about-card-body">
+            <span class="about-role">Advisor</span>
+            <h2>Bo Tang</h2>
+            <p class="about-affil">CLIS Lab · ECE, WPI</p>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 </Layout>
