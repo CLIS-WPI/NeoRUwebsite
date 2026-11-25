@@ -1,7 +1,8 @@
 name: Publish to GitHub Pages
 
-# Publication is intentional: pushes and pull requests never deploy the site.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
