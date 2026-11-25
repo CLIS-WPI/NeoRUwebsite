@@ -191,6 +191,7 @@ export function OranHeroSection({ neoRuLogoSrc }: OranHeroSectionProps) {
 
   return (
     <section
+      id="home"
       ref={sectionRef}
       className="oran-hero-slide"
       aria-label="O-RAN with the 7.2x split interactive 3D architecture"

@@ -1,5 +1,6 @@
 .oran-hero-slide {
   position: relative;
+  scroll-margin-top: 92px;
   background: linear-gradient(180deg, #ffffff 0%, #f8fafd 100%);
   border-bottom: 1px solid var(--line);
   padding: 18px 0 36px;
