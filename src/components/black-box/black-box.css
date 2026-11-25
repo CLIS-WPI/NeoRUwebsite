@@ -69,29 +69,6 @@
   margin: 0 auto 16px;
 }
 
-.bb-eyebrow-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  background: #f0f9ff;
-  color: #0369a1;
-  border: 1px solid rgba(186, 230, 253, 0.9);
-  margin-bottom: 10px;
-}
-
-.bb-eyebrow-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #0ea5e9;
-}
-
 .bb-title {
   margin: 0;
   font-size: clamp(27px, 3.2vw, 40px);
@@ -366,53 +343,6 @@
   object-fit: contain;
   mix-blend-mode: multiply;
   transition: opacity 700ms ease-out, transform 700ms ease-out;
-}
-
-/* Status Micro-Badge in normal flow below hardware so it never clips */
-.bb-status-wrap {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-}
-
-.bb-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 560;
-  border: 1px solid transparent;
-  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
-  transition: background-color 450ms ease, color 450ms ease, border-color 450ms ease;
-}
-
-.bb-status-badge.is-locked {
-  background: rgba(15, 23, 42, 0.94);
-  color: #f1f5f9;
-  border-color: #334155;
-}
-
-.bb-status-badge.is-open {
-  background: rgba(240, 249, 255, 0.96);
-  color: #075985;
-  border-color: #bae6fd;
-}
-
-.bb-status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.bb-status-dot.is-locked {
-  background: #fbbf24;
-}
-
-.bb-status-dot.is-open {
-  background: #06b6d4;
 }
 
 /* Capability Cards */

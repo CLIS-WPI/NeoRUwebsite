@@ -317,10 +317,6 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
       <div className="container bb-inner">
         {/* Section Header */}
         <header className="bb-header">
-          <span className="bb-eyebrow-pill">
-            <span className="bb-eyebrow-dot" aria-hidden="true" />
-            Break the Black Box
-          </span>
           <h2 id="bb-section-title" className="bb-title">
             Unlocking the Programmable Radio Edge
           </h2>
@@ -533,18 +529,6 @@ export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({
                     transform: isOpen ? 'translateY(0px) scale(1)' : 'translateY(10px) scale(0.985)',
                   }}
                 />
-              </div>
-
-              {/* Status Micro-Badge in normal flow below hardware */}
-              <div className="bb-status-wrap">
-                <div className={`bb-status-badge ${isOpen ? 'is-open' : 'is-locked'}`}>
-                  <span className={`bb-status-dot ${isOpen ? 'is-open' : 'is-locked'}`} aria-hidden="true" />
-                  <span>
-                    {isOpen
-                      ? 'NeoRU Core — Open & Programmable Radio Edge'
-                      : 'Proprietary O-RU — Sealed & Fixed-Function'}
-                  </span>
-                </div>
               </div>
             </div>
 
