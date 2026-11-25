@@ -55,7 +55,7 @@
 .roadmap-introduction .prose p:first-child { margin-top: 0; }
 .roadmap-datestamp { white-space: nowrap; font-size: .875rem; color: var(--muted); margin: 0; line-height: 1.7; }
 .roadmap-datestamp time { display: block; font-weight: 550; color: var(--text); }
-.rs { --rs-canvas: var(--bg); --rs-dot: 30px; --rs-row: 62px; }
+.rs { --rs-canvas: var(--bg); --rs-dot: 56px; --rs-row: 72px; }
 .home-band-surface .rs { --rs-canvas: var(--surface); }
 .rs-summary { margin: 0 0 28px; font-size: .95rem; color: var(--muted); }
 .rs-summary strong { color: var(--text); font-weight: 600; }
@@ -71,17 +71,24 @@
 .rs-done { --rs-tone: var(--green); }
 .rs-in_progress { --rs-tone: var(--accent); }
 .rs-planned { --rs-tone: var(--muted); }
-.rs-dot { display: grid; place-items: center; flex: none; width: var(--rs-dot); height: var(--rs-dot); border-radius: 50%; background: var(--rs-canvas); color: var(--rs-tone); border: 1.5px dashed color-mix(in srgb, var(--muted) 60%, transparent); transition: box-shadow .2s ease, transform .2s ease; }
-.rs-done .rs-dot { background: var(--green); border: 0; color: #fff; }
-.rs-in_progress .rs-dot { border: 2px solid var(--accent); }
-.rs-pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+.rs-dot { position: relative; display: grid; place-items: center; flex: none; width: var(--rs-dot); height: var(--rs-dot); border-radius: 50%; background: #ffffff; color: var(--rs-tone); box-shadow: 0 2px 8px rgba(15, 23, 42, .05); transition: box-shadow .22s ease, transform .22s ease; }
+.rs-done .rs-dot { background: #eff9f3; color: #1b5e3c; }
+.rs-in_progress .rs-dot { background: #eef6ff; color: var(--accent); }
+.rs-planned .rs-dot { background: var(--rs-canvas); color: #94a3b8; }
+.rs-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); pointer-events: none; }
+.rs-ring-track { stroke: rgba(148, 163, 184, .32); stroke-width: 3.2; }
+.rs-planned .rs-ring-track { stroke: rgba(148, 163, 184, .48); stroke-width: 2.2; stroke-dasharray: 4 4; }
+.rs-ring-bar { stroke: var(--rs-tone); stroke-width: 3.4; stroke-linecap: round; stroke-dasharray: 150.8; stroke-dashoffset: var(--rs-off, 150.8); }
+.rs.is-armed .rs-ring-bar { stroke-dashoffset: 150.8; }
+.rs.is-drawn .rs-ring-bar { transition: stroke-dashoffset .85s cubic-bezier(.22, 1, .36, 1) .12s; }
+.rs-pct { position: relative; z-index: 1; font-size: 12.5px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
 .rs-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .rs-name { font-size: 1.02rem; font-weight: 570; letter-spacing: -.02em; color: var(--text); }
 .rs-meta { font-size: .82rem; line-height: 1.4; color: var(--muted); }
 .rs-planned .rs-name { color: var(--muted); }
-.rs-tab:hover .rs-dot { transform: scale(1.08); }
+.rs-tab:hover .rs-dot { transform: scale(1.06); }
 .rs-tab:focus-visible { outline-offset: 2px; }
-.rs.is-enhanced .rs-tab[aria-selected=true] .rs-dot { box-shadow: 0 0 0 5px color-mix(in srgb, var(--rs-tone) 16%, transparent); }
+.rs.is-enhanced .rs-tab[aria-selected=true] .rs-dot { box-shadow: 0 0 0 5px color-mix(in srgb, var(--rs-tone) 16%, transparent), 0 4px 12px rgba(15, 23, 42, .08); }
 .rs.is-enhanced .rs-tab[aria-selected=true] .rs-name { color: var(--text); font-weight: 620; }
 .rs.is-enhanced .rs-tab[aria-selected=true]::after { content: ""; position: absolute; left: 50%; bottom: -27px; width: 14px; height: 14px; background: var(--bg); border-left: 1px solid var(--line); border-top: 1px solid var(--line); transform: translateX(-50%) rotate(45deg); }
 .rs-panels { display: grid; gap: 20px; margin-top: 20px; }
@@ -192,6 +199,8 @@
   .roadmap-introduction { display: block; padding-bottom: 40px; }
   .roadmap-datestamp { margin-top: 24px; }
   .roadmap-datestamp time { display: inline; margin-left: 4px; }
+  .rs { --rs-dot: 46px; --rs-row: 68px; }
+  .rs-pct { font-size: 11px; }
   .rs-summary { margin-bottom: 18px; }
   .rs-track { grid-template-columns: minmax(0, 1fr); }
   .rs-line, .rs-fill { top: calc(var(--rs-row) / 2); left: calc(var(--rs-dot) / 2 - 1px); width: 2px; }

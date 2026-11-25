@@ -24,17 +24,21 @@ const notes = ((roadmap as { stages?: StageNote[] }).stages ?? []) as StageNote[
 const count = (items: Milestone[], status: Status) => items.filter((item) => item.status === status).length;
 const slug = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+const RING_CIRC = 150.8; // 2 * pi * 24
+
 const stages = [...new Set(milestones.map((item) => item.group))].map((group) => {
   const items = milestones.filter((item) => item.group === group);
   const done = count(items, 'done');
   const active = count(items, 'in_progress');
   const status: Status = done === items.length ? 'done' : done > 0 || active > 0 ? 'in_progress' : 'planned';
+  const pct = Math.round((done / items.length) * 100);
+  const ringOffset = Number((RING_CIRC * (1 - pct / 100)).toFixed(1));
   const meta =
     status === 'done' ? `${done} of ${items.length} done`
     : status === 'planned' ? `${items.length} planned`
     : done > 0 ? `${done} of ${items.length} done`
     : `${active} in progress`;
-  return { group, items, status, meta, key: slug(group), summary: notes.find((note) => note.group === group)?.summary };
+  return { group, items, status, pct, ringOffset, meta, key: slug(group), summary: notes.find((note) => note.group === group)?.summary };
 });
 
 // The "current" stage is the first one that is not complete. The solid part of the track ends there.
@@ -62,15 +66,18 @@ const totals = { done: count(milestones, 'done'), active: count(milestones, 'in_
         aria-selected={index === current ? 'true' : 'false'}
         tabindex={index === current ? 0 : -1}
       >
-        <span class="rs-dot" aria-hidden="true">
-          {stage.status === 'done' && (
-            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7" /></svg>
-          )}
-          {stage.status === 'in_progress' && <span class="rs-pulse"></span>}
+        <span class="rs-dot" style={`--rs-off:${stage.ringOffset}`} aria-hidden="true">
+          <svg class="rs-ring" viewBox="0 0 56 56" width="56" height="56" fill="none">
+            <circle class="rs-ring-track" cx="28" cy="28" r="24" />
+            {stage.pct > 0 && (
+              <circle class="rs-ring-bar" cx="28" cy="28" r="24" />
+            )}
+          </svg>
+          <span class="rs-pct">{stage.pct}%</span>
         </span>
         <span class="rs-text">
           <span class="rs-name">{stage.group}</span>
-          <span class="rs-meta">{stage.meta}<span class="rs-sr">, {labels[stage.status]}</span></span>
+          <span class="rs-meta">{stage.meta}<span class="rs-sr">, {stage.pct}% complete, {labels[stage.status]}</span></span>
         </span>
       </button>
     ))}
