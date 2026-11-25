@@ -1,18 +1,16 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import PageHeading from '../components/PageHeading.astro';
 import RoadmapStepper from '../components/RoadmapStepper.astro';
 import roadmap from '../data/milestones.json';
 const page = await getEntry('pages', 'roadmap');
 if (!page) throw new Error('Roadmap content is missing.');
-const { Content } = await render(page);
 const asOf = new Date(`${roadmap.asOf}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 ---
-<Layout title={page.data.title} description={page.data.description}>
-  <PageHeading {...page.data} />
+<Layout title="Roadmap" description={page.data.description}>
+  <header class="page-heading container"><h1>Roadmap</h1></header>
   <section class="container roadmap-content" aria-label="Development milestones">
-    <div class="roadmap-introduction"><div class="prose"><Content /></div><p class="roadmap-datestamp">Status as of <time datetime={roadmap.asOf}>{asOf}</time></p></div>
+    <p class="roadmap-datestamp" style="margin-bottom: 24px;">Status as of <time datetime={roadmap.asOf}>{asOf}</time></p>
     <RoadmapStepper headingLevel={2} anchors />
   </section>
 </Layout>

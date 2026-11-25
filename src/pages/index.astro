@@ -17,14 +17,12 @@ import roadmap from '../data/milestones.json';
 
 const homePage = await getEntry('pages', 'home');
 const archPage = await getEntry('pages', 'architecture');
-const roadPage = await getEntry('pages', 'roadmap');
-if (!homePage || !archPage || !roadPage) {
+if (!homePage || !archPage) {
   throw new Error('Required home page content is missing.');
 }
 
 const { Content: HomeContent } = await render(homePage);
 const { Content: ArchContent } = await render(archPage);
-const { Content: RoadContent } = await render(roadPage);
 
 const neoRuMark = await getImage({ src: neoRuOwlLogo, width: 320, format: 'webp' });
 const ocuNodeWebp = await getImage({ src: ocuNodeImg, width: 720, format: 'webp' });
@@ -115,13 +113,10 @@ const docCards = [
   {/* Section: Roadmap */}
   <section id="roadmap" class="home-anchor-section home-band-surface" aria-labelledby="sec-road-title">
     <div class="container">
-      <div class="home-section-head">
-        <p class="eyebrow">{roadPage.data.eyebrow}</p>
-        <h2 id="sec-road-title">{roadPage.data.title}</h2>
-        <p class="home-section-lead">{roadPage.data.description}</p>
-      </div>
-      <div class="roadmap-introduction">
-        <div class="prose"><RoadContent /></div>
+      <div class="home-docs-header">
+        <div>
+          <h2 id="sec-road-title">Roadmap</h2>
+        </div>
         <p class="roadmap-datestamp">Status as of <time datetime={roadmap.asOf}>{asOf}</time></p>
       </div>
       <RoadmapStepper headingLevel={3} idPrefix="home-roadmap" />
