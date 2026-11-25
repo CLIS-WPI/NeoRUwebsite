@@ -13,7 +13,6 @@ import RoadmapStepper from '../components/RoadmapStepper.astro';
 import { OranHeroSection } from '../components/oran-hero/OranHeroSection';
 import { BlackBoxSection } from '../components/black-box/BlackBoxSection';
 import { url } from '../lib/site';
-import roadmap from '../data/milestones.json';
 
 const homePage = await getEntry('pages', 'home');
 const archPage = await getEntry('pages', 'architecture');
@@ -30,12 +29,6 @@ const oduNodeWebp = await getImage({ src: oduNodeImg, width: 760, format: 'webp'
 const oruNodeWebp = await getImage({ src: oruNodeImg, width: 760, format: 'webp' });
 const oruClosedWebp = await getImage({ src: oruClosedImg, width: 1000, format: 'webp' });
 const oruOpenWebp = await getImage({ src: oruOpenImg, width: 1000, format: 'webp' });
-const asOf = new Date(`${roadmap.asOf}T12:00:00Z`).toLocaleDateString('en-GB', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  timeZone: 'UTC',
-});
 
 const docCards = [
   {
@@ -113,11 +106,8 @@ const docCards = [
   {/* Section: Roadmap */}
   <section id="roadmap" class="home-anchor-section home-band-surface" aria-labelledby="sec-road-title">
     <div class="container">
-      <div class="home-docs-header">
-        <div>
-          <h2 id="sec-road-title">Roadmap</h2>
-        </div>
-        <p class="roadmap-datestamp">Status as of <time datetime={roadmap.asOf}>{asOf}</time></p>
+      <div class="home-section-head">
+        <h2 id="sec-road-title">Roadmap</h2>
       </div>
       <RoadmapStepper headingLevel={3} idPrefix="home-roadmap" />
     </div>
