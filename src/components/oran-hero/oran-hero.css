@@ -3,7 +3,7 @@
   scroll-margin-top: 92px;
   background: linear-gradient(180deg, #ffffff 0%, #f8fafd 100%);
   border-bottom: 1px solid var(--line);
-  padding: 18px 0 36px;
+  padding: 12px 0 26px;
   overflow: hidden;
 }
 
@@ -20,7 +20,7 @@
     min-height: calc(100vh - 92px);
     display: flex;
     align-items: center;
-    padding: 14px 0 28px;
+    padding: 8px 0 24px;
   }
 }
 
@@ -32,7 +32,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 13px;
+  padding: 6px 12px;
   border-radius: 999px;
   border: 1px solid #cbd5e1;
   background: rgba(255, 255, 255, 0.94);
@@ -56,21 +56,21 @@
 /* Header */
 .oran-hero-header {
   text-align: center;
-  margin-bottom: 2px;
+  margin-bottom: 0;
 }
 
 .oran-hero-title {
   margin: 0;
-  font-size: clamp(24px, 3.1vw, 40px);
+  font-size: clamp(23px, 2.85vw, 36px);
   font-weight: 750;
   letter-spacing: -0.035em;
-  line-height: 1.12;
+  line-height: 1.1;
   color: #0f172a;
 }
 
 .oran-hero-subtitle {
-  margin: 6px 0 0;
-  font-size: clamp(14px, 1.35vw, 18px);
+  margin: 4px 0 0;
+  font-size: clamp(13.5px, 1.2vw, 16.5px);
   font-weight: 500;
   color: #334155;
   letter-spacing: -0.01em;
@@ -87,7 +87,7 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  height: clamp(250px, 38vh, 360px);
+  height: clamp(195px, 29vh, 265px);
   touch-action: pan-y;
 }
 
@@ -161,19 +161,19 @@
   position: relative;
   z-index: 6;
   width: 100%;
-  height: 40px;
-  margin-top: -10px;
+  height: 34px;
+  margin-top: -12px;
 }
 
 .oran-node-badge {
   position: absolute;
   top: 0;
   transform: translateX(-50%);
-  min-width: clamp(104px, 12vw, 160px);
-  padding: 7px 18px;
+  min-width: clamp(104px, 12vw, 156px);
+  padding: 5px 16px;
   border-radius: 9px;
   border: 1px solid transparent;
-  font-size: clamp(13px, 1.15vw, 15.5px);
+  font-size: clamp(13px, 1.1vw, 15px);
   font-weight: 750;
   letter-spacing: 0.01em;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
@@ -220,9 +220,9 @@
 .oran-bottom-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.85fr) minmax(0, 1.15fr);
-  gap: 28px;
+  gap: 24px;
   align-items: start;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .oran-ecosystem-col {
@@ -232,7 +232,7 @@
 
 .oran-bracket-wrap {
   width: 100%;
-  height: 30px;
+  height: 22px;
   display: flex;
   justify-content: center;
 }
@@ -361,8 +361,8 @@
 .oran-neoru-col {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding-top: 10px;
+  gap: 8px;
+  padding-top: 4px;
 }
 
 .oran-challenge-banner {
@@ -370,9 +370,9 @@
   background: #1e3a5f;
   color: #ffffff;
   border-radius: 10px;
-  padding: 8px 14px;
-  font-size: 12.5px;
-  line-height: 1.4;
+  padding: 7px 12px;
+  font-size: 12px;
+  line-height: 1.35;
   text-align: center;
   font-weight: 500;
   box-shadow: 0 4px 12px rgba(30, 58, 95, 0.2);
@@ -395,7 +395,7 @@
   background: linear-gradient(155deg, #f3f9ff 0%, #e6f2ff 100%);
   border: 2px solid #0066cc;
   border-radius: 16px;
-  padding: 16px 18px 26px;
+  padding: 12px 16px 22px;
   box-shadow:
     0 0 0 4px rgba(0, 102, 204, 0.1),
     0 12px 28px rgba(0, 102, 204, 0.14);
@@ -415,12 +415,12 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
 .oran-neoru-logo-img {
-  width: 116px;
+  width: 96px;
   height: auto;
   display: block;
   object-fit: contain;
@@ -434,7 +434,7 @@
 
 .oran-neoru-title {
   margin: 0;
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.03em;
   color: #0f172a;
@@ -442,8 +442,8 @@
 }
 
 .oran-neoru-subtitle {
-  margin: 3px 0 0;
-  font-size: 14px;
+  margin: 2px 0 0;
+  font-size: 13.5px;
   font-weight: 600;
   color: #1e293b;
   line-height: 1.3;
@@ -454,10 +454,10 @@
   padding-left: 18px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  font-size: 13.5px;
+  gap: 3px;
+  font-size: 13px;
   color: #0f172a;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 .oran-neoru-list li::marker {
