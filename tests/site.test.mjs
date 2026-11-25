@@ -51,7 +51,7 @@ test('Benchmarks, Docs, and Team are direct links in the main header', () => {
     const header = read(pageFile(route)).match(/<header\b[^>]*>([\s\S]*?)<\/header>/i)?.[1];
     assert.ok(header, `${route || 'home'}: missing main header`);
     const links = [...header.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)].map((match) => ({ ...attributes(match[1]), label: text(match[2]) }));
-    for (const [slug, label] of [['benchmarks', 'Benchmarks'], ['docs', 'Docs'], ['team', 'Team']]) {
+    for (const [slug, label] of [['benchmarks', 'Benchmarks'], ['docs', 'Docs'], ['team', 'About']]) {
       assert.ok(links.some((link) => link.href === `${base}${slug}/` && link.label === label), `${route || 'home'}: ${label} is not a direct header link`);
     }
   }

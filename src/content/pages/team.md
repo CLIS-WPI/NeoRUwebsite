@@ -1,7 +1,7 @@
 ---
 title: "An open radio project. A focused research team."
 description: "NeoRU is developed in the CLIS Lab, Department of Electrical and Computer Engineering, Worcester Polytechnic Institute."
-eyebrow: "Team"
+eyebrow: "About"
 ---
 
 ## Built on earlier work

@@ -6,7 +6,7 @@ import '../styles/global.css';
 import '../styles/pages.css';
 interface Props { title: string; description: string; }
 const { title, description } = Astro.props;
-const nav = [['Architecture','architecture'],['Benchmarks','benchmarks'],['Roadmap','roadmap'],['Docs','docs'],['Team','team']];
+const nav = [['Architecture','architecture'],['Benchmarks','benchmarks'],['Roadmap','roadmap'],['Docs','docs'],['About','team']];
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -38,7 +38,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer"><div class="container">
-      <div class="footer-top"><div><a class="footer-brand" href={url()}>NeoRU</a><p>Open radio.<br />Rigorous engineering.</p></div><div class="footer-links"><div><span>Project</span><a href={url('architecture')}>Architecture</a><a href={url('benchmarks')}>Benchmarks</a><a href={url('roadmap')}>Roadmap</a></div><div><span>Explore</span><a href={url('docs')}>Docs</a><a href={url('how-we-build')}>How we build</a><a href={url('publications')}>Publications</a><a href={url('team')}>Team & contact</a></div><div><span>Developed at</span><p>CLIS Lab<br />Electrical & Computer Engineering<br />Worcester Polytechnic Institute</p></div></div></div>
+      <div class="footer-top"><div><a class="footer-brand" href={url()}>NeoRU</a><p>Open radio.<br />Rigorous engineering.</p></div><div class="footer-links"><div><span>Project</span><a href={url('architecture')}>Architecture</a><a href={url('benchmarks')}>Benchmarks</a><a href={url('roadmap')}>Roadmap</a></div><div><span>Explore</span><a href={url('docs')}>Docs</a><a href={url('how-we-build')}>How we build</a><a href={url('publications')}>Publications</a><a href={url('team')}>About & contact</a></div><div><span>Developed at</span><p>CLIS Lab<br />Electrical & Computer Engineering<br />Worcester Polytechnic Institute</p></div></div></div>
       <div class="footer-bottom"><span>Apache 2.0 · Public code release pending</span><a class="repository-link" href="https://github.com/CLIS-WPI/NeoRU/">Project repository on GitHub</a><span>Project status: 23 November 2026</span></div>
       <p class="trademark">O-RAN is a trademark of the O-RAN Alliance. Used descriptively; no affiliation or endorsement is implied.</p>
     </div></footer>

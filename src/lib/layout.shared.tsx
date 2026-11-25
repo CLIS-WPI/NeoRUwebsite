@@ -13,7 +13,7 @@ export function baseOptions(): BaseLayoutProps {
       { text: 'Architecture', url: url('architecture') },
       { text: 'Benchmarks', url: url('benchmarks') },
       { text: 'Roadmap', url: url('roadmap') },
-      { text: 'Team', url: url('team') },
+      { text: 'About', url: url('team') },
     ],
   };
 }
