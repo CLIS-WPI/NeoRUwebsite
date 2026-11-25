@@ -8,11 +8,13 @@ import * as THREE from 'three';
 import { createOCU } from './models/createOCU';
 import { createODU } from './models/createODU';
 import { createORU } from './models/createORU';
-import { createOpticalLinks } from './models/createOpticalLinks';
+import {
+  createOpticalLinks,
+  type ResizableOpticalLinksHandle,
+} from './models/createOpticalLinks';
 import type {
   HardwareNodeHandle,
   NodeId,
-  OpticalLinksHandle,
   OranORUHandle,
 } from './types';
 
@@ -30,6 +32,15 @@ export interface SceneAnimState {
   flowActive: number;
 }
 
+export interface ProjectedAnchors {
+  ocuX: number;
+  oduX: number;
+  oruX: number;
+  f1X: number;
+  ofhX: number;
+  lineY: number;
+}
+
 export interface OranSceneHandle {
   animState: SceneAnimState;
 }
@@ -38,24 +49,26 @@ interface OranSceneCanvasProps {
   hoveredNode: NodeId;
   neoRuHovered: boolean;
   onHoverNode: (node: NodeId) => void;
+  onAnchorsChange?: (anchors: ProjectedAnchors) => void;
 }
 
-const NODE_POSITIONS = {
-  ocu: new THREE.Vector3(-4.15, 0.08, 0),
-  odu: new THREE.Vector3(0, -0.14, 0),
-  oru: new THREE.Vector3(4.15, 0.08, 0),
-};
+const DEFAULT_SPAN = 4.5;
 
 export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>(
-  function OranSceneCanvas({ hoveredNode, neoRuHovered, onHoverNode }, ref) {
+  function OranSceneCanvas(
+    { hoveredNode, neoRuHovered, onHoverNode, onAnchorsChange },
+    ref,
+  ) {
     const containerRef = useRef<HTMLDivElement>(null);
     const hoveredNodeRef = useRef<NodeId>(hoveredNode);
     const neoRuHoveredRef = useRef<boolean>(neoRuHovered);
     const onHoverNodeRef = useRef(onHoverNode);
+    const onAnchorsChangeRef = useRef(onAnchorsChange);
 
     hoveredNodeRef.current = hoveredNode;
     neoRuHoveredRef.current = neoRuHovered;
     onHoverNodeRef.current = onHoverNode;
+    onAnchorsChangeRef.current = onAnchorsChange;
 
     const animStateRef = useRef<SceneAnimState>({
       gridOpacity: 0,
@@ -81,9 +94,8 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
 
       const scene = new THREE.Scene();
 
-      // Perspective camera tuned to frame all 3 nodes cleanly
       const camera = new THREE.PerspectiveCamera(
-        34,
+        29,
         Math.max(1, container.clientWidth) / Math.max(1, container.clientHeight),
         0.1,
         100,
@@ -103,25 +115,25 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
       renderer.shadowMap.type = THREE.PCFShadowMap;
       container.appendChild(renderer.domElement);
 
-      // Soft studio lighting for bright, high-craft hardware rendering
-      const hemiLight = new THREE.HemisphereLight(0xffffff, 0xdbe4f0, 1.35);
+      // Soft studio lighting
+      const hemiLight = new THREE.HemisphereLight(0xffffff, 0xdbe4f0, 1.4);
       hemiLight.position.set(0, 10, 0);
       scene.add(hemiLight);
 
-      const keyLight = new THREE.DirectionalLight(0xffffff, 1.45);
+      const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
       keyLight.position.set(4, 8, 7);
       keyLight.castShadow = true;
       keyLight.shadow.mapSize.set(1024, 1024);
       keyLight.shadow.camera.near = 1;
       keyLight.shadow.camera.far = 24;
-      keyLight.shadow.camera.left = -8;
-      keyLight.shadow.camera.right = 8;
+      keyLight.shadow.camera.left = -9;
+      keyLight.shadow.camera.right = 9;
       keyLight.shadow.camera.top = 5;
       keyLight.shadow.camera.bottom = -5;
       keyLight.shadow.bias = -0.0005;
       scene.add(keyLight);
 
-      const fillLight = new THREE.DirectionalLight(0xe0f2fe, 0.75);
+      const fillLight = new THREE.DirectionalLight(0xe0f2fe, 0.8);
       fillLight.position.set(-6, 4, 5);
       scene.add(fillLight);
 
@@ -130,8 +142,8 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
       scene.add(stageGroup);
 
       // Subtle perspective tech grid beneath the hardware stage
-      const gridHelper = new THREE.GridHelper(18, 28, 0xcbd5e1, 0xe2e8f0);
-      gridHelper.position.set(0, -1.25, 0);
+      const gridHelper = new THREE.GridHelper(22, 32, 0xcbd5e1, 0xe2e8f0);
+      gridHelper.position.set(0, -1.26, 0);
       const gridMaterials = Array.isArray(gridHelper.material)
         ? gridHelper.material
         : [gridHelper.material];
@@ -144,22 +156,22 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
 
       // Soft shadow-receiving floor plane
       const shadowPlane = new THREE.Mesh(
-        new THREE.PlaneGeometry(18, 8),
+        new THREE.PlaneGeometry(22, 8),
         new THREE.ShadowMaterial({ opacity: 0.08 }),
       );
       shadowPlane.rotation.x = -Math.PI / 2;
-      shadowPlane.position.y = -1.24;
+      shadowPlane.position.y = -1.25;
       shadowPlane.receiveShadow = true;
       stageGroup.add(shadowPlane);
 
-      // Build procedural hardware nodes & optical links
-      const ocu: HardwareNodeHandle = createOCU(NODE_POSITIONS.ocu);
-      const odu: HardwareNodeHandle = createODU(NODE_POSITIONS.odu);
-      const oru: OranORUHandle = createORU(NODE_POSITIONS.oru);
-      const links: OpticalLinksHandle = createOpticalLinks(
-        NODE_POSITIONS.ocu,
-        NODE_POSITIONS.odu,
-        NODE_POSITIONS.oru,
+      // Build procedural hardware nodes & uniform optical conduits
+      const ocu: HardwareNodeHandle = createOCU(new THREE.Vector3(-DEFAULT_SPAN, 0.04, 0));
+      const odu: HardwareNodeHandle = createODU(new THREE.Vector3(0, -0.14, 0));
+      const oru: OranORUHandle = createORU(new THREE.Vector3(DEFAULT_SPAN, 0.04, 0));
+      const links: ResizableOpticalLinksHandle = createOpticalLinks(
+        ocu.group.position,
+        odu.group.position,
+        oru.group.position,
       );
 
       stageGroup.add(ocu.group, odu.group, oru.group, links.group);
@@ -170,44 +182,75 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
       const parallaxTarget = { x: 0, y: 0 };
       const parallaxCurrent = { x: 0, y: 0 };
 
-      // Smooth hover boost states per node
       const hoverLerp = { ocu: 0, odu: 0, oru: 0 };
       let raycastHovered: NodeId = null;
 
-      // Responsive camera framing so all 3 nodes stay visible and unclipped on every viewport
-      function updateCameraFraming(width: number, height: number) {
-        const aspect = Math.max(0.5, width / Math.max(1, height));
-        camera.aspect = aspect;
-        if (width < 640) {
-          camera.fov = 44;
-          camera.position.set(0, 1.0, 13.8);
-        } else if (width < 1024) {
-          camera.fov = 38;
-          camera.position.set(0, 0.9, 12.2);
-        } else {
-          // Ensure horizontal span (-5.6 .. +5.6) fits comfortably even on narrower desktop splits
-          const requiredZ = Math.max(10.6, 12.4 / Math.min(aspect, 2.6) * 1.95);
-          camera.fov = 32;
-          camera.position.set(0, 0.85, Math.min(13.6, requiredZ));
-        }
-        camera.lookAt(0, -0.05, 0);
-        camera.updateProjectionMatrix();
+      function projectXPercent(worldX: number, worldY: number): number {
+        const v = new THREE.Vector3(worldX, worldY, 0.06).project(camera);
+        return ((v.x + 1) / 2) * 100;
       }
 
-      updateCameraFraming(container.clientWidth, container.clientHeight);
+      function projectYPercent(worldX: number, worldY: number): number {
+        const v = new THREE.Vector3(worldX, worldY, 0.06).project(camera);
+        return ((1 - v.y) / 2) * 100;
+      }
+
+      /**
+       * Frames the camera tightly so devices are large and sit cleanly at 1/6, 1/2, 5/6
+       * of the stage width, with optical link pills centered cleanly in the open gaps.
+       */
+      function updateCameraAndSpan(width: number, height: number) {
+        const aspect = Math.max(0.6, width / Math.max(1, height));
+        camera.aspect = aspect;
+
+        // Tight vertical framing (~3.8–4.4 world units tall) so devices fill the stage boldly
+        const camFov = width < 900 ? 32 : 28;
+        const camZ = width < 900 ? 9.6 : 8.1;
+        camera.fov = camFov;
+        camera.position.set(0, 0.52, camZ);
+        camera.lookAt(0, -0.02, 0);
+        camera.updateProjectionMatrix();
+        camera.updateMatrixWorld();
+
+        // Compute visible half-width at z = 0 and place O-CU / O-RU right at 1/6 & 5/6
+        const halfH = Math.tan(THREE.MathUtils.degToRad(camFov / 2)) * camZ;
+        const halfW = halfH * aspect;
+        const targetSpan = Math.max(3.35, Math.min(5.6, halfW * 0.6667));
+
+        ocu.group.position.x = -targetSpan;
+        odu.group.position.x = 0;
+        oru.group.position.x = targetSpan;
+
+        const conduitY = -0.08;
+        links.updateSpan(-targetSpan, 0, targetSpan, conduitY);
+
+        // Emit exact projected percentages so DOM badges & link pills never misalign
+        const f1MidX = (-targetSpan + 0.68 + -1.15) * 0.5;
+        const ofhMidX = (1.15 + targetSpan - 0.92) * 0.5;
+
+        onAnchorsChangeRef.current?.({
+          ocuX: projectXPercent(-targetSpan, 0),
+          oduX: projectXPercent(0, 0),
+          oruX: projectXPercent(targetSpan, 0),
+          f1X: projectXPercent(f1MidX, conduitY),
+          ofhX: projectXPercent(ofhMidX, conduitY),
+          lineY: projectYPercent(0, conduitY),
+        });
+      }
+
+      updateCameraAndSpan(container.clientWidth, container.clientHeight);
 
       const resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
           const { width, height } = entry.contentRect;
           if (width > 0 && height > 0) {
             renderer.setSize(width, height);
-            updateCameraFraming(width, height);
+            updateCameraAndSpan(width, height);
           }
         }
       });
       resizeObserver.observe(container);
 
-      // Pointer tracking for subtle parallax + raycasting (never prevents vertical scroll)
       function onPointerMove(event: PointerEvent) {
         if (!container) return;
         const rect = container.getBoundingClientRect();
@@ -240,7 +283,6 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
       container.addEventListener('pointermove', onPointerMove, { passive: true });
       container.addEventListener('pointerleave', onPointerLeave, { passive: true });
 
-      // Pause rAF render loop when hero section is scrolled out of view
       let isVisible = true;
       let rafId = 0;
       let lastTime = performance.now();
@@ -270,11 +312,12 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
         hoverVal: number,
         timeSec: number,
         phaseOffset: number,
+        baseScale: number,
       ) {
         const clamped = Math.max(0, Math.min(1, rise));
-        const idleFloat = prefersReducedMotion ? 0 : Math.sin(timeSec * 1.35 + phaseOffset) * 0.035 * clamped;
-        node.group.position.y = node.baseY - (1 - clamped) * 1.45 + hoverVal * 0.16 + idleFloat;
-        const s = 0.72 + 0.28 * clamped + hoverVal * 0.035;
+        const idleFloat = prefersReducedMotion ? 0 : Math.sin(timeSec * 1.35 + phaseOffset) * 0.03 * clamped;
+        node.group.position.y = node.baseY - (1 - clamped) * 1.35 + hoverVal * 0.14 + idleFloat;
+        const s = baseScale * (0.74 + 0.26 * clamped + hoverVal * 0.035);
         node.group.scale.setScalar(s);
         node.group.visible = clamped > 0.01;
       }
@@ -288,20 +331,17 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
         elapsed += delta;
         const st = animStateRef.current;
 
-        // Smooth mouse parallax damping
         if (!prefersReducedMotion) {
           parallaxCurrent.x += (parallaxTarget.x - parallaxCurrent.x) * 0.06;
           parallaxCurrent.y += (parallaxTarget.y - parallaxCurrent.y) * 0.06;
-          stageGroup.rotation.y = parallaxCurrent.x * 0.065;
-          stageGroup.rotation.x = -parallaxCurrent.y * 0.035;
+          stageGroup.rotation.y = parallaxCurrent.x * 0.05;
+          stageGroup.rotation.x = -parallaxCurrent.y * 0.025;
         }
 
-        // Update grid fade
         gridMaterials.forEach((m) => {
-          m.opacity = st.gridOpacity * 0.42;
+          m.opacity = st.gridOpacity * 0.4;
         });
 
-        // Smooth hover transitions
         const activeHover = hoveredNodeRef.current;
         const neoHover = neoRuHoveredRef.current;
         const targetOcu = activeHover === 'ocu' ? 1 : 0;
@@ -312,19 +352,17 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
         hoverLerp.odu += (targetOdu - hoverLerp.odu) * 0.12;
         hoverLerp.oru += (targetOru - hoverLerp.oru) * 0.12;
 
-        // Update hardware node positions, scales, LEDs, and lights
-        applyNodeTransform(ocu, st.ocuRise, hoverLerp.ocu, elapsed, 0);
-        applyNodeTransform(odu, st.oduRise, hoverLerp.odu, elapsed, 1.4);
-        applyNodeTransform(oru, st.oruRise, hoverLerp.oru, elapsed, 2.8);
+        applyNodeTransform(ocu, st.ocuRise, hoverLerp.ocu, elapsed, 0, 1.08);
+        applyNodeTransform(odu, st.oduRise, hoverLerp.odu, elapsed, 1.4, 1.08);
+        applyNodeTransform(oru, st.oruRise, hoverLerp.oru, elapsed, 2.8, 1.12);
 
         ocu.update(elapsed, delta, st.ocuPower, hoverLerp.ocu);
         odu.update(elapsed, delta, st.oduPower, hoverLerp.odu);
 
         oru.setRfWaveBoost(neoHover ? 0.85 : 0);
-        oru.rimLight.intensity = (st.oruSpotlight * 2.4 + (neoHover ? 1.8 : 0)) * st.oruPower;
+        oru.rimLight.intensity = (st.oruSpotlight * 2.5 + (neoHover ? 1.8 : 0)) * st.oruPower;
         oru.update(elapsed, delta, st.oruPower, hoverLerp.oru);
 
-        // Update optical conduits & bidirectional data packets
         links.midhaulProgress.value = st.midhaulProgress;
         links.fronthaulProgress.value = st.fronthaulProgress;
         links.flowActive.value = prefersReducedMotion ? 0 : st.flowActive;
@@ -335,7 +373,6 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
 
       rafId = requestAnimationFrame(animate);
 
-      // Thorough cleanup on unmount (zero WebGL memory leaks)
       return () => {
         isVisible = false;
         cancelAnimationFrame(rafId);
@@ -362,7 +399,7 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
       <div
         ref={containerRef}
         className="oran-canvas-host"
-        aria-label="Interactive 3D visualization of O-RAN 7.2 Split connecting O-CU, O-DU, and O-RU"
+        aria-label="Interactive 3D visualization of O-RAN with the 7.2x split connecting O-CU, O-DU, and O-RU"
       />
     );
   },

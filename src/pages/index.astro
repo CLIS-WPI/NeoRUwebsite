@@ -10,7 +10,7 @@ import roadmap from '../data/milestones.json';
 const page = await getEntry('pages','home');
 if(!page) throw new Error('Home content is missing');
 const { Content }=await render(page);
-const neoRuMark = await getImage({ src: neoRu6gLogo, width: 160, format: 'webp' });
+const neoRuMark = await getImage({ src: neoRu6gLogo, width: 240, format: 'webp' });
 const statusGroups=[{status:'done',label:'Done',title:'Foundations in place',copy:'Specifications, CI gates, the baseline method, BFP codec and deterministic virtual radio.'},{status:'in_progress',label:'In progress',title:'The real-time core',copy:'Phase 1: timing, execution, host checks and the verified configuration hand-off.'},{status:'planned',label:'Planned',title:'Integration, then evidence',copy:'Fronthaul I/O, real-DU testing and a matched comparison on the radio bench.'}];
 ---
 <Layout title="A software radio unit. Built to be measured." description={page.data.description}>

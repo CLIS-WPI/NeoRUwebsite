@@ -2,7 +2,7 @@
   position: relative;
   background: linear-gradient(180deg, #ffffff 0%, #f8fafd 100%);
   border-bottom: 1px solid var(--line);
-  padding: 20px 0 34px;
+  padding: 18px 0 36px;
   overflow: hidden;
 }
 
@@ -19,13 +19,13 @@
     min-height: calc(100vh - 92px);
     display: flex;
     align-items: center;
-    padding: 18px 0 28px;
+    padding: 14px 0 28px;
   }
 }
 
 .oran-replay-btn {
   position: absolute;
-  top: 4px;
+  top: 2px;
   right: 0;
   z-index: 12;
   display: inline-flex;
@@ -33,19 +33,19 @@
   gap: 6px;
   padding: 7px 13px;
   border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid #cbd5e1;
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(8px);
-  color: var(--muted);
+  color: #334155;
   font-size: 12.5px;
-  font-weight: 550;
+  font-weight: 600;
   transition: color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
 
 .oran-replay-btn:hover {
   color: var(--accent);
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
-  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.1);
+  border-color: var(--accent);
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.12);
 }
 
 .oran-replay-btn:active {
@@ -55,27 +55,27 @@
 /* Header */
 .oran-hero-header {
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
 .oran-hero-title {
   margin: 0;
-  font-size: clamp(26px, 3.4vw, 44px);
+  font-size: clamp(24px, 3.1vw, 40px);
   font-weight: 750;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.035em;
   line-height: 1.12;
-  color: var(--text);
+  color: #0f172a;
 }
 
 .oran-hero-subtitle {
   margin: 6px 0 0;
-  font-size: clamp(14px, 1.45vw, 19px);
-  font-weight: 450;
-  color: var(--muted);
+  font-size: clamp(14px, 1.35vw, 18px);
+  font-weight: 500;
+  color: #334155;
   letter-spacing: -0.01em;
 }
 
-/* 3D Stage Shell */
+/* 3D Stage Shell (Desktop & Tablet >=768px) */
 .oran-stage-shell {
   position: relative;
   width: 100%;
@@ -86,7 +86,7 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  height: clamp(220px, 34vh, 330px);
+  height: clamp(250px, 38vh, 360px);
   touch-action: pan-y;
 }
 
@@ -99,7 +99,7 @@
 /* Soft studio ambient halos behind each node */
 .oran-halo {
   position: absolute;
-  top: 46%;
+  top: 48%;
   width: 240px;
   height: 240px;
   border-radius: 50%;
@@ -111,125 +111,119 @@
 }
 
 .oran-halo-ocu {
-  left: 17%;
-  background: radial-gradient(circle, rgba(139, 196, 153, 0.34) 0%, rgba(139, 196, 153, 0) 72%);
+  background: radial-gradient(circle, rgba(39, 112, 75, 0.22) 0%, rgba(39, 112, 75, 0) 72%);
 }
 
 .oran-halo-odu {
-  left: 50%;
-  background: radial-gradient(circle, rgba(247, 206, 107, 0.36) 0%, rgba(247, 206, 107, 0) 72%);
+  background: radial-gradient(circle, rgba(217, 155, 26, 0.24) 0%, rgba(217, 155, 26, 0) 72%);
 }
 
 .oran-halo-oru {
-  left: 83%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.28) 0%, rgba(0, 102, 204, 0) 72%);
+  background: radial-gradient(circle, rgba(0, 102, 204, 0.3) 0%, rgba(0, 102, 204, 0) 72%);
 }
 
 .oran-halo-oru.is-boosted {
-  background: radial-gradient(circle, rgba(0, 102, 204, 0.38) 0%, rgba(56, 189, 248, 0) 72%);
+  background: radial-gradient(circle, rgba(0, 102, 204, 0.42) 0%, rgba(56, 189, 248, 0) 72%);
   transform: translate(-50%, -50%) scale(1.18);
 }
 
-/* Floating crisp link labels */
+/* Crisp Pill Labels sitting cleanly on the midpoint of each optical line */
 .oran-links-overlay {
   position: absolute;
   inset: 0;
-  z-index: 4;
+  z-index: 5;
   pointer-events: none;
 }
 
-.oran-link-label {
+.oran-link-pill {
   position: absolute;
-  top: 44%;
   transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-  font-size: clamp(11.5px, 1.05vw, 14px);
-  font-weight: 600;
-  color: #273240;
-  white-space: nowrap;
-  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.95);
-}
-
-.oran-link-midhaul {
-  left: 33.5%;
-  top: 41%;
-}
-
-.oran-link-fronthaul {
-  left: 66.5%;
-  top: 48%;
-  gap: 24px;
-}
-
-.oran-fh-bottom {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1.5px solid #94a3b8;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+  font-size: clamp(11.5px, 0.95vw, 13px);
   font-weight: 700;
-  color: #1e293b;
+  color: #0f172a;
+  white-space: nowrap;
 }
 
-/* Interactive Node Badges */
-.oran-badges-row {
+.oran-link-pill-ofh {
+  border-color: #0066cc;
+  color: #004c99;
+  background: #f0f7ff;
+}
+
+/* Projected Node Badges Track — pixel-aligned directly beneath each 3D hardware model */
+.oran-badges-track {
   position: relative;
-  z-index: 5;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-items: center;
-  margin-top: -12px;
-  gap: 12px;
+  z-index: 6;
+  width: 100%;
+  height: 40px;
+  margin-top: -10px;
 }
 
 .oran-node-badge {
-  min-width: clamp(92px, 14vw, 176px);
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  min-width: clamp(104px, 12vw, 160px);
   padding: 7px 18px;
   border-radius: 9px;
   border: 1px solid transparent;
-  font-size: clamp(13px, 1.25vw, 16px);
+  font-size: clamp(13px, 1.15vw, 15.5px);
   font-weight: 750;
   letter-spacing: 0.01em;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .oran-node-badge:hover,
 .oran-node-badge.is-active {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.14);
 }
 
 .oran-badge-ocu {
-  background: #89c497;
-  color: #12261a;
-  border-color: rgba(39, 112, 75, 0.22);
+  background: #d8f1e0;
+  color: #14452b;
+  border-color: #27704b;
 }
 
 .oran-badge-odu {
-  background: #f7cf6c;
-  color: #2c2106;
-  border-color: rgba(128, 86, 21, 0.22);
+  background: #fef0c7;
+  color: #5c3a07;
+  border-color: #b47b19;
 }
 
+/* O-RU emphasized with NeoRU signature brand blue */
 .oran-badge-oru {
-  background: #6c88a6;
+  background: #0066cc;
   color: #ffffff;
-  border-color: rgba(0, 102, 204, 0.28);
+  border-color: #004c99;
+  box-shadow: 0 6px 18px rgba(0, 102, 204, 0.24);
 }
 
+.oran-badge-oru:hover,
 .oran-badge-oru.is-active {
-  background: #0066cc;
-  box-shadow: 0 8px 22px rgba(0, 102, 204, 0.28);
+  background: #0052a3;
+  box-shadow: 0 10px 24px rgba(0, 102, 204, 0.34);
+}
+
+/* Vertical Mobile Flow (<768px) — hidden on desktop/tablet */
+.oran-mobile-stack {
+  display: none;
 }
 
 /* Bottom Ecosystem & NeoRU Grid */
 .oran-bottom-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.95fr) minmax(0, 1.05fr);
+  grid-template-columns: minmax(0, 1.85fr) minmax(0, 1.15fr);
   gap: 28px;
   align-items: start;
   margin-top: 4px;
 }
 
-/* Left+Center Ecosystem Column */
 .oran-ecosystem-col {
   display: flex;
   flex-direction: column;
@@ -237,7 +231,7 @@
 
 .oran-bracket-wrap {
   width: 100%;
-  height: 32px;
+  height: 30px;
   display: flex;
   justify-content: center;
 }
@@ -253,68 +247,66 @@
   background: #ffffff;
   border: 1.5px solid #cbd5e1;
   border-radius: 16px;
-  padding: 18px 22px 26px;
+  padding: 16px 20px 28px;
   box-shadow: 0 6px 24px rgba(15, 23, 42, 0.04);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .oran-eco-card.is-highlighted {
-  border-color: #64748b;
+  border-color: #475569;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.09);
 }
 
 .oran-eco-header {
-  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: -32px;
+  justify-content: center;
   margin-bottom: 14px;
 }
 
-.oran-cloud-icon {
-  width: 58px;
-  height: 34px;
-  margin-bottom: -16px;
-}
-
 .oran-eco-title {
-  position: relative;
-  z-index: 1;
   margin: 0;
-  padding: 2px 14px;
-  background: #ffffff;
-  font-size: clamp(13.5px, 1.2vw, 16px);
+  font-size: clamp(13.5px, 1.15vw, 15.5px);
   font-weight: 700;
-  color: var(--text);
+  color: #0f172a;
   text-align: center;
   letter-spacing: -0.015em;
 }
 
-.oran-logos-row {
+/* High-contrast plain-text ecosystem project chips */
+.oran-projects-row {
+  list-style: none;
+  margin: 0;
+  padding: 2px 0 10px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: center;
-  justify-items: center;
-  gap: 14px;
-  padding: 6px 4px 12px;
+  gap: 10px;
 }
 
-.oran-logo-item {
+.oran-project-chip {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  text-align: center;
+  gap: 3px;
+  padding: 12px 10px;
+  border-radius: 11px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
 }
 
-.oran-logo-svg {
-  height: 54px;
-  width: auto;
-  max-width: 100%;
+.oran-project-name {
+  font-size: 13.5px;
+  font-weight: 750;
+  color: #0f172a;
+  line-height: 1.25;
 }
 
-.oran-logo-wide {
-  height: 46px;
+.oran-project-role {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #334155;
+  line-height: 1.3;
 }
 
 /* Status Pills overlapping bottom card border */
@@ -329,17 +321,17 @@
   padding: 6px 14px;
   border-radius: 999px;
   background: #ffffff;
-  border: 1.5px solid #cbd5e1;
+  border: 1.5px solid #94a3b8;
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07);
   font-size: 12.5px;
   font-weight: 650;
-  color: var(--text);
+  color: #0f172a;
   white-space: nowrap;
 }
 
 .oran-pill-neoru {
-  border-color: #60a5fa;
-  background: #f0f9ff;
+  border-color: #0066cc;
+  background: #eef6ff;
   color: #0f172a;
 }
 
@@ -357,7 +349,7 @@
 }
 
 .oran-check-green {
-  background: #3b9c64;
+  background: #27704b;
 }
 
 .oran-check-blue {
@@ -369,20 +361,20 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding-top: 12px;
+  padding-top: 10px;
 }
 
 .oran-challenge-banner {
   position: relative;
-  background: #5b7794;
+  background: #1e3a5f;
   color: #ffffff;
   border-radius: 10px;
-  padding: 8px 12px;
-  font-size: 12px;
-  line-height: 1.35;
+  padding: 8px 14px;
+  font-size: 12.5px;
+  line-height: 1.4;
   text-align: center;
   font-weight: 500;
-  box-shadow: 0 4px 12px rgba(91, 119, 148, 0.22);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.2);
 }
 
 .oran-challenge-pointer {
@@ -394,18 +386,18 @@
   height: 0;
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-bottom: 7px solid #5b7794;
+  border-bottom: 7px solid #1e3a5f;
 }
 
 .oran-neoru-card {
   position: relative;
-  background: linear-gradient(155deg, #f2faff 0%, #e7f4ff 100%);
+  background: linear-gradient(155deg, #f3f9ff 0%, #e6f2ff 100%);
   border: 2px solid #0066cc;
   border-radius: 16px;
-  padding: 15px 18px 24px;
+  padding: 16px 18px 26px;
   box-shadow:
-    0 0 0 4px rgba(56, 189, 248, 0.14),
-    0 12px 28px rgba(0, 102, 204, 0.16);
+    0 0 0 4px rgba(0, 102, 204, 0.1),
+    0 12px 28px rgba(0, 102, 204, 0.14);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -413,29 +405,30 @@
 .oran-neoru-card.is-highlighted {
   transform: translateY(-2px);
   box-shadow:
-    0 0 0 5px rgba(56, 189, 248, 0.24),
-    0 16px 34px rgba(0, 102, 204, 0.24);
+    0 0 0 5px rgba(0, 102, 204, 0.18),
+    0 16px 34px rgba(0, 102, 204, 0.22);
 }
 
 .oran-neoru-head {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 14px;
+  margin-bottom: 12px;
 }
 
+/* Larger, readable NeoRU logo mark */
 .oran-neoru-mark {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+  width: 84px;
+  height: 84px;
+  border-radius: 14px;
   background: #ffffff;
-  border: 1px solid rgba(0, 102, 204, 0.18);
+  border: 1.5px solid rgba(0, 102, 204, 0.24);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
-  padding: 2px;
+  padding: 4px;
 }
 
 .oran-neoru-logo-img {
@@ -446,7 +439,7 @@
 
 .oran-neoru-title {
   margin: 0;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
   letter-spacing: -0.03em;
   color: #0f172a;
@@ -454,10 +447,10 @@
 }
 
 .oran-neoru-subtitle {
-  margin: 2px 0 0;
-  font-size: 12.5px;
+  margin: 4px 0 0;
+  font-size: 13.5px;
   font-weight: 600;
-  color: #334155;
+  color: #1e293b;
   line-height: 1.3;
 }
 
@@ -466,9 +459,9 @@
   padding-left: 18px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  font-size: 13px;
-  color: #1e293b;
+  gap: 5px;
+  font-size: 13.5px;
+  color: #0f172a;
   line-height: 1.45;
 }
 
@@ -476,23 +469,15 @@
   color: #0066cc;
 }
 
-/* Responsive Tablet & Mobile (<1024px) */
+/* Tablet (<1024px) */
 @media (max-width: 1023px) {
   .oran-bottom-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 30px;
     margin-top: 16px;
   }
 
   .oran-bracket-wrap {
-    display: none;
-  }
-
-  .oran-eco-header {
-    margin-top: 0;
-  }
-
-  .oran-cloud-icon {
     display: none;
   }
 
@@ -509,35 +494,107 @@
     align-self: flex-end;
     margin-bottom: 8px;
   }
+
+  .oran-projects-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-@media (max-width: 760px) {
-  .oran-canvas-host {
-    height: 210px;
+/* Mobile (<768px): Stack the 3-node architecture vertically instead of cramping horizontally */
+@media (max-width: 767px) {
+  .oran-stage-shell,
+  .oran-replay-btn {
+    display: none;
   }
 
-  .oran-link-label {
-    font-size: 10.5px;
+  .oran-mobile-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 18px 0 8px;
+    width: 100%;
   }
 
-  .oran-link-fronthaul {
-    gap: 16px;
+  .oran-mobile-node {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
   }
 
-  .oran-logos-row {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px 10px;
+  .oran-mobile-oru {
+    border-color: #0066cc;
+    background: #f0f7ff;
+  }
+
+  .oran-mobile-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 68px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-size: 13.5px;
+    font-weight: 750;
+    flex-shrink: 0;
+  }
+
+  .oran-mobile-desc {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .oran-mobile-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .oran-mobile-line {
+    width: 2.5px;
+    height: 14px;
+    background: #64748b;
+  }
+
+  .oran-mobile-line-blue {
+    background: #0066cc;
+  }
+
+  .oran-mobile-if-pill {
+    padding: 3px 12px;
+    border-radius: 999px;
+    border: 1.5px solid #94a3b8;
+    background: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
   }
 
   .oran-status-pill {
     white-space: normal;
     text-align: center;
     max-width: calc(100% - 20px);
-    font-size: 11.5px;
+    font-size: 12px;
     padding: 6px 12px;
   }
 
   .oran-eco-card {
+    padding-bottom: 36px;
+  }
+
+  .oran-neoru-card {
     padding-bottom: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oran-replay-btn {
+    display: none;
   }
 }

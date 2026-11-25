@@ -1,5 +1,4 @@
 import type { RefObject } from 'react';
-import { OaiLogo, OcuduLogo, OranScLogo, SrsRanLogo } from '@/assets/logos';
 import type { NodeId } from './types';
 
 interface EcosystemCardsProps {
@@ -12,6 +11,13 @@ interface EcosystemCardsProps {
   challengeBannerRef: RefObject<HTMLDivElement | null>;
   neoRuCardRef: RefObject<HTMLDivElement | null>;
 }
+
+const ECOSYSTEM_PROJECTS = [
+  { name: 'srsRAN Project', role: 'Open-source 5G CU/DU' },
+  { name: 'OpenAirInterface 5G', role: '3GPP 5G RAN stack' },
+  { name: 'O-RAN Software Community', role: 'O-RAN reference software' },
+  { name: 'OCUDU', role: 'Open CU/DU ecosystem' },
+];
 
 export function EcosystemCards({
   hoveredNode,
@@ -28,15 +34,14 @@ export function EcosystemCards({
 
   return (
     <div className="oran-bottom-grid">
-      {/* Left + Center Group: OCUDU & Open-Source Software Ecosystem (CU + DU) */}
+      {/* Left + Center Group: Open-Source Software Ecosystem (CU + DU) */}
       <div className="oran-ecosystem-col">
-        {/* Connecting SVG bracket spanning under O-CU and O-DU */}
         <div className="oran-bracket-wrap" aria-hidden="true">
           <svg viewBox="0 0 600 44" fill="none" className="oran-bracket-svg" preserveAspectRatio="none">
             <path
               ref={bracketPathRef}
               d="M 108 4 C 108 22, 120 22, 140 22 L 284 22 C 296 22, 300 28, 300 40 C 300 28, 304 22, 316 22 L 460 22 C 480 22, 492 22, 492 4"
-              stroke="#64748B"
+              stroke="#475569"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -49,54 +54,33 @@ export function EcosystemCards({
           className={`oran-eco-card ${isCuDuActive ? 'is-highlighted' : ''}`}
         >
           <div className="oran-eco-header">
-            <svg
-              className="oran-cloud-icon"
-              viewBox="0 0 64 38"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M17 34h31a11 11 0 0 0 1.4-21.9A15 15 0 0 0 20.5 10.6 10.5 10.5 0 0 0 17 34Z"
-                stroke="#94A3B8"
-                strokeWidth="2"
-                fill="#FFFFFF"
-              />
-            </svg>
             <h2 className="oran-eco-title">
               OCUDU &amp; Open-Source Software Ecosystem (CU + DU)
             </h2>
           </div>
 
-          <div className="oran-logos-row">
-            <div className="oran-logo-item">
-              <SrsRanLogo className="oran-logo-svg" />
-            </div>
-            <div className="oran-logo-item">
-              <OaiLogo className="oran-logo-svg oran-logo-wide" />
-            </div>
-            <div className="oran-logo-item">
-              <OranScLogo className="oran-logo-svg oran-logo-wide" />
-            </div>
-            <div className="oran-logo-item">
-              <OcuduLogo className="oran-logo-svg" />
-            </div>
-          </div>
+          {/* Plain-text project list — avoids third-party trademarked logos while maximizing contrast */}
+          <ul className="oran-projects-row" aria-label="Open-source CU and DU projects">
+            {ECOSYSTEM_PROJECTS.map((proj) => (
+              <li key={proj.name} className="oran-logo-item oran-project-chip">
+                <span className="oran-project-name">{proj.name}</span>
+                <span className="oran-project-role">{proj.role}</span>
+              </li>
+            ))}
+          </ul>
 
           <div className="oran-status-pill oran-pill-mature">
             <span className="oran-check-badge oran-check-green" aria-hidden="true">✓</span>
-            <span>Highly Mature &amp; Widely Available Software for CU &amp; DU</span>
+            <span>Mature, widely available open-source software for CU &amp; DU</span>
           </div>
         </div>
       </div>
 
       {/* Right Group: Challenge Banner + Highlighted NeoRU Solution Card */}
       <div className="oran-neoru-col">
-        <div
-          ref={challengeBannerRef}
-          className="oran-challenge-banner"
-        >
+        <div ref={challengeBannerRef} className="oran-challenge-banner">
           <span className="oran-challenge-pointer" aria-hidden="true" />
-          <strong>The Challenge:</strong> Proprietary &amp; Fixed-Function / Lack of Open O-RUs
+          <strong>Few open O-RUs exist:</strong> commercial units remain largely proprietary and fixed-function
         </div>
 
         <div
@@ -106,30 +90,31 @@ export function EcosystemCards({
           onMouseLeave={() => onNeoRuHover(false)}
         >
           <div className="oran-neoru-head">
-            <div className="oran-neoru-mark" aria-hidden="true">
+            <div className="oran-neoru-mark">
               <img
                 src={neoRuLogoSrc}
-                alt=""
-                width={58}
-                height={58}
+                alt="NeoRU logo"
+                width={88}
+                height={88}
                 className="oran-neoru-logo-img"
               />
             </div>
             <div>
               <h2 className="oran-neoru-title">NeoRU</h2>
-              <p className="oran-neoru-subtitle">Open &amp; Programmable Radio Unit Solution</p>
+              <p className="oran-neoru-subtitle">An open, software-defined O-RU</p>
             </div>
           </div>
 
           <ul className="oran-neoru-list">
-            <li>Fills the missing O-RU gap</li>
-            <li>Open Architecture &amp; Programmable FPGA/Low-PHY</li>
-            <li>Fully compliant with O-RAN Split-7.2</li>
+            <li>Open source (Apache 2.0)</li>
+            <li>Built for O-RAN 7.2x fronthaul (in development)</li>
+            <li>Runs on commodity servers; GPU and FPGA acceleration planned</li>
+            <li>Measured, not claimed</li>
           </ul>
 
           <div className="oran-status-pill oran-pill-neoru">
             <span className="oran-check-badge oran-check-blue" aria-hidden="true">✓</span>
-            <span>NeoRU fills the gap!</span>
+            <span>Open, software-defined, and measured</span>
           </div>
         </div>
       </div>
