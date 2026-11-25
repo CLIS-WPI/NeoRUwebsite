@@ -50,13 +50,14 @@ interface OranSceneCanvasProps {
   neoRuHovered: boolean;
   onHoverNode: (node: NodeId) => void;
   onAnchorsChange?: (anchors: ProjectedAnchors) => void;
+  onReady?: () => void;
 }
 
 const DEFAULT_SPAN = 4.5;
 
 export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>(
   function OranSceneCanvas(
-    { hoveredNode, neoRuHovered, onHoverNode, onAnchorsChange },
+    { hoveredNode, neoRuHovered, onHoverNode, onAnchorsChange, onReady },
     ref,
   ) {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -64,11 +65,13 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
     const neoRuHoveredRef = useRef<boolean>(neoRuHovered);
     const onHoverNodeRef = useRef(onHoverNode);
     const onAnchorsChangeRef = useRef(onAnchorsChange);
+    const onReadyRef = useRef(onReady);
 
     hoveredNodeRef.current = hoveredNode;
     neoRuHoveredRef.current = neoRuHovered;
     onHoverNodeRef.current = onHoverNode;
     onAnchorsChangeRef.current = onAnchorsChange;
+    onReadyRef.current = onReady;
 
     const animStateRef = useRef<SceneAnimState>({
       gridOpacity: 0,
@@ -372,6 +375,7 @@ export const OranSceneCanvas = forwardRef<OranSceneHandle, OranSceneCanvasProps>
       }
 
       rafId = requestAnimationFrame(animate);
+      onReadyRef.current?.();
 
       return () => {
         isVisible = false;

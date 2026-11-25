@@ -153,9 +153,35 @@ test('the site loads no external page resources or tracking code', () => {
   }
 });
 
-test('the sitemap covers every public content page and excludes the 404', () => {
+test('the sitemap covers every public content and docs page and excludes the 404', () => {
   const sitemap = read(join(dist, 'sitemap.xml'));
   const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.deepEqual(locations.sort(), pages.map((route) => `${origin}${base}${route ? `${route}/` : ''}`).sort());
+  const expectedRoutes = [
+    ...pages,
+    'docs/getting-started',
+    'docs/architecture',
+    'docs/architecture/timing-and-core',
+    'docs/architecture/virtual-radio',
+    'docs/engineering',
+    'docs/engineering/benchmarks',
+  ];
+  assert.deepEqual(locations.sort(), expectedRoutes.map((route) => `${origin}${base}${route ? `${route}/` : ''}`).sort());
   assert.match(read(join(dist, 'robots.txt')), /Sitemap: https:\/\/clis-wpi\.github\.io\/NeoRUwebsite\/sitemap\.xml/);
+});
+
+test('AI agent discovery files (llms.txt, llms-full.txt) and JSON-LD SEO schema are auto-generated', () => {
+  const llms = read(join(dist, 'llms.txt'));
+  const llmsFull = read(join(dist, 'llms-full.txt'));
+  assert.match(llms, /# NeoRU/);
+  assert.match(llms, /llms-full\.txt/);
+  assert.match(llms, /\/NeoRUwebsite\/docs\//);
+  assert.match(llmsFull, /## Docs: NeoRU Documentation/);
+  assert.match(llmsFull, /Milad Natanzi/);
+
+  const homeHtml = read(pageFile(''));
+  const docsHtml = read(pageFile('docs'));
+  assert.match(homeHtml, /application\/ld\+json/);
+  assert.match(homeHtml, /rel="alternate"\s+type="text\/plain"\s+href="\/NeoRUwebsite\/llms\.txt"/);
+  assert.match(docsHtml, /application\/ld\+json/);
+  assert.match(docsHtml, /"TechArticle"/);
 });

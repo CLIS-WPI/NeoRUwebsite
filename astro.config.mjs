@@ -7,10 +7,19 @@ export default defineConfig({
   base: '/NeoRUwebsite',
   output: 'static',
   trailingSlash: 'always',
+  compressHTML: true,
   devToolbar: { enabled: false },
+  prefetch: {
+    prefetchAll: false,
+    defaultStrategy: 'hover',
+  },
+  build: {
+    inlineStylesheets: 'auto',
+  },
   integrations: [
     fumadocs({
       components: './src/components/mdx.tsx',
+      includeProcessedMarkdown: true,
     }),
   ],
   vite: {

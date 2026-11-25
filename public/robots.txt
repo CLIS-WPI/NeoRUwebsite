@@ -1,4 +1,22 @@
 User-agent: *
 Allow: /
 
+# Explicitly welcome AI research and search agents
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://clis-wpi.github.io/NeoRUwebsite/sitemap.xml
+# AI-readable index: https://clis-wpi.github.io/NeoRUwebsite/llms.txt
+# AI-readable full corpus: https://clis-wpi.github.io/NeoRUwebsite/llms-full.txt

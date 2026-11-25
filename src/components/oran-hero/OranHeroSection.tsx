@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import {
-  OranSceneCanvas,
-  type OranSceneHandle,
-  type ProjectedAnchors,
-} from './OranSceneCanvas';
+import type { OranSceneHandle, ProjectedAnchors } from './OranSceneCanvas';
 import { EcosystemCards } from './EcosystemCards';
 import type { NodeId } from './types';
 import './oran-hero.css';
+
+const LazyOranSceneCanvas = lazy(() =>
+  import('./OranSceneCanvas').then((mod) => ({ default: mod.OranSceneCanvas })),
+);
 
 interface OranHeroSectionProps {
   neoRuLogoSrc: string;
@@ -27,6 +27,7 @@ export function OranHeroSection({ neoRuLogoSrc }: OranHeroSectionProps) {
   const [neoRuHovered, setNeoRuHovered] = useState(false);
   const [anchors, setAnchors] = useState<ProjectedAnchors>(DEFAULT_ANCHORS);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [show3D, setShow3D] = useState(false);
 
   const sectionRef = useRef<HTMLElement>(null);
   const sceneRef = useRef<OranSceneHandle>(null);
@@ -179,12 +180,19 @@ export function OranHeroSection({ neoRuLogoSrc }: OranHeroSectionProps) {
   }, []);
 
   useEffect(() => {
-    buildAndPlayTimeline();
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onChange = () => buildAndPlayTimeline();
-    mq.addEventListener('change', onChange);
+    const desktopMq = window.matchMedia('(min-width: 768px)');
+    setShow3D(desktopMq.matches);
+    const onDesktopChange = (e: MediaQueryListEvent) => setShow3D(e.matches);
+    desktopMq.addEventListener('change', onDesktopChange);
+
+    const motionMq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(motionMq.matches);
+    const onMotionChange = () => buildAndPlayTimeline();
+    motionMq.addEventListener('change', onMotionChange);
+
     return () => {
-      mq.removeEventListener('change', onChange);
+      desktopMq.removeEventListener('change', onDesktopChange);
+      motionMq.removeEventListener('change', onMotionChange);
       timelineRef.current?.kill();
     };
   }, [buildAndPlayTimeline]);
@@ -197,7 +205,7 @@ export function OranHeroSection({ neoRuLogoSrc }: OranHeroSectionProps) {
       aria-label="O-RAN with the 7.2x split interactive 3D architecture"
     >
       <div className="container oran-hero-inner">
-        {!reducedMotion && (
+        {!reducedMotion && show3D && (
           <button
             type="button"
             className="oran-replay-btn"
@@ -239,13 +247,20 @@ export function OranHeroSection({ neoRuLogoSrc }: OranHeroSectionProps) {
             aria-hidden="true"
           />
 
-          <OranSceneCanvas
-            ref={sceneRef}
-            hoveredNode={hoveredNode}
-            neoRuHovered={neoRuHovered}
-            onHoverNode={setHoveredNode}
-            onAnchorsChange={setAnchors}
-          />
+          {show3D ? (
+            <Suspense fallback={<div className="oran-canvas-host" aria-hidden="true" />}>
+              <LazyOranSceneCanvas
+                ref={sceneRef}
+                hoveredNode={hoveredNode}
+                neoRuHovered={neoRuHovered}
+                onHoverNode={setHoveredNode}
+                onAnchorsChange={setAnchors}
+                onReady={buildAndPlayTimeline}
+              />
+            </Suspense>
+          ) : (
+            <div className="oran-canvas-host" aria-hidden="true" />
+          )}
 
           {/* Interface Pill Labels positioned directly on the midpoint of each optical line */}
           <div className="oran-links-overlay" aria-hidden="true">
