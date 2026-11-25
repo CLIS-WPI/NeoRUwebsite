@@ -1,21 +1,25 @@
 ---
 import { getEntry, render } from 'astro:content';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import logo from '../assets/neoru-logo.png';
+import neoRu6gLogo from '../assets/neoru-6g-logo.png';
 import Layout from '../layouts/Layout.astro';
+import { OranHeroSection } from '../components/oran-hero/OranHeroSection';
 import { url } from '../lib/site';
 import roadmap from '../data/milestones.json';
 const page = await getEntry('pages','home');
 if(!page) throw new Error('Home content is missing');
 const { Content }=await render(page);
+const neoRuMark = await getImage({ src: neoRu6gLogo, width: 160, format: 'webp' });
 const statusGroups=[{status:'done',label:'Done',title:'Foundations in place',copy:'Specifications, CI gates, the baseline method, BFP codec and deterministic virtual radio.'},{status:'in_progress',label:'In progress',title:'The real-time core',copy:'Phase 1: timing, execution, host checks and the verified configuration hand-off.'},{status:'planned',label:'Planned',title:'Integration, then evidence',copy:'Fronthaul I/O, real-DU testing and a matched comparison on the radio bench.'}];
 ---
 <Layout title="A software radio unit. Built to be measured." description={page.data.description}>
+  <OranHeroSection client:load neoRuLogoSrc={neoRuMark.src} />
   <section class="hero container">
-    <h1>A software radio unit.<br /><span>Built to be measured.</span></h1>
+    <h2 class="hero-secondary-heading">A software radio unit.<br /><span>Built to be measured.</span></h2>
     <p class="hero-description">{page.data.description}</p>
     <div class="hero-actions"><a class="button" href={url('architecture')}>Explore the architecture</a><a class="text-link" href={url('benchmarks')}>View benchmarks</a></div>
-    <div class="hero-art"><div class="art-label">Software O-RU<br />Open Fronthaul · Split 7.2x</div><div class="hero-logo"><Image src={logo} width={512} height={512} format="webp" alt="NeoRU owl and radio-wave logo" loading="eager" fetchpriority="high" /></div><div class="art-label right">An open engineering project<br />Apache 2.0</div></div>
+    <div class="hero-art"><div class="art-label">Software O-RU<br />Open Fronthaul · Split 7.2x</div><div class="hero-logo"><Image src={logo} width={512} height={512} format="webp" alt="NeoRU owl and radio-wave logo" loading="lazy" /></div><div class="art-label right">An open engineering project<br />Apache 2.0</div></div>
     <p class="art-caption">Software-defined research. Public code release pending.</p>
     <div class="project-strip"><div><span>Current focus</span><p>Phase 1 · Core foundations</p></div><div><span>Engineering principle</span><p>Measured, not claimed.</p></div><div><span>Development model</span><p>Open. Traceable. Human-reviewed.</p></div></div>
   </section>
