@@ -1,0 +1,24 @@
+---
+title: Engineering Process
+description: Specifications before implementation, automated CI sanitizers, and human-approved review gates.
+---
+
+## Spec-First & Test-First Workflow
+
+NeoRU is developed with explicit contracts and automated verification gates:
+
+1. **Specify the contract:** The architecture RFC and seven interface specifications were completed before implementation.
+2. **Write tests first:** Unit tests and the deterministic virtual radio verify behaviour without relying on ad-hoc demonstrations.
+3. **Human-approved gates:** AI-assisted development operates under strict human-approved gates with a provenance record for every change.
+
+## Automated CI Gates
+
+The isolated development environment and CI pipeline are complete and run:
+
+- Unit tests
+- **AddressSanitizer (ASan)**
+- **UndefinedBehaviorSanitizer (UBSan)**
+- **ThreadSanitizer (TSan)**
+- **AArch64 build under emulation**
+
+Passing CI checks establishes what those checks cover; it does not establish real-time timing or hardware performance.

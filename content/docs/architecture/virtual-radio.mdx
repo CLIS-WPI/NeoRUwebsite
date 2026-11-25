@@ -1,0 +1,21 @@
+---
+title: Virtual Radio & BFP Codec
+description: Bit-exact testing without radio hardware and O-RAN CUS-plane BFP compression.
+---
+
+## Deterministic Virtual Radio
+
+The deterministic virtual radio is **complete** as a foundation component. It enables bit-exact O-RU testing without physical radio hardware, allowing unit and integration tests to verify signal-processing and protocol behaviour reproducibly.
+
+Integrated real-time virtual-radio operation (Phase 2) and validation with a real DU (Level 3) remain planned.
+
+## BFP Compression Codec
+
+The Block Floating Point (BFP) compression codec is **complete** and has been checked against:
+
+- The **O-RAN CUS-plane specification**
+- **Real DU traffic**
+
+<Callout title="Component readiness vs. system readiness">
+  Completion of the BFP codec and deterministic virtual radio establishes component-level readiness only; full fronthaul packet I/O and end-to-end system integration are part of Phase 2.
+</Callout>

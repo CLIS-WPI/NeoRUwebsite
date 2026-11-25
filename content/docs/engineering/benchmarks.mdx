@@ -1,0 +1,25 @@
+---
+title: Benchmarks & Methodology
+description: Reference ProtO-RU baseline conditions, metric scope, and comparability rules.
+---
+
+<Callout type="warn" title="Reference baseline only">
+  NeoRU has not yet been measured end to end. The figures below are the baseline for the reference implementation (**ProtO-RU**), not NeoRU performance results.
+</Callout>
+
+## Reference Baseline (ProtO-RU)
+
+| Metric | Value | Scope |
+| --- | --- | --- |
+| **CPU use** | 3.38 cores (median) | Reference O-RU |
+| **Package power above idle** | 33.5 W | O-RU and DU together (not isolated O-RU power) |
+
+### Measurement Conditions
+
+- **Carrier configuration:** 20 MHz, 2×2 MIMO, 30 kHz subcarrier spacing
+- **Traffic load:** Saturated test UE
+- **Host configuration:** Isolated cores on AMD EPYC 9354
+
+## Comparability Rules
+
+NeoRU's target of running one 20 MHz, 2×2 carrier on approximately one CPU core is an engineering goal, not a measured result. A NeoRU comparison will be published only after NeoRU is measured under the exact same conditions as the reference baseline, with full test configuration and measurement scope attached.

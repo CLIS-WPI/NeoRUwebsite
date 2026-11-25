@@ -1,0 +1,24 @@
+---
+title: Architecture Overview
+description: "High-level structure of NeoRU: control process, real-time data plane, and the verified configuration hand-off."
+---
+
+## System Structure
+
+NeoRU separates control-plane management from a deliberately small real-time data plane:
+
+- **Control Process (Rust, in progress):** Handles configuration and lifecycle management outside the real-time path.
+- **Configuration Hand-off (in progress):** The single lock-free concurrency boundary between the control process and the data plane, checked using **GenMC** under two memory models with deliberately injected defects that the checks must catch.
+- **Real-Time Data Plane (in progress):** Centres on a precise slot clock, an event ring, an executor, and a core plan.
+- **Radio & Compression Foundations (complete):** Includes the O-RAN CUS-plane BFP compression codec and the deterministic virtual radio.
+
+<Callout type="warn" title="Scope of current claims">
+  Completed components do not imply an integrated or end-to-end measured radio unit. Exact process boundaries, interface names, and plane ownership will be added once the public interface specifications are released.
+</Callout>
+
+## Integration & Validation Roadmap
+
+- **Phase 2 (planned):** Fronthaul packet I/O, slot table, system integration, and real-time virtual radio.
+- **Level 3 (planned):** Validation against a real DU using the virtual radio.
+- **Level 4 (planned):** End-to-end measurement on a real radio bench under the same conditions as the reference baseline.
+- **Later work (planned):** GPU/FPGA acceleration, integrated sensing and communication (ISAC), massive MIMO, and a dedicated hardware board.

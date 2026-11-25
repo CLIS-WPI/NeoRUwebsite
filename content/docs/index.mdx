@@ -1,0 +1,49 @@
+---
+title: NeoRU Documentation
+description: Engineering documentation for NeoRU, an open-source software O-RU for O-RAN split 7.2x developed at WPI's CLIS Lab.
+---
+
+<Callout title="Status snapshot: 23 November 2026">
+  NeoRU is under active development under the Apache 2.0 license. The architecture RFC, seven interface specifications, BFP compression codec, deterministic virtual radio, and reference baseline are complete; public code release and end-to-end measurement remain ahead.
+</Callout>
+
+## Start with the engineering
+
+Welcome to the **NeoRU** documentation hub. This documentation structure is organized around the system architecture, real-time core components, verification workflow, and measurement methodology.
+
+<Cards>
+  <Card
+    title="Getting Started"
+    href="/NeoRUwebsite/docs/getting-started"
+    description="Repository status, licensing, and how to add or navigate NeoRU documentation."
+  />
+  <Card
+    title="Architecture Overview"
+    href="/NeoRUwebsite/docs/architecture"
+    description="The control process, real-time data plane, and the GenMC-checked hand-off boundary."
+  />
+  <Card
+    title="Timing & Real-Time Core"
+    href="/NeoRUwebsite/docs/architecture/timing-and-core"
+    description="Slot clock, event ring, executor, core plan, and host platform profile."
+  />
+  <Card
+    title="Virtual Radio & BFP Codec"
+    href="/NeoRUwebsite/docs/architecture/virtual-radio"
+    description="Bit-exact deterministic virtual radio and O-RAN CUS-plane BFP compression."
+  />
+  <Card
+    title="Engineering Process"
+    href="/NeoRUwebsite/docs/engineering"
+    description="Spec-first development, CI sanitizers, GenMC concurrency checks, and review gates."
+  />
+  <Card
+    title="Benchmarks & Methodology"
+    href="/NeoRUwebsite/docs/engineering/benchmarks"
+    description="Reference ProtO-RU baseline figures, test conditions, and comparability rules."
+  />
+</Cards>
+
+## Project goal
+
+NeoRU targets running one **20 MHz, 2×2** O-RAN split 7.2x carrier on approximately **one CPU core**. This is an engineering target — end-to-end NeoRU measurement is still ahead, and any future comparison will be reported under the exact same test conditions as the reference baseline.

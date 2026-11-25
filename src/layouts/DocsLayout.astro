@@ -1,0 +1,37 @@
+---
+import { getImage } from 'astro:assets';
+import { ClientRouter } from 'astro:transitions';
+import logo from '../assets/neoru-logo.png';
+import '../styles/docs.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const icon = await getImage({ src: logo, width: 96, format: 'png' });
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const metaDescription =
+  description ?? 'Documentation for NeoRU, an open-source software O-RU developed at WPI CLIS Lab.';
+---
+
+<!doctype html>
+<html lang="en" transition:animate="none">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | NeoRU Docs</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href={icon.src} />
+    <meta property="og:title" content={`${title} | NeoRU Docs`} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <ClientRouter />
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <slot />
+  </body>
+</html>

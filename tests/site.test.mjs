@@ -47,7 +47,7 @@ test('all eight content pages and the GitHub Pages 404 are built', () => {
 });
 
 test('Benchmarks, Docs, and Team are direct links in the main header', () => {
-  for (const route of pages) {
+  for (const route of pages.filter((p) => p !== 'docs')) {
     const header = read(pageFile(route)).match(/<header\b[^>]*>([\s\S]*?)<\/header>/i)?.[1];
     assert.ok(header, `${route || 'home'}: missing main header`);
     const links = [...header.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)].map((match) => ({ ...attributes(match[1]), label: text(match[2]) }));
@@ -55,6 +55,29 @@ test('Benchmarks, Docs, and Team are direct links in the main header', () => {
       assert.ok(links.some((link) => link.href === `${base}${slug}/` && link.label === label), `${route || 'home'}: ${label} is not a direct header link`);
     }
   }
+});
+
+test('Fumadocs documentation pages and static search index are built with site navigation', () => {
+  const docRoutes = [
+    'docs',
+    'docs/getting-started',
+    'docs/architecture',
+    'docs/architecture/timing-and-core',
+    'docs/architecture/virtual-radio',
+    'docs/engineering',
+    'docs/engineering/benchmarks',
+  ];
+  for (const route of docRoutes) {
+    assert.ok(existsSync(pageFile(route)), `Missing Fumadocs page: ${route}`);
+    const html = read(pageFile(route));
+    assert.match(html, /<h1\b/);
+    assert.ok(html.includes(`href="${base}"`), `${route}: missing Home link`);
+    assert.ok(html.includes(`href="${base}benchmarks/"`), `${route}: missing Benchmarks link`);
+    assert.ok(html.includes(`href="${base}team/"`), `${route}: missing Team link`);
+  }
+  const searchIndexPath = join(dist, 'api', 'search.json');
+  assert.ok(existsSync(searchIndexPath), 'Missing static Fumadocs search index at dist/api/search.json');
+  assert.doesNotThrow(() => JSON.parse(read(searchIndexPath)), 'Static search index must be valid JSON');
 });
 
 test('every internal page link and local resource resolves under the project base', () => {

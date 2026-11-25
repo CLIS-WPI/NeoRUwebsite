@@ -1,0 +1,22 @@
+---
+title: Timing & Real-Time Core
+description: Slot clock, event ring, executor, core plan, and host platform profile.
+---
+
+## Real-Time Core Components
+
+Phase 1 development focuses on keeping the real-time core small, observable, and predictable:
+
+| Component | Status | Role |
+| --- | --- | --- |
+| **Timing core** | In progress | Precise slot clock designed to record every late wake-up |
+| **Event ring** | In progress | Core event-recording component for inspecting runtime behaviour |
+| **Executor** | In progress | Execution engine for the real-time data plane |
+| **Core plan** | In progress | Execution planning and scheduling layout |
+| **Host platform profile** | In progress | Pre-start checks for CPU isolation, NUMA locality, PCIe links, and timers |
+
+## Bounded Concurrency Verification
+
+The configuration hand-off between the Rust control process and the real-time data plane is the single lock-free component in the architecture. Verification uses **GenMC** under two memory models, including injected defects that must be detected.
+
+This verification scope is explicitly limited to the configuration hand-off and is not a formal proof of the entire O-RU.
