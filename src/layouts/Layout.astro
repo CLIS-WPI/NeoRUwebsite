@@ -29,7 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <nav class="desktop-nav" aria-label="Main navigation">{nav.map(([label,path])=><a href={url(path)} aria-current={Astro.url.pathname===url(path)?'page':undefined}>{label}</a>)}<span class="nav-paper" aria-disabled="true">Paper</span></nav>
         <div class="header-actions">
           <a class="github-link" href="https://github.com/CLIS-WPI/NeoRU/" aria-label="Project repository on GitHub" title="NeoRU project repository">GitHub</a>
-          <details class="mobile-nav"><summary aria-label="Open navigation"><span></span><span></span></summary><nav aria-label="Mobile navigation">{nav.map(([label,path])=><a href={url(path)} aria-current={Astro.url.pathname===url(path)?'page':undefined}>{label}</a>)}<a href="https://github.com/CLIS-WPI/NeoRU/" aria-label="Project repository on GitHub">GitHub</a><span class="nav-paper" aria-disabled="true">Paper</span></nav></details>
+          <details class="mobile-nav"><summary aria-label="Open navigation"><span></span><span></span></summary><nav aria-label="Mobile navigation">{nav.map(([label,path])=><a href={url(path)} aria-current={Astro.url.pathname===url(path)?'page':undefined}>{label}</a>)}<span class="nav-paper" aria-disabled="true">Paper</span><a href="https://github.com/CLIS-WPI/NeoRU/" aria-label="Project repository on GitHub">GitHub</a></nav></details>
         </div>
       </div>
     </header>
