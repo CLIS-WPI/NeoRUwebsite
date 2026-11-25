@@ -88,7 +88,7 @@
 .process-aside > .text-link { font-size: .95rem; }
 .process-prose h2 { border-top: 1px solid var(--line); padding-top: 28px; }
 .process-prose > h2:first-child { padding-top: 0; border: none; }
-.team-people { display: grid; grid-template-columns: repeat(2, minmax(0, 320px)); justify-content: center; gap: 48px; padding: 28px 0 65px; border-bottom: 1px solid var(--line); }
+.team-people { display: grid; grid-template-columns: repeat(2, minmax(0, 320px)); justify-content: center; gap: 48px; padding: 20px 0 12px; }
 .team-person { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; }
 .team-person-founder .person-monogram { background: var(--accent-soft); color: var(--accent); font-weight: 650; }
 .person-monogram { width: 72px; height: 72px; flex: 0 0 72px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-strong); color: var(--muted); font-size: 1.15rem; font-weight: 500; letter-spacing: -.04em; }

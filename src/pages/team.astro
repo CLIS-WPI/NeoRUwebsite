@@ -1,9 +1,8 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 const page = await getEntry('pages', 'team');
 if (!page) throw new Error('Team content is missing.');
-const { Content } = await render(page);
 ---
 <Layout title="About" description={page.data.description}>
   <header class="page-heading container"><h1>About</h1></header>
@@ -12,6 +11,5 @@ const { Content } = await render(page);
       <article class="team-person team-person-founder"><div class="person-monogram" aria-hidden="true">MN</div><div><p class="eyebrow">Founder</p><h2>Milad Natanzi</h2></div></article>
       <article class="team-person"><div class="person-monogram" aria-hidden="true">BT</div><div><p class="eyebrow">Advisor</p><h2>Bo Tang</h2></div></article>
     </div>
-    <div class="team-details"><div class="team-affiliation-label"><span class="eyebrow">Where the work happens</span><p>CLIS Lab<br /><strong>Worcester Polytechnic Institute</strong></p></div><article class="prose"><Content /></article></div>
   </section>
 </Layout>
