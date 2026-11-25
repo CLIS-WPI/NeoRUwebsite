@@ -1,7 +1,8 @@
 ---
 import { getEntry, render } from 'astro:content';
-import { getImage } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import neoRuOwlLogo from '../assets/neoru-owl-cropped.png';
+import wpiLogo from '../assets/wpi-logo.png';
 import Layout from '../layouts/Layout.astro';
 import ArchitectureDiagram from '../components/ArchitectureDiagram.astro';
 import { OranHeroSection } from '../components/oran-hero/OranHeroSection';
@@ -219,49 +220,15 @@ const docCards = [
     <div class="container partners-inner">
       <p class="eyebrow">Partners &amp; Collaborators</p>
       <div class="partners-row">
-        <div class="partner-badge" aria-label="Worcester Polytechnic Institute (WPI)">
-          <svg
-            class="partner-wpi-svg"
-            viewBox="0 0 320 56"
-            fill="none"
-            role="img"
-            aria-label="WPI — Worcester Polytechnic Institute"
-          >
-            <rect x="2" y="6" width="84" height="44" rx="8" fill="#AC2B37" />
-            <text
-              x="44"
-              y="36"
-              text-anchor="middle"
-              fill="#FFFFFF"
-              font-size="24"
-              font-weight="800"
-              font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif"
-              letter-spacing="0.04em"
-            >
-              WPI
-            </text>
-            <text
-              x="100"
-              y="26"
-              fill="#1D1D1F"
-              font-size="14"
-              font-weight="700"
-              font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif"
-              letter-spacing="-0.01em"
-            >
-              Worcester Polytechnic Institute
-            </text>
-            <text
-              x="100"
-              y="43"
-              fill="#475569"
-              font-size="11.5"
-              font-weight="500"
-              font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif"
-            >
-              CLIS Lab · Electrical &amp; Computer Engineering
-            </text>
-          </svg>
+        <div class="partner-badge">
+          <Image
+            src={wpiLogo}
+            height={120}
+            format="webp"
+            alt="Worcester Polytechnic Institute (WPI)"
+            loading="lazy"
+            class="partner-wpi-img"
+          />
         </div>
       </div>
     </div>
