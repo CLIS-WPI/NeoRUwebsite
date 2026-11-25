@@ -46,13 +46,13 @@ test('all eight content pages and the GitHub Pages 404 are built', () => {
   assert.ok(existsSync(join(dist, '404.html')), 'GitHub Pages requires dist/404.html');
 });
 
-test('Benchmarks, Docs, and Team are direct links in the main header', () => {
+test('Benchmarks, Docs, and About are direct links in the main header', () => {
   for (const route of pages.filter((p) => p !== 'docs')) {
     const header = read(pageFile(route)).match(/<header\b[^>]*>([\s\S]*?)<\/header>/i)?.[1];
     assert.ok(header, `${route || 'home'}: missing main header`);
     const links = [...header.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)].map((match) => ({ ...attributes(match[1]), label: text(match[2]) }));
-    for (const [slug, label] of [['benchmarks', 'Benchmarks'], ['docs', 'Docs'], ['team', 'About']]) {
-      assert.ok(links.some((link) => link.href === `${base}${slug}/` && link.label === label), `${route || 'home'}: ${label} is not a direct header link`);
+    for (const [anchor, label] of [['benchmarks', 'Benchmarks'], ['docs', 'Docs'], ['about', 'About']]) {
+      assert.ok(links.some((link) => link.href === `${base}#${anchor}` && link.label === label), `${route || 'home'}: ${label} is not a direct header link`);
     }
   }
 });
@@ -72,8 +72,8 @@ test('Fumadocs documentation pages and static search index are built with site n
     const html = read(pageFile(route));
     assert.match(html, /<h1\b/);
     assert.ok(html.includes(`href="${base}"`), `${route}: missing Home link`);
-    assert.ok(html.includes(`href="${base}benchmarks/"`), `${route}: missing Benchmarks link`);
-    assert.ok(html.includes(`href="${base}team/"`), `${route}: missing Team link`);
+    assert.ok(html.includes(`href="${base}#benchmarks"`), `${route}: missing Benchmarks link`);
+    assert.ok(html.includes(`href="${base}#about"`), `${route}: missing About link`);
   }
   const searchIndexPath = join(dist, 'api', 'search.json');
   assert.ok(existsSync(searchIndexPath), 'Missing static Fumadocs search index at dist/api/search.json');

@@ -10,10 +10,10 @@ export function baseOptions(): BaseLayoutProps {
     githubUrl: 'https://github.com/CLIS-WPI/NeoRU/',
     links: [
       { text: 'Home', url: url() },
-      { text: 'Architecture', url: url('architecture') },
-      { text: 'Benchmarks', url: url('benchmarks') },
-      { text: 'Roadmap', url: url('roadmap') },
-      { text: 'About', url: url('team') },
+      { text: 'Architecture', url: `${url()}#architecture` },
+      { text: 'Benchmarks', url: `${url()}#benchmarks` },
+      { text: 'Roadmap', url: `${url()}#roadmap` },
+      { text: 'About', url: `${url()}#about` },
     ],
   };
 }
