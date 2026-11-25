@@ -1,0 +1,322 @@
+.bb-section {
+  position: relative;
+  background: linear-gradient(180deg, #f8fafd 0%, #ffffff 48%, #f8fafd 100%);
+  border-bottom: 1px solid var(--line);
+  padding: 56px 0 64px;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .bb-section {
+    min-height: calc(100vh - 92px);
+    display: flex;
+    align-items: center;
+    padding: 36px 0 44px;
+  }
+}
+
+.bb-inner {
+  max-width: 1340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header */
+.bb-header {
+  text-align: center;
+  max-width: 720px;
+  margin-bottom: 24px;
+}
+
+.bb-eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: #eef6ff;
+  border: 1px solid rgba(0, 102, 204, 0.24);
+  color: #0052a3;
+  font-size: 11.5px;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.bb-title {
+  margin: 12px 0 0;
+  font-size: clamp(28px, 3.4vw, 44px);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: #0f172a;
+}
+
+.bb-subtitle {
+  margin: 10px 0 0;
+  font-size: clamp(15px, 1.3vw, 18px);
+  font-weight: 450;
+  color: #334155;
+  line-height: 1.5;
+}
+
+/* 3-Column Desktop Stage */
+.bb-stage-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(250px, 310px) minmax(0, 1fr) minmax(250px, 310px);
+  gap: 20px;
+  align-items: center;
+}
+
+.bb-cards-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 4;
+}
+
+.bb-center-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bb-ambient-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  height: 340px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 102, 204, 0.16) 0%, rgba(56, 189, 248, 0.06) 45%, rgba(255, 255, 255, 0) 72%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bb-canvas-host {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: clamp(320px, 48vh, 450px);
+  touch-action: pan-y;
+}
+
+.bb-canvas-host canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Locked & Unlocked Status Pills */
+.bb-locked-pill {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #f8fafc;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.18);
+  pointer-events: none;
+}
+
+.bb-lock-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+}
+
+.bb-core-caption {
+  margin-top: -12px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #cbd5e1;
+  font-size: 12px;
+  font-weight: 650;
+  color: #0f172a;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.bb-core-caption.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bb-core-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #0066cc;
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.7);
+}
+
+/* Crisp Floating Capability Cards */
+.bb-cap-card {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid #dbe2ec;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.045);
+  cursor: pointer;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    opacity 0.22s ease;
+}
+
+.bb-cap-card:hover,
+.bb-cap-card:focus-visible,
+.bb-cap-card.is-active {
+  transform: translateY(-2px);
+  border-color: var(--cap-accent, #0066cc);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--cap-accent, #0066cc) 14%, transparent),
+    0 12px 26px rgba(15, 23, 42, 0.09);
+  outline: none;
+}
+
+.bb-cap-card.is-dimmed {
+  opacity: 0.56;
+}
+
+.bb-cap-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--cap-accent, #0066cc) 9%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cap-accent, #0066cc) 22%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bb-cap-copy {
+  min-width: 0;
+}
+
+.bb-cap-title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: #0f172a;
+  line-height: 1.25;
+}
+
+.bb-cap-micro {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #334155;
+  line-height: 1.35;
+}
+
+/* Segmented State Toggle */
+.bb-controls {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.bb-segmented-toggle {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 999px;
+  background: #eceff4;
+  border: 1px solid #cbd5e1;
+  gap: 4px;
+}
+
+.bb-toggle-btn {
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 650;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bb-toggle-btn:hover {
+  color: #0f172a;
+}
+
+.bb-toggle-btn.is-selected {
+  background: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);
+}
+
+/* Tablet & Mobile (<1024px): Centered 3D O-RU on top + Clean 2-col / 1-col Grid below */
+@media (max-width: 1023px) {
+  .bb-stage-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .bb-center-stage {
+    order: -1;
+  }
+
+  .bb-canvas-host {
+    height: 300px;
+  }
+
+  .bb-cards-col {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .bb-section {
+    padding: 44px 0 52px;
+  }
+
+  .bb-canvas-host {
+    height: 260px;
+  }
+
+  .bb-cards-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .bb-cards-col {
+    grid-template-columns: 1fr;
+  }
+}
