@@ -38,10 +38,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href={homeUrl} aria-label="NeoRU home"><span class="brand-icon"><Image src={miniLogo} width={256} height={256} format="webp" alt="" /></span><span class="brand-copy"><span>Neo<span class="brand-weight">RU</span></span><small>Intelligence Radio Systems</small></span></a>
-        <nav class="desktop-nav" aria-label="Main navigation">{nav.map(([label,id])=><a href={sectionHref(id)} data-section={id}>{label}</a>)}<span class="nav-paper" aria-disabled="true">Paper</span></nav>
+        <nav class="desktop-nav" aria-label="Main navigation">{nav.slice(0, -1).map(([label,id])=><a href={sectionHref(id)} data-section={id}>{label}</a>)}<span class="nav-paper" aria-disabled="true">Paper</span>{nav.slice(-1).map(([label,id])=><a href={sectionHref(id)} data-section={id}>{label}</a>)}</nav>
         <div class="header-actions">
           <a class="github-link" href="https://github.com/CLIS-WPI/NeoRU/" aria-label="Project repository on GitHub" title="NeoRU project repository">GitHub</a>
-          <details class="mobile-nav"><summary aria-label="Open navigation"><span></span><span></span></summary><nav aria-label="Mobile navigation">{nav.map(([label,id])=><a href={sectionHref(id)} data-section={id}>{label}</a>)}<span class="nav-paper" aria-disabled="true">Paper</span><a href="https://github.com/CLIS-WPI/NeoRU/" aria-label="Project repository on GitHub">GitHub</a></nav></details>
+          <details class="mobile-nav"><summary aria-label="Open navigation"><span></span><span></span></summary><nav aria-label="Mobile navigation">{nav.slice(0, -1).map(([label,id])=><a href={sectionHref(id)} data-section={id}>{label}</a>)}<span class="nav-paper" aria-disabled="true">Paper</span>{nav.slice(-1).map(([label,id])=><a href={sectionHref(id)} data-section={id}>{label}</a>)}<a href="https://github.com/CLIS-WPI/NeoRU/" aria-label="Project repository on GitHub">GitHub</a></nav></details>
         </div>
       </div>
     </header>
