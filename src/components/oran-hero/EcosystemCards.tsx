@@ -90,16 +90,14 @@ export function EcosystemCards({
           onMouseLeave={() => onNeoRuHover(false)}
         >
           <div className="oran-neoru-head">
-            <div className="oran-neoru-mark">
-              <img
-                src={neoRuLogoSrc}
-                alt="NeoRU logo"
-                width={88}
-                height={88}
-                className="oran-neoru-logo-img"
-              />
-            </div>
-            <div>
+            <img
+              src={neoRuLogoSrc}
+              alt="NeoRU logo"
+              width={116}
+              height={81}
+              className="oran-neoru-logo-img"
+            />
+            <div className="oran-neoru-heading-group">
               <h2 className="oran-neoru-title">NeoRU</h2>
               <p className="oran-neoru-subtitle">An open, software-defined O-RU</p>
             </div>
