@@ -300,19 +300,18 @@
   width: auto;
   max-width: 100%;
   object-fit: contain;
-  mix-blend-mode: multiply;
   user-select: none;
   pointer-events: none;
 }
 
-/* Balanced industrial proportions across the 3 nodes */
+/* Balanced industrial proportions across the 3 tightly cropped transparent studio renders */
 .oran-hw-img-ocu {
-  height: clamp(164px, 24.5vh, 214px);
+  height: clamp(160px, 24vh, 210px);
 }
 
 .oran-hw-img-odu {
-  height: clamp(166px, 24.5vh, 214px);
-  margin-bottom: 0;
+  height: clamp(114px, 16.5vh, 146px);
+  margin-bottom: 10px;
 }
 
 .oran-oru-visual {
@@ -323,14 +322,14 @@
 }
 
 .oran-hw-img-oru {
-  height: clamp(188px, 28vh, 244px);
+  height: clamp(184px, 27.5vh, 238px);
 }
 
 /* Crisp Concentric SVG RF Signal Waves pulsing outward to the right of the 5G antenna */
 .oran-rf-waves {
   position: absolute;
-  right: -36px;
-  top: 15%;
+  right: -54px;
+  top: 14%;
   width: clamp(50px, 5vw, 66px);
   height: auto;
   pointer-events: none;
