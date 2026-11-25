@@ -214,7 +214,7 @@ export function OranHeroSection({ neoRuLogoSrc }: OranHeroSectionProps) {
 
         {/* Hero Title & Subtitle */}
         <div ref={titleRef} className="oran-hero-header">
-          <h1 className="oran-hero-title">O-RAN with the 7.2x split: CU + DU + RU</h1>
+          <h1 className="oran-hero-title">O-RAN with the 7.2x Split: CU + DU + RU</h1>
           <p className="oran-hero-subtitle">
             Open-Source &amp; Open Hardware Landscape for O-RAN R&amp;D
           </p>
